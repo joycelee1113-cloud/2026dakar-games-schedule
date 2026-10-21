@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 代表團競賽賽程表 | Competition Schedule</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            },
+            gold: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white shadow-lg sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <!-- Brand & Title -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-xl shadow-inner shadow-indigo-400/20">
+              🏅
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                  代表團競賽賽程
+                </h1>
+                <span class="text-[10px] font-semibold uppercase tracking-wider bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 px-2 py-0.5 rounded-full">
+                  2026
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">
+                賽程日程：2026年10月30日 – 11月13日 (共 17 項運動)
+              </p>
+            </div>
+          </div>
+          <!-- Action Buttons for Mobile -->
+          <div class="flex items-center gap-2 sm:hidden">
+            <button id="btn-github-help-mobile" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs text-slate-200 transition" title="GitHub 部署說明">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+            </button>
+            <button id="btn-download-html-mobile" class="p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs text-white transition" title="下載 HTML 檔">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop Quick Actions & Tools -->
+        <div class="hidden sm:flex items-center gap-3">
+          <button id="btn-github-help" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-slate-100 transition border border-white/15">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+            <span>GitHub 部署說明</span>
+          </button>
+          <button id="btn-download-html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white transition shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>下載 index.html</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters Toolbar -->
+      <div class="mt-3.5 pt-3 border-t border-indigo-900/50 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- Search Input -->
+        <div class="relative flex-1 max-w-md">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="搜尋運動項目、選手、決賽、代碼 (如 羽球、SWM、決賽)..." 
+            class="w-full pl-9 pr-8 py-2 bg-slate-900/80 border border-indigo-400/30 rounded-xl text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+          >
+          <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
+          <button id="filter-all-btn" class="filter-chip active px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500 text-white transition flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+            <span>全部場次</span>
+            <span id="badge-total-count" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">97</span>
+          </button>
+          <button id="filter-medal-btn" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1.5 whitespace-nowrap">
+            <span>🥇 決賽 / 獎牌戰</span>
+            <span id="badge-medal-count" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded-full">37</span>
+          </button>
+          <button id="filter-fav-btn" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1.5 whitespace-nowrap">
+            <span class="text-amber-400">⭐</span>
+            <span>已收藏關注</span>
+            <span id="badge-fav-count" class="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.2 rounded-full font-bold">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-slate-950/70 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar">
+        <button id="tab-btn-sport" class="tab-btn active py-3 px-3 sm:px-4 border-b-2 border-indigo-400 text-white font-semibold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          <span>按項目看賽程</span>
+          <span class="text-[10px] bg-indigo-500/30 text-indigo-200 px-1.5 py-0.5 rounded-full">17 項</span>
+        </button>
+
+        <button id="tab-btn-date" class="tab-btn py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <span>按日期看賽程</span>
+          <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded-full">15 日</span>
+        </button>
+
+        <button id="tab-btn-fav" class="tab-btn py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
+          <span class="text-amber-400 text-sm">⭐</span>
+          <span>我的收藏清單</span>
+          <span id="tab-fav-badge" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- VIEW 1: BY SPORT (按項目看賽程) -->
+    <div id="view-sport" class="tab-content transition-opacity duration-200">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Sidebar: Sports Directory (Desktop & Tablet) -->
+        <div class="lg:col-span-4 xl:col-span-3">
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden sticky top-36">
+            <div class="p-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <h2 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                <span>運動項目目錄</span>
+                <span class="text-[10px] font-normal text-slate-400">(共 17 項)</span>
+              </h2>
+              <span class="text-[10px] text-indigo-600 font-medium bg-indigo-50 px-2 py-0.5 rounded-full">點選快速切換</span>
+            </div>
+            <!-- Sports List (Scrollable) -->
+            <div id="sports-sidebar-list" class="divide-y divide-slate-100 max-h-[calc(100vh-220px)] overflow-y-auto">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content: Active Sport Details & Schedule Timeline -->
+        <div class="lg:col-span-8 xl:col-span-9 space-y-4">
+          <!-- Active Sport Header Card -->
+          <div id="sport-header-card" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Schedule Timeline -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-slate-800">各階段賽程時間表</h3>
+                <span id="sport-events-count-badge" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">8 場場次</span>
+              </div>
+              <div class="text-xs text-slate-400 flex items-center gap-1">
+                <span>點擊</span>
+                <span class="text-amber-500 font-bold">⭐</span>
+                <span>可收藏場次</span>
+              </div>
+            </div>
+
+            <!-- Timeline Entries Container -->
+            <div id="sport-timeline-container" class="space-y-3">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2: BY DATE (按日期看賽程) -->
+    <div id="view-date" class="tab-content hidden transition-opacity duration-200 space-y-6">
+      
+      <!-- Date Carousel / Scroll Selector -->
+      <div class="bg-white rounded-2xl p-3 sm:p-4 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-2 px-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">選擇比賽日期</span>
+            <span class="text-xs text-slate-400">10/30 至 11/13</span>
+          </div>
+          <span class="text-xs text-indigo-600 font-medium hidden sm:inline">可左右滑動選擇日程</span>
+        </div>
+        <div id="date-selector-container" class="flex gap-2 overflow-x-auto pb-2 pt-1 no-scrollbar scroll-smooth">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Selected Date Schedule Detail -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <!-- Date Header Summary -->
+        <div id="date-summary-header" class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 mb-5 gap-2">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Schedule Items for Selected Date -->
+        <div id="date-events-container" class="space-y-3">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 3: MY FAVORITES (我的收藏清單) -->
+    <div id="view-fav" class="tab-content hidden transition-opacity duration-200 space-y-6">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
+        
+        <!-- Header & Action -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <span class="text-amber-500 text-xl">⭐</span>
+              <span>我的收藏與關注項目</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">
+              自訂的專屬觀賽清單，資料將安全儲存於您的瀏覽器中，換頁或重新整理不遺失。
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-clear-all-fav" class="px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-medium transition flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              <span>清空所有關注</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="fav-content-area" class="mt-5 space-y-6">
+          <!-- Rendered via JS -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Official Notice Footer Note -->
+    <div class="mt-8 bg-amber-50 border border-amber-200/80 rounded-2xl p-4 text-xs text-amber-900 flex items-start gap-3">
+      <div class="text-base text-amber-600 shrink-0 mt-0.5">⚠️</div>
+      <div class="space-y-1">
+        <p class="font-bold">賽程注意事項與官方公告提示：</p>
+        <p class="text-amber-800 leading-relaxed">
+          代表團競賽賽程最終確切時程與場地異動，仍需以國際奧會 (IOC) 與大會籌備會官方公告之最新英文版為主。若遇天候或大會排程調整，建議隨時向代表團競賽總部或大會官方資訊系統 (Info System) 進行即時查驗。
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-auto border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-slate-200 font-semibold">2026 代表團競賽賽程資訊網</span>
+        <span>•</span>
+        <span>GitHub Pages 靜態單頁版</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <button id="btn-footer-github" class="hover:text-white transition">GitHub 部署步驟</button>
+        <span>•</span>
+        <button id="btn-scroll-top" class="hover:text-white transition flex items-center gap-1">
+          <span>回到頁首</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: GitHub Pages Deployment Guide -->
+  <div id="modal-github" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">部署至 GitHub Pages 指南</h3>
+        </div>
+        <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
+        <p>本專案為完全自包含的單一 HTML 檔案，無需任何後端伺服器或編譯流程，非常適合免費託管於 GitHub Pages：</p>
+        
+        <ol class="list-decimal pl-4 space-y-2">
+          <li>
+            <strong>建立儲存庫 (Repository)</strong>：<br>
+            登入 GitHub，點擊右上角「New Repository」，輸入名稱（例如 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">games-schedule-2026</code>），設定為 <strong>Public</strong>。
+          </li>
+          <li>
+            <strong>上傳 HTML 檔案</strong>：<br>
+            點擊本網頁右上角的「下載 index.html」按鈕，取得 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">index.html</code>。接著在 GitHub 倉庫頁面點選「Add file」→「Upload files」，將檔案上傳至倉庫根目錄並 Commit。
+          </li>
+          <li>
+            <strong>啟用 GitHub Pages</strong>：<br>
+            在該儲存庫上方點選 <strong>Settings</strong> → 左側導覽列點選 <strong>Pages</strong>。
+          </li>
+          <li>
+            <strong>設定分支與來源</strong>：<br>
+            在「Build and deployment」下的 Branch 選擇 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">main</code>（或 master），資料夾保持 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">/ (root)</code>，按 <strong>Save</strong>。
+          </li>
+          <li>
+            <strong>完成與訪問</strong>：<br>
+            等待約 1~2 分鐘，重新整理頁面即可看到專屬公開網址（例如：<code class="bg-slate-100 text-emerald-600 px-1 py-0.5 rounded">https://你的帳號.github.io/games-schedule-2026/</code>）！
+          </li>
+        </ol>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex items-center justify-end">
+        <button id="btn-close-modal-bottom" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition">
+          我知道了，關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT LOGIC -->
+  <script>
+    // Injected Sports Data
+    const RAW_SPORTS_DATA = [{"id": "ARC", "name": "射箭", "name_en": "Archery", "code": "ARC", "icon": "🏹", "subEvents": "男子個人 (Men's Individual)", "color": "amber", "events": [{"id": "arc-1", "date": "2026-11-06", "time": "09:30 - 12:00", "subEvent": "男子個人 (Men's Individual)", "stage": "排名賽 (Ranking Round)", "note": "與女子個人合併時段 / Combined with Women's Individual", "isMedal": false, "isCeremony": false}, {"id": "arc-2", "date": "2026-11-07", "time": "09:28 起", "subEvent": "男子個人 (Men's Individual)", "stage": "1/16 淘汰賽 (1/16 Elimination)", "note": "進行多場次 1/16 淘汰賽 (Multiple 1/16 Elimination Rounds)", "isMedal": false, "isCeremony": false}, {"id": "arc-3", "date": "2026-11-08", "time": "10:00 - 11:52", "subEvent": "男子個人 (Men's Individual)", "stage": "1/8 淘汰賽 (1/8 Elimination Round)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-4", "date": "2026-11-08", "time": "14:00 - 14:56", "subEvent": "男子個人 (Men's Individual)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-5", "date": "2026-11-08", "time": "14:56 - 15:24", "subEvent": "男子個人 (Men's Individual)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-6", "date": "2026-11-08", "time": "15:30", "subEvent": "男子個人 (Men's Individual)", "stage": "銅牌戰 (Bronze Medal Match)", "note": "獎牌爭奪戰", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "arc-7", "date": "2026-11-08", "time": "15:44", "subEvent": "男子個人 (Men's Individual)", "stage": "金牌戰 (Gold Medal Match)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "arc-8", "date": "2026-11-08", "time": "16:15", "subEvent": "男子個人 (Men's Individual)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "射箭男子個人頒獎", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "ATH", "name": "田徑", "name_en": "Athletics", "code": "ATH", "icon": "🏃", "subEvents": "男子200m、男子3000m、男子跳高、女子400m、女子400m跨欄、女子跳高、女子標槍", "color": "emerald", "events": [{"id": "ath-1", "date": "2026-11-08", "time": "15:48", "subEvent": "女子400公尺 (Women's 400m)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-2", "date": "2026-11-08", "time": "16:25", "subEvent": "男子3000公尺 (Men's 3000m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-3", "date": "2026-11-09", "time": "10:40", "subEvent": "男子跳高 (Men's High Jump)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-4", "date": "2026-11-09", "time": "11:30", "subEvent": "女子400公尺跨欄 (Women's 400m Hurdles)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-5", "date": "2026-11-09", "time": "12:15", "subEvent": "女子400公尺 (Women's 400m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-6", "date": "2026-11-10", "time": "10:15", "subEvent": "女子標槍 (Women's Javelin Throw)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-7", "date": "2026-11-10", "time": "11:15", "subEvent": "男子200公尺 (Men's 200m)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-8", "date": "2026-11-10", "time": "11:20", "subEvent": "女子跳高 (Women's High Jump)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-9", "date": "2026-11-10", "time": "12:05", "subEvent": "女子400公尺跨欄 (Women's 400m Hurdles)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-10", "date": "2026-11-10", "time": "12:25", "subEvent": "男子200公尺 (Men's 200m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "BDM", "name": "羽球", "name_en": "Badminton", "code": "BDM", "icon": "🏸", "subEvents": "男子單打 (Men's Singles)、女子單打 (Women's Singles)", "color": "sky", "events": [{"id": "bdm-1", "date": "2026-11-01", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-2", "date": "2026-11-02", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-3", "date": "2026-11-03", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 3 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-4", "date": "2026-11-04", "time": "09:00 - 12:35", "subEvent": "男單 / 女單 (MS / WS)", "stage": "八強賽 (Quarterfinals)", "note": "男單、女單八強對決", "isMedal": false, "isCeremony": false}, {"id": "bdm-5", "date": "2026-11-04", "time": "14:30 - 18:45", "subEvent": "男單 / 女單 (MS / WS)", "stage": "準決賽 (Semifinals)", "note": "四強爭取決賽門票", "isMedal": false, "isCeremony": false}, {"id": "bdm-6", "date": "2026-11-05", "time": "14:00 及 16:25", "subEvent": "男單 / 女單 (MS / WS)", "stage": "銅牌戰 (Bronze Medal Match)", "note": "14:00 與 16:25 分別進行銅牌戰", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bdm-7", "date": "2026-11-05", "time": "15:05 及 17:30", "subEvent": "男單 / 女單 (MS / WS)", "stage": "金牌戰 (Gold Medal Match)", "note": "15:05 與 17:30 進行金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bdm-8", "date": "2026-11-05", "time": "16:10 及 18:35", "subEvent": "男單 / 女單 (MS / WS)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "頒獎儀式", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "BK3", "name": "3x3籃球", "name_en": "3x3 Basketball", "code": "BK3", "icon": "🏀", "subEvents": "女子3對3 (Women 3x3 Basketball)", "color": "orange", "events": [{"id": "bk3-1", "date": "2026-11-06", "time": "10:00 - 16:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "預賽 (Pool Round)", "note": "分組預賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "bk3-2", "date": "2026-11-07", "time": "10:00 - 16:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "預賽 (Pool Round)", "note": "分組預賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "bk3-3", "date": "2026-11-08", "time": "11:30 - 15:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bk3-4", "date": "2026-11-09", "time": "11:30 - 12:20", "subEvent": "女子3對3 (Women 3x3)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bk3-5", "date": "2026-11-09", "time": "15:00", "subEvent": "女子3對3 (Women 3x3)", "stage": "銅牌戰 (Bronze Medal Game)", "note": "", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bk3-6", "date": "2026-11-09", "time": "15:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "金牌戰 (Gold Medal Game)", "note": "金牌爭奪戰", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "BKG", "name": "霹靂舞", "name_en": "Breaking", "code": "BKG", "icon": "🕺", "subEvents": "B-Boys (男子組)", "color": "purple", "events": [{"id": "bkg-1", "date": "2026-11-12", "time": "15:00 - 17:30", "subEvent": "B-Boys", "stage": "預選賽與循環賽 (Pre-Selection & Round Robin)", "note": "資格賽及循環對抗", "isMedal": false, "isCeremony": false}, {"id": "bkg-2", "date": "2026-11-13", "time": "10:00 - 12:45", "subEvent": "B-Boys", "stage": "八強、準決賽、銅牌與金牌戰 (Final Battles)", "note": "Quarterfinals, Semifinals, Bronze & Gold Medal Battles", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bkg-3", "date": "2026-11-13", "time": "12:50 - 13:00", "subEvent": "B-Boys", "stage": "頒獎典禮 (Victory Ceremony)", "note": "霹靂舞項目頒獎", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "BS5", "name": "五人制棒球", "name_en": "Baseball5", "code": "BS5", "icon": "⚾", "subEvents": "五人制棒球代表隊", "color": "rose", "events": [{"id": "bs5-1", "date": "2026-10-30", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 1 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-2", "date": "2026-10-31", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 2 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-3", "date": "2026-11-01", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 3 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-4", "date": "2026-11-02", "time": "10:30 - 13:15", "subEvent": "五人制棒球", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-5", "date": "2026-11-02", "time": "15:00 - 17:45", "subEvent": "五人制棒球", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-6", "date": "2026-11-03", "time": "10:30 - 13:15", "subEvent": "五人制棒球", "stage": "排名賽 (Placement Games)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-7", "date": "2026-11-03", "time": "15:00", "subEvent": "五人制棒球", "stage": "銅牌戰 (Bronze Medal Game)", "note": "", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bs5-8", "date": "2026-11-03", "time": "16:30", "subEvent": "五人制棒球", "stage": "金牌戰 (Gold Medal Game)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bs5-9", "date": "2026-11-03", "time": "17:45", "subEvent": "五人制棒球", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "BOX", "name": "拳擊", "name_en": "Boxing", "code": "BOX", "icon": "🥊", "subEvents": "女子57公斤級 (Women's 57kg)", "color": "red", "events": [{"id": "box-1", "date": "2026-11-07", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "預賽 (Preliminaries)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "box-2", "date": "2026-11-09", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "box-3", "date": "2026-11-11", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "準決賽 (Semifinals)", "note": "保底獎牌戰", "isMedal": false, "isCeremony": false}, {"id": "box-4", "date": "2026-11-12", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "CRD", "name": "自由車", "name_en": "Cycling", "code": "CRD", "icon": "🚴", "subEvents": "女子個人計時賽 (Time Trial)、女子公路賽 (Road Race)", "color": "teal", "events": [{"id": "crd-1", "date": "2026-11-08", "time": "09:00 - 10:45", "subEvent": "女子公路賽 (Women's Road Race)", "stage": "決賽 (Final)", "note": "女子公路賽金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "crd-2", "date": "2026-11-08", "time": "10:52 - 10:57", "subEvent": "女子公路賽 (Women's Road Race)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}, {"id": "crd-3", "date": "2026-11-10", "time": "09:00 - 10:14", "subEvent": "女子個人計時賽 (Individual Time Trial)", "stage": "決賽 (Final)", "note": "女子計時賽金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "crd-4", "date": "2026-11-10", "time": "10:18 - 10:23", "subEvent": "女子個人計時賽 (Individual Time Trial)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "FEN", "name": "擊劍", "name_en": "Fencing", "code": "FEN", "icon": "🤺", "subEvents": "女子銳劍個人 (Women's Épée Individual)", "color": "indigo", "events": [{"id": "fen-1", "date": "2026-11-10", "time": "09:00 - 16:15", "subEvent": "女子銳劍個人 (Women's Épée Individual)", "stage": "預賽至決賽 (Preliminaries to Finals)", "note": "共劃分七個排程時段進行 (7 sessions)", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "JUD", "name": "柔道", "name_en": "Judo", "code": "JUD", "icon": "🥋", "subEvents": "男子-100公斤級 (Men's -100kg)", "color": "blue", "events": [{"id": "jud-1", "date": "2026-11-03", "time": "時間待定 (Time TBD)", "subEvent": "男子-100公斤級 (Men's -100kg)", "stage": "預賽與決賽階段 (Prelims & Final Block)", "note": "具體時間區間空白 / 待大會公告", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "SAL", "name": "帆船", "name_en": "Sailing", "code": "SAL", "icon": "⛵", "subEvents": "女子風浪板 (Women's Windsurfing)", "color": "cyan", "events": [{"id": "sal-1", "date": "2026-11-08", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "sal-2", "date": "2026-11-09", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "sal-3", "date": "2026-11-10", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 3 日", "isMedal": false, "isCeremony": false}, {"id": "sal-4", "date": "2026-11-11", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 4 日", "isMedal": false, "isCeremony": false}, {"id": "sal-5", "date": "2026-11-12", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽最終日", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "sal-6", "date": "2026-11-12", "time": "賽事結束後", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "系列賽事完畢後進行", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "SKB", "name": "滑輪板", "name_en": "Skateboarding", "code": "SKB", "icon": "🛹", "subEvents": "男子街式 (Men's Street)", "color": "violet", "events": [{"id": "skb-1", "date": "2026-11-04", "time": "12:45 - 14:22", "subEvent": "男子街式 (Men's Street)", "stage": "預賽 (Prelims Heats)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "skb-2", "date": "2026-11-04", "time": "16:00 - 16:49", "subEvent": "男子街式 (Men's Street)", "stage": "決賽 (Final)", "note": "街式金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "skb-3", "date": "2026-11-04", "time": "16:50", "subEvent": "男子街式 (Men's Street)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "SWM", "name": "游泳", "name_en": "Swimming", "code": "SWM", "icon": "🏊", "subEvents": "男子200m自、女子50m仰 (含兼項：男100m自、男50m自、女100m自、女50m自、女50m蝶)", "color": "blue", "events": [{"id": "swm-1", "date": "2026-11-02", "time": "11:00 - 13:00", "subEvent": "女子100公尺自由式 (Women's 100m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-2", "date": "2026-11-02", "time": "11:00 - 13:00", "subEvent": "男子100公尺自由式 (Men's 100m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-3", "date": "2026-11-02", "time": "15:00 - 17:00", "subEvent": "女子100公尺自由式 (Women's 100m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-4", "date": "2026-11-02", "time": "15:00 - 17:00", "subEvent": "男子100公尺自由式 (Men's 100m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-5", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "女子50公尺自由式 (Women's 50m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-6", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "男子50公尺自由式 (Men's 50m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-7", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "女子50公尺蝶式 (Women's 50m Butterfly)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-8", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "女子50公尺自由式 (Women's 50m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-9", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "男子50公尺自由式 (Men's 50m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-10", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "女子50公尺蝶式 (Women's 50m Butterfly)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-11", "date": "2026-11-05", "time": "11:00 - 13:00", "subEvent": "女子50公尺仰式 (Women's 50m Backstroke)", "stage": "預賽 (Heats)", "note": "主項", "isKeyItem": true, "itemTag": "主項", "isMedal": false, "isCeremony": false}, {"id": "swm-12", "date": "2026-11-05", "time": "15:00 - 17:00", "subEvent": "女子50公尺仰式 (Women's 50m Backstroke)", "stage": "決賽 (Final)", "note": "主項金牌決賽", "isKeyItem": true, "itemTag": "主項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-13", "date": "2026-11-06", "time": "10:00 - 12:30", "subEvent": "男子200公尺自由式 (Men's 200m Freestyle)", "stage": "預賽 (Heats)", "note": "主項", "isKeyItem": true, "itemTag": "主項", "isMedal": false, "isCeremony": false}, {"id": "swm-14", "date": "2026-11-06", "time": "15:30 - 17:30", "subEvent": "男子200公尺自由式 (Men's 200m Freestyle)", "stage": "決賽 (Final)", "note": "主項金牌決賽", "isKeyItem": true, "itemTag": "主項", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "TKW", "name": "跆拳道", "name_en": "Taekwondo", "code": "TKW", "icon": "🥋", "subEvents": "男子-55公斤級 (Men's -55kg)、女子-44公斤級 (Women's -44kg)", "color": "amber", "events": [{"id": "tkw-1", "date": "2026-11-08", "time": "11:00 - 13:12", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "16強與八強賽 (Round of 16 & Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-2", "date": "2026-11-08", "time": "16:00", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-3", "date": "2026-11-08", "time": "17:00", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tkw-4", "date": "2026-11-08", "time": "17:30", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}, {"id": "tkw-5", "date": "2026-11-09", "time": "11:12 - 13:24", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "16強與八強賽 (Round of 16 & Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-6", "date": "2026-11-09", "time": "16:15", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-7", "date": "2026-11-09", "time": "17:15", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tkw-8", "date": "2026-11-09", "time": "17:45", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "TRI", "name": "鐵人三項", "name_en": "Triathlon", "code": "TRI", "icon": "🏊‍♂️", "subEvents": "男子個人衝刺 (Men's Individual Sprint)", "color": "green", "events": [{"id": "tri-1", "date": "2026-11-05", "time": "09:00 - 10:00", "subEvent": "男子個人衝刺 (Men's Individual Sprint)", "stage": "決賽 (Finals)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tri-2", "date": "2026-11-05", "time": "10:30", "subEvent": "男子個人衝刺 (Men's Individual Sprint)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}]}, {"id": "TTE", "name": "桌球", "name_en": "Table Tennis", "code": "TTE", "icon": "🏓", "subEvents": "男子單打 (MS)、混合雙打 (XD)、女子單打 (WS)", "color": "pink", "events": [{"id": "tte-1", "date": "2026-10-31", "time": "10:00", "subEvent": "男單 / 女單 / 混雙", "stage": "32強賽 (Round of 32)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-2", "date": "2026-10-31", "time": "12:00", "subEvent": "男單 / 女單 / 混雙", "stage": "16強賽 (Round of 16)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-3", "date": "2026-11-01", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "預賽、八強與準決賽 (Prelims, QF & SF)", "note": "賽事日程 11/1 - 11/2", "isMedal": false, "isCeremony": false}, {"id": "tte-4", "date": "2026-11-02", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "預賽、八強與準決賽 (Prelims, QF & SF)", "note": "賽事日程 11/1 - 11/2", "isMedal": false, "isCeremony": false}, {"id": "tte-5", "date": "2026-11-03", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "16強、銅牌戰與金牌戰 (R16, Bronze & Gold)", "note": "獎牌爭奪階段", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tte-6", "date": "2026-11-04", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-7", "date": "2026-11-05", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "準決賽、銅牌戰與金牌戰 (SF, Bronze & Gold)", "note": "最終決賽日", "isMedal": true, "medalType": "gold", "isCeremony": false}]}, {"id": "WSU", "name": "武術", "name_en": "Wushu", "code": "WSU", "icon": "🥋", "subEvents": "女子太極拳全能 (Women's Taijiquan Combined)", "color": "yellow", "events": [{"id": "wsu-1", "date": "2026-11-01", "time": "09:30 - 11:30 & 14:30 - 16:30", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "預賽階段 (Preliminary Round)", "note": "預賽第 1 日 (11/1 - 11/2)", "isMedal": false, "isCeremony": false}, {"id": "wsu-2", "date": "2026-11-02", "time": "09:30 - 11:30 & 14:30 - 16:30", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "預賽階段 (Preliminary Round)", "note": "預賽第 2 日 (11/1 - 11/2)", "isMedal": false, "isCeremony": false}, {"id": "wsu-3", "date": "2026-11-03", "time": "09:00 - 12:00 & 14:30 - 18:00", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "決賽階段與頒獎典禮 (Finals & Ceremony)", "note": "全能金牌決賽及頒獎典禮", "isMedal": true, "medalType": "gold", "isCeremony": true}]}];
+
+    // Global State
+    const state = {
+      activeTab: 'sport',       // 'sport', 'date', 'fav'
+      activeSportId: 'BDM',     // Default selected sport (Badminton)
+      activeDate: '2026-11-04', // Default selected date
+      searchQuery: '',
+      activeFilter: 'all',      // 'all', 'medal', 'fav'
+      favorites: {
+        sports: [],             // Array of sport IDs, e.g. ['BDM', 'SWM']
+        events: []              // Array of event IDs, e.g. ['bdm-1', 'swm-3']
+      }
+    };
+
+    // Load Favorites from LocalStorage with safety wrapper
+    function loadFavorites() {
+      try {
+        const stored = localStorage.getItem('delegation_schedule_favs_v1');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && Array.isArray(parsed.sports)) state.favorites.sports = parsed.sports;
+          if (parsed && Array.isArray(parsed.events)) state.favorites.events = parsed.events;
+        }
+      } catch (err) {
+        console.warn('LocalStorage unavailable or restricted:', err);
+      }
+      updateFavBadges();
+    }
+
+    // Save Favorites to LocalStorage
+    function saveFavorites() {
+      try {
+        localStorage.setItem('delegation_schedule_favs_v1', JSON.stringify(state.favorites));
+      } catch (err) {
+        console.warn('Could not save to LocalStorage:', err);
+      }
+      updateFavBadges();
+    }
+
+    // Show Toast
+    function showToast(message, icon = '⭐') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'bg-slate-900/95 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-xl border border-slate-700 flex items-center gap-2 transform transition-all duration-300 translate-y-3 opacity-0';
+      toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-3', 'opacity-0');
+      });
+
+      // Remove after 2.2s
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-3');
+        setTimeout(() => {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+      }, 2200);
+    }
+
+    // Update Favorites Badges Count
+    function updateFavBadges() {
+      const totalFavCount = state.favorites.sports.length + state.favorites.events.length;
+      const chipBadge = document.getElementById('badge-fav-count');
+      const tabBadge = document.getElementById('tab-fav-badge');
+      if (chipBadge) chipBadge.textContent = totalFavCount;
+      if (tabBadge) tabBadge.textContent = totalFavCount;
+    }
+
+    // Toggle Sport Favorite
+    function toggleFavoriteSport(sportId, eventObj) {
+      if (eventObj) eventObj.stopPropagation();
+      const idx = state.favorites.sports.indexOf(sportId);
+      const sport = RAW_SPORTS_DATA.find(s => s.id === sportId);
+      const name = sport ? sport.name : sportId;
+
+      if (idx > -1) {
+        state.favorites.sports.splice(idx, 1);
+        showToast(`已取消關注項目：${name}`, '⚪');
+      } else {
+        state.favorites.sports.push(sportId);
+        showToast(`已成功關注項目：${name}！`, '⭐');
+      }
+      saveFavorites();
+      renderSportSidebar();
+      renderSportHeader();
+      if (state.activeTab === 'fav') renderFavoritesView();
+    }
+
+    // Toggle Event Favorite
+    function toggleFavoriteEvent(eventId, eventObj) {
+      if (eventObj) eventObj.stopPropagation();
+      const idx = state.favorites.events.indexOf(eventId);
+      
+      // Find event details for toast message
+      let eventName = '場次';
+      for (const s of RAW_SPORTS_DATA) {
+        const ev = s.events.find(e => e.id === eventId);
+        if (ev) {
+          eventName = `${s.name} ${ev.subEvent} ${ev.stage}`;
+          break;
+        }
+      }
+
+      if (idx > -1) {
+        state.favorites.events.splice(idx, 1);
+        showToast(`已移出關注清單`, '⚪');
+      } else {
+        state.favorites.events.push(eventId);
+        showToast(`已加入關注清單！`, '⭐');
+      }
+      saveFavorites();
+      
+      // Re-render current active view
+      if (state.activeTab === 'sport') renderSportTimeline();
+      if (state.activeTab === 'date') renderDateEvents();
+      if (state.activeTab === 'fav') renderFavoritesView();
+    }
+
+    // Helper: Format Date String to Display (e.g. 2026-11-08 -> 11月8日 (日))
+    function formatDateWithDay(dateStr) {
+      const parts = dateStr.split('-');
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      const dateObj = new Date(parseInt(parts[0], 10), m - 1, d);
+      const days = ['日', '一', '二', '三', '四', '五', '六'];
+      const dayName = days[dateObj.getDay()];
+      return `${m}月${d}日 (週${dayName})`;
+    }
+
+    // Helper: Filter an Event based on search & filter
+    function matchesFilter(event, sport) {
+      // 1. Medal Filter
+      if (state.activeFilter === 'medal' && !event.isMedal) return false;
+
+      // 2. Favorite Filter
+      if (state.activeFilter === 'fav') {
+        const isSportFav = state.favorites.sports.includes(sport.id);
+        const isEventFav = state.favorites.events.includes(event.id);
+        if (!isSportFav && !isEventFav) return false;
+      }
+
+      // 3. Search Query
+      if (state.searchQuery.trim() !== '') {
+        const q = state.searchQuery.toLowerCase().trim();
+        const fullText = `${sport.name} ${sport.name_en} ${sport.code} ${sport.subEvents} ${event.subEvent} ${event.stage} ${event.note} ${event.date} ${event.time}`.toLowerCase();
+        if (!fullText.includes(q)) return false;
+      }
+
+      return true;
+    }
+
+    // --- RENDER FUNCTIONS ---
+
+    // 1. Render Sports Sidebar in Sport View
+    function renderSportSidebar() {
+      const container = document.getElementById('sports-sidebar-list');
+      if (!container) return;
+
+      container.innerHTML = '';
+      
+      RAW_SPORTS_DATA.forEach(sport => {
+        const isFav = state.favorites.sports.includes(sport.id);
+        const isActive = sport.id === state.activeSportId;
+        
+        // Count how many events match current filter for this sport
+        const matchingEventsCount = sport.events.filter(e => matchesFilter(e, sport)).length;
+        
+        const btn = document.createElement('div');
+        btn.className = `p-3 flex items-center justify-between cursor-pointer transition select-none ${
+          isActive 
+            ? 'bg-indigo-50/90 text-indigo-900 border-l-4 border-indigo-600 font-semibold' 
+            : 'hover:bg-slate-50 text-slate-700'
+        }`;
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="text-lg shrink-0">${sport.icon}</span>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs sm:text-sm font-bold truncate">${sport.name}</span>
+                <span class="text-[10px] text-slate-400 font-mono font-medium">${sport.code}</span>
+              </div>
+              <p class="text-[11px] text-slate-500 truncate max-w-[150px] sm:max-w-[170px]">${sport.subEvents}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            ${matchingEventsCount > 0 ? `<span class="text-[10px] px-1.5 py-0.5 rounded-full font-medium ${isActive ? 'bg-indigo-200 text-indigo-900' : 'bg-slate-100 text-slate-500'}">${matchingEventsCount}場</span>` : ''}
+            <button class="fav-sport-btn p-1 text-slate-300 hover:text-amber-400 transition" title="關注此項目">
+              <span class="text-sm ${isFav ? 'text-amber-400 font-bold' : ''}">${isFav ? '★' : '☆'}</span>
+            </button>
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          state.activeSportId = sport.id;
+          renderSportSidebar();
+          renderSportHeader();
+          renderSportTimeline();
+        });
+
+        const favBtn = btn.querySelector('.fav-sport-btn');
+        favBtn.addEventListener('click', (e) => {
+          toggleFavoriteSport(sport.id, e);
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    // 2. Render Active Sport Header Card
+    function renderSportHeader() {
+      const container = document.getElementById('sport-header-card');
+      const sport = RAW_SPORTS_DATA.find(s => s.id === state.activeSportId);
+      if (!container || !sport) return;
+
+      const isFav = state.favorites.sports.includes(sport.id);
+      const medalCount = sport.events.filter(e => e.isMedal && !e.isCeremony).length;
+
+      container.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-start gap-3.5">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-3xl shadow-sm shrink-0">
+              ${sport.icon}
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">${sport.name}</h2>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-mono">${sport.name_en} / ${sport.code}</span>
+                ${medalCount > 0 ? `<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">🥇 包含 ${medalCount} 場決賽</span>` : ''}
+              </div>
+              <p class="text-xs text-slate-600 mt-1.5 flex items-center gap-1.5">
+                <span class="font-semibold text-slate-700">代表隊組別/項目：</span>
+                <span>${sport.subEvents}</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 self-start sm:self-center shrink-0">
+            <button id="active-sport-fav-toggle" class="px-3.5 py-1.5 rounded-xl border text-xs font-semibold transition flex items-center gap-1.5 ${
+              isFav 
+                ? 'bg-amber-50 border-amber-300 text-amber-700 shadow-sm' 
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+            }">
+              <span class="text-amber-500 text-sm">${isFav ? '★' : '☆'}</span>
+              <span>${isFav ? '已關注此項目' : '關注整個運動項目'}</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const favToggleBtn = document.getElementById('active-sport-fav-toggle');
+      if (favToggleBtn) {
+        favToggleBtn.addEventListener('click', (e) => {
+          toggleFavoriteSport(sport.id, e);
+        });
+      }
+    }
+
+    // 3. Render Sport Timeline in Sport View
+    function renderSportTimeline() {
+      const container = document.getElementById('sport-timeline-container');
+      const badgeCount = document.getElementById('sport-events-count-badge');
+      const sport = RAW_SPORTS_DATA.find(s => s.id === state.activeSportId);
+      if (!container || !sport) return;
+
+      const filteredEvents = sport.events.filter(e => matchesFilter(e, sport));
+
+      if (badgeCount) {
+        badgeCount.textContent = `共 ${filteredEvents.length} 場賽程`;
+      }
+
+      if (filteredEvents.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-slate-400 space-y-2">
+            <div class="text-4xl">🔍</div>
+            <p class="text-sm font-medium text-slate-600">在此篩選條件下無符合賽程</p>
+            <p class="text-xs text-slate-400">請嘗試清除關鍵字搜尋或切換回「全部場次」</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+
+      filteredEvents.forEach((ev) => {
+        const isEventFav = state.favorites.events.includes(ev.id);
+        const card = document.createElement('div');
+        
+        let borderClass = 'border-slate-200 hover:border-indigo-300';
+
+        if (ev.isMedal) {
+          if (ev.isCeremony) {
+            borderClass = 'border-indigo-200 bg-indigo-50/30';
+          } else {
+            borderClass = 'border-amber-200 bg-amber-50/30 shadow-sm';
+          }
+        }
+
+        card.className = `p-4 rounded-xl border ${borderClass} bg-white transition hover:shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+        
+        card.innerHTML = `
+          <div class="flex items-start gap-3.5">
+            <!-- Left Date & Time Indicator -->
+            <div class="w-24 shrink-0 text-left">
+              <div class="text-xs font-bold text-slate-900">${formatDateWithDay(ev.date)}</div>
+              <div class="text-xs font-medium text-indigo-600 mt-0.5 flex items-center gap-1 font-mono">
+                <svg class="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>${ev.time}</span>
+              </div>
+            </div>
+
+            <!-- Vertical Divider -->
+            <div class="hidden sm:block w-px h-10 bg-slate-200 shrink-0"></div>
+
+            <!-- Event Details -->
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-bold text-slate-900">${ev.stage}</span>
+                ${ev.isMedal && !ev.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide">🥇 獎牌戰</span>' : ''}
+                ${ev.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
+                ${ev.itemTag ? `<span class="text-[10px] px-2 py-0.5 rounded-full ${ev.itemTag === '主項' ? 'bg-blue-100 text-blue-800 font-bold' : 'bg-slate-100 text-slate-600'}">[${ev.itemTag}]</span>` : ''}
+              </div>
+              <p class="text-xs text-slate-600">
+                <span class="font-medium text-slate-800">${ev.subEvent}</span>
+                ${ev.note ? `<span class="text-slate-400 ml-1.5">• ${ev.note}</span>` : ''}
+              </p>
+            </div>
+          </div>
+
+          <!-- Star Bookmark Button -->
+          <div class="flex items-center justify-end shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <button class="event-fav-btn p-1.5 rounded-lg border ${isEventFav ? 'bg-amber-50 border-amber-300 text-amber-500' : 'border-slate-200 text-slate-400 hover:text-amber-500 hover:bg-slate-50'} transition text-xs flex items-center gap-1" title="${isEventFav ? '取消關注' : '關注此場次'}">
+              <span class="text-sm">${isEventFav ? '★' : '☆'}</span>
+              <span class="text-[11px] font-medium sm:hidden">${isEventFav ? '已關注' : '關注'}</span>
+            </button>
+          </div>
+        `;
+
+        const favBtn = card.querySelector('.event-fav-btn');
+        favBtn.addEventListener('click', (e) => {
+          toggleFavoriteEvent(ev.id, e);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // 4. Render Date Carousel & Selected Date View
+    function renderDateSelector() {
+      const container = document.getElementById('date-selector-container');
+      if (!container) return;
+
+      // Extract unique sorted dates from RAW_SPORTS_DATA
+      const dateMap = new Map();
+      RAW_SPORTS_DATA.forEach(sport => {
+        sport.events.forEach(ev => {
+          if (!dateMap.has(ev.date)) {
+            dateMap.set(ev.date, { date: ev.date, count: 0, hasMedal: false });
+          }
+          const obj = dateMap.get(ev.date);
+          obj.count++;
+          if (ev.isMedal) obj.hasMedal = true;
+        });
+      });
+
+      const sortedDates = Array.from(dateMap.keys()).sort();
+      container.innerHTML = '';
+
+      sortedDates.forEach(dateStr => {
+        const info = dateMap.get(dateStr);
+        const parts = dateStr.split('-');
+        const month = parts[1];
+        const day = parts[2];
+        const dateObj = new Date(parseInt(parts[0], 10), parseInt(month, 10) - 1, parseInt(day, 10));
+        const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六'][dateObj.getDay()];
+        const isSelected = dateStr === state.activeDate;
+
+        const btn = document.createElement('button');
+        btn.className = `flex flex-col items-center justify-center p-2.5 rounded-xl border transition shrink-0 min-w-[76px] ${
+          isSelected 
+            ? 'bg-indigo-600 text-white border-indigo-700 shadow-md ring-2 ring-indigo-200' 
+            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+        }`;
+
+        btn.innerHTML = `
+          <span class="text-[10px] ${isSelected ? 'text-indigo-200' : 'text-slate-400'} font-medium">週${dayOfWeek}</span>
+          <span class="text-sm font-extrabold mt-0.5 font-mono">${month}/${day}</span>
+          <div class="flex items-center gap-1 mt-1">
+            <span class="text-[9px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-indigo-500 text-indigo-100' : 'bg-slate-200 text-slate-600'} font-medium">
+              ${info.count}場
+            </span>
+            ${info.hasMedal ? '<span class="text-[10px]">🥇</span>' : ''}
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          state.activeDate = dateStr;
+          renderDateSelector();
+          renderDateEvents();
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    // 5. Render Events for Selected Date in Date View
+    function renderDateEvents() {
+      const headerContainer = document.getElementById('date-summary-header');
+      const eventsContainer = document.getElementById('date-events-container');
+      if (!headerContainer || !eventsContainer) return;
+
+      // Collect all events on this date
+      const eventsOnDate = [];
+      RAW_SPORTS_DATA.forEach(sport => {
+        sport.events.forEach(ev => {
+          if (ev.date === state.activeDate && matchesFilter(ev, sport)) {
+            eventsOnDate.push({ ...ev, sport });
+          }
+        });
+      });
+
+      // Sort by time
+      eventsOnDate.sort((a, b) => a.time.localeCompare(b.time));
+
+      // Render Header
+      headerContainer.innerHTML = `
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-lg font-extrabold text-slate-900">${formatDateWithDay(state.activeDate)}</h3>
+            <span class="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-full font-semibold">
+              當日共 ${eventsOnDate.length} 場賽程
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">依時間先後排列當日各項目出賽時間表</p>
+        </div>
+        <div class="text-xs text-slate-400 flex items-center gap-2">
+          <span>切換上方日期列可查看不同日期賽事</span>
+        </div>
+      `;
+
+      if (eventsOnDate.length === 0) {
+        eventsContainer.innerHTML = `
+          <div class="py-12 text-center text-slate-400 space-y-2">
+            <div class="text-4xl">📅</div>
+            <p class="text-sm font-medium text-slate-600">本日在此篩選條件下無賽程</p>
+            <p class="text-xs text-slate-400">請嘗試選擇其他日期或切換回「全部場次」</p>
+          </div>
+        `;
+        return;
+      }
+
+      eventsContainer.innerHTML = '';
+
+      eventsOnDate.forEach(item => {
+        const sport = item.sport;
+        const isEventFav = state.favorites.events.includes(item.id);
+        const card = document.createElement('div');
+
+        let borderClass = 'border-slate-200 hover:border-indigo-300';
+        if (item.isMedal) {
+          if (item.isCeremony) {
+            borderClass = 'border-indigo-200 bg-indigo-50/20';
+          } else {
+            borderClass = 'border-amber-200 bg-amber-50/30 shadow-sm';
+          }
+        }
+
+        card.className = `p-4 rounded-xl border ${borderClass} bg-white transition hover:shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+
+        card.innerHTML = `
+          <div class="flex items-start gap-3.5">
+            <!-- Time Badge -->
+            <div class="w-24 shrink-0 text-left">
+              <div class="text-xs font-bold text-indigo-700 font-mono flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>${item.time}</span>
+              </div>
+            </div>
+
+            <!-- Sport Badge -->
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold shrink-0">
+              <span>${sport.icon}</span>
+              <span>${sport.name}</span>
+              <span class="text-[10px] text-slate-400 font-mono">(${sport.code})</span>
+            </div>
+
+            <!-- Event Information -->
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-bold text-slate-900">${item.stage}</span>
+                ${item.isMedal && !item.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide">🥇 獎牌戰</span>' : ''}
+                ${item.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
+                ${item.itemTag ? `<span class="text-[10px] px-2 py-0.5 rounded-full ${item.itemTag === '主項' ? 'bg-blue-100 text-blue-800 font-bold' : 'bg-slate-100 text-slate-600'}">[${item.itemTag}]</span>` : ''}
+              </div>
+              <p class="text-xs text-slate-600">
+                <span class="font-medium text-slate-800">${item.subEvent}</span>
+                ${item.note ? `<span class="text-slate-400 ml-1.5">• ${item.note}</span>` : ''}
+              </p>
+            </div>
+          </div>
+
+          <!-- Favorite Button & Jump to Sport Button -->
+          <div class="flex items-center justify-end gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+            <button class="jump-sport-btn px-2.5 py-1 rounded-lg border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 text-xs transition" title="前往該運動項目">
+              查看項目
+            </button>
+            <button class="event-fav-btn p-1.5 rounded-lg border ${isEventFav ? 'bg-amber-50 border-amber-300 text-amber-500' : 'border-slate-200 text-slate-400 hover:text-amber-500 hover:bg-slate-50'} transition text-xs" title="${isEventFav ? '取消關注' : '關注此場次'}">
+              <span class="text-sm">${isEventFav ? '★' : '☆'}</span>
+            </button>
+          </div>
+        `;
+
+        const favBtn = card.querySelector('.event-fav-btn');
+        favBtn.addEventListener('click', (e) => {
+          toggleFavoriteEvent(item.id, e);
+        });
+
+        const jumpBtn = card.querySelector('.jump-sport-btn');
+        jumpBtn.addEventListener('click', () => {
+          state.activeSportId = sport.id;
+          switchTab('sport');
+        });
+
+        eventsContainer.appendChild(card);
+      });
+    }
+
+    // 6. Render Favorites View (我的收藏清單)
+    function renderFavoritesView() {
+      const container = document.getElementById('fav-content-area');
+      if (!container) return;
+
+      const favSports = RAW_SPORTS_DATA.filter(s => state.favorites.sports.includes(s.id));
+      
+      const favEvents = [];
+      RAW_SPORTS_DATA.forEach(sport => {
+        sport.events.forEach(ev => {
+          if (state.favorites.events.includes(ev.id)) {
+            favEvents.push({ ...ev, sport });
+          }
+        });
+      });
+      // Sort favorite events chronologically
+      favEvents.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return a.time.localeCompare(b.time);
+      });
+
+      if (favSports.length === 0 && favEvents.length === 0) {
+        container.innerHTML = `
+          <div class="py-14 text-center max-w-sm mx-auto space-y-3">
+            <div class="w-16 h-16 rounded-3xl bg-amber-50 border border-amber-200 text-amber-500 text-3xl flex items-center justify-center mx-auto shadow-sm">
+              ⭐
+            </div>
+            <h3 class="text-base font-bold text-slate-800">目前尚未關注任何項目或場次</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              您可以在「按項目看賽程」或「按日期看賽程」中，點擊任何項目或場次旁的星號 ⭐ 關注，即可在此集中查閱！
+            </p>
+            <div class="pt-2">
+              <button id="btn-fav-go-browse" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                前往瀏覽所有賽程
+              </button>
+            </div>
+          </div>
+        `;
+
+        const goBrowseBtn = document.getElementById('btn-fav-go-browse');
+        if (goBrowseBtn) {
+          goBrowseBtn.addEventListener('click', () => switchTab('sport'));
+        }
+        return;
+      }
+
+      container.innerHTML = '';
+
+      // Section A: Favorite Sports
+      if (favSports.length > 0) {
+        const sportsSec = document.createElement('div');
+        sportsSec.className = 'space-y-3';
+        sportsSec.innerHTML = `
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <span>已關注的運動項目</span>
+              <span class="text-indigo-600">(${favSports.length} 項)</span>
+            </h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="fav-sports-grid"></div>
+        `;
+        container.appendChild(sportsSec);
+
+        const grid = sportsSec.querySelector('#fav-sports-grid');
+        favSports.forEach(sport => {
+          const item = document.createElement('div');
+          item.className = 'p-3.5 rounded-xl border border-indigo-100 bg-indigo-50/40 hover:bg-indigo-50 transition flex items-center justify-between cursor-pointer';
+          item.innerHTML = `
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-2xl">${sport.icon}</span>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <h4 class="text-sm font-bold text-slate-900 truncate">${sport.name}</h4>
+                  <span class="text-[10px] text-indigo-700 bg-indigo-100 px-1.5 py-0.2 rounded font-mono font-medium">${sport.code}</span>
+                </div>
+                <p class="text-[11px] text-slate-500 truncate mt-0.5">${sport.subEvents}</p>
+              </div>
+            </div>
+            <button class="remove-fav-sport p-1 text-amber-500 hover:text-slate-400 transition" title="取消關注">
+              ★
+            </button>
+          `;
+
+          item.addEventListener('click', () => {
+            state.activeSportId = sport.id;
+            switchTab('sport');
+          });
+
+          const removeBtn = item.querySelector('.remove-fav-sport');
+          removeBtn.addEventListener('click', (e) => {
+            toggleFavoriteSport(sport.id, e);
+          });
+
+          grid.appendChild(item);
+        });
+      }
+
+      // Section B: Favorite Events
+      if (favEvents.length > 0) {
+        const eventsSec = document.createElement('div');
+        eventsSec.className = 'space-y-3 pt-4 border-t border-slate-100';
+        eventsSec.innerHTML = `
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <span>已關注的比賽場次時間軸</span>
+              <span class="text-indigo-600">(${favEvents.length} 場)</span>
+            </h3>
+          </div>
+          <div class="space-y-2.5" id="fav-events-list"></div>
+        `;
+        container.appendChild(eventsSec);
+
+        const list = eventsSec.querySelector('#fav-events-list');
+        favEvents.forEach(item => {
+          const sport = item.sport;
+          const card = document.createElement('div');
+          card.className = 'p-3.5 rounded-xl border border-amber-200/90 bg-amber-50/20 hover:bg-amber-50/40 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+          card.innerHTML = `
+            <div class="flex items-start gap-3">
+              <div class="w-24 shrink-0 text-left">
+                <div class="text-xs font-bold text-slate-900">${formatDateWithDay(item.date)}</div>
+                <div class="text-xs font-semibold text-indigo-600 font-mono mt-0.5">${item.time}</div>
+              </div>
+              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-800 text-xs font-bold shrink-0">
+                <span>${sport.icon}</span>
+                <span>${sport.name}</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-sm font-bold text-slate-900">${item.stage}</span>
+                  ${item.isMedal && !item.isCeremony ? '<span class="text-[10px] px-2 py-0.2 rounded-full bg-amber-400 text-slate-950 font-extrabold">🥇 獎牌戰</span>' : ''}
+                  ${item.isCeremony ? '<span class="text-[10px] px-2 py-0.2 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
+                </div>
+                <p class="text-xs text-slate-600 mt-0.5">
+                  <span>${item.subEvent}</span>
+                  ${item.note ? `<span class="text-slate-400 ml-1.5">• ${item.note}</span>` : ''}
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center justify-end gap-2 shrink-0">
+              <button class="remove-fav-event px-2.5 py-1 rounded-lg border border-slate-200 text-rose-600 hover:bg-rose-50 text-xs transition">
+                移除關注
+              </button>
+            </div>
+          `;
+
+          const removeBtn = card.querySelector('.remove-fav-event');
+          removeBtn.addEventListener('click', (e) => {
+            toggleFavoriteEvent(item.id, e);
+          });
+
+          list.appendChild(card);
+        });
+      }
+    }
+
+    // Switch Main Tabs
+    function switchTab(tabName) {
+      state.activeTab = tabName;
+
+      // Update Tab Button Styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active', 'border-indigo-400', 'text-white', 'font-semibold');
+        btn.classList.add('border-transparent', 'text-slate-400', 'font-medium');
+      });
+
+      const targetBtn = document.getElementById(`tab-btn-${tabName}`);
+      if (targetBtn) {
+        targetBtn.classList.add('active', 'border-indigo-400', 'text-white', 'font-semibold');
+        targetBtn.classList.remove('border-transparent', 'text-slate-400', 'font-medium');
+      }
+
+      // Toggle View Sections
+      document.querySelectorAll('.tab-content').forEach(view => {
+        view.classList.add('hidden');
+      });
+
+      const targetView = document.getElementById(`view-${tabName}`);
+      if (targetView) {
+        targetView.classList.remove('hidden');
+      }
+
+      // Render according to tab
+      if (tabName === 'sport') {
+        renderSportSidebar();
+        renderSportHeader();
+        renderSportTimeline();
+      } else if (tabName === 'date') {
+        renderDateSelector();
+        renderDateEvents();
+      } else if (tabName === 'fav') {
+        renderFavoritesView();
+      }
+    }
+
+    // Switch Search Filter Chips
+    function switchFilter(filterName) {
+      state.activeFilter = filterName;
+
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.classList.remove('active', 'bg-indigo-500', 'text-white');
+        chip.classList.add('bg-slate-800/80', 'text-slate-300');
+      });
+
+      const targetChip = document.getElementById(`filter-${filterName}-btn`);
+      if (targetChip) {
+        targetChip.classList.add('active', 'bg-indigo-500', 'text-white');
+        targetChip.classList.remove('bg-slate-800/80', 'text-slate-300');
+      }
+
+      // Re-render
+      if (state.activeTab === 'sport') {
+        renderSportSidebar();
+        renderSportTimeline();
+      } else if (state.activeTab === 'date') {
+        renderDateEvents();
+      } else if (state.activeTab === 'fav') {
+        renderFavoritesView();
+      }
+    }
+
+    // Clear All Favorites Action
+    function clearAllFavorites() {
+      if (state.favorites.sports.length === 0 && state.favorites.events.length === 0) {
+        showToast('目前尚無關注項目', 'ℹ️');
+        return;
+      }
+      state.favorites.sports = [];
+      state.favorites.events = [];
+      saveFavorites();
+      showToast('已清空所有關注清單', '🗑️');
+      renderFavoritesView();
+      renderSportSidebar();
+      renderSportHeader();
+    }
+
+    // Download HTML Self-contained
+    function downloadCurrentHtml() {
+      try {
+        const htmlDoc = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('已開始下載 index.html！', '📥');
+      } catch (err) {
+        console.error('Download error:', err);
+        showToast('下載失敗，請嘗試手動複製代碼', '⚠️');
+      }
+    }
+
+    // Initialize Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Load Stored Data
+      loadFavorites();
+
+      // 2. Tab Navigation
+      document.getElementById('tab-btn-sport').addEventListener('click', () => switchTab('sport'));
+      document.getElementById('tab-btn-date').addEventListener('click', () => switchTab('date'));
+      document.getElementById('tab-btn-fav').addEventListener('click', () => switchTab('fav'));
+
+      // 3. Filter Chips
+      document.getElementById('filter-all-btn').addEventListener('click', () => switchFilter('all'));
+      document.getElementById('filter-medal-btn').addEventListener('click', () => switchFilter('medal'));
+      document.getElementById('filter-fav-btn').addEventListener('click', () => switchFilter('fav'));
+
+      // 4. Search Input
+      const searchInput = document.getElementById('search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+
+      searchInput.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        if (state.searchQuery.trim() !== '') {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        if (state.activeTab === 'sport') {
+          renderSportSidebar();
+          renderSportTimeline();
+        } else if (state.activeTab === 'date') {
+          renderDateEvents();
+        } else if (state.activeTab === 'fav') {
+          renderFavoritesView();
+        }
+      });
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        state.searchQuery = '';
+        clearSearchBtn.classList.add('hidden');
+        if (state.activeTab === 'sport') {
+          renderSportSidebar();
+          renderSportTimeline();
+        } else if (state.activeTab === 'date') {
+          renderDateEvents();
+        }
+      });
+
+      // 5. Clear Favorites Button
+      document.getElementById('btn-clear-all-fav').addEventListener('click', clearAllFavorites);
+
+      // 6. Download HTML Buttons
+      document.getElementById('btn-download-html').addEventListener('click', downloadCurrentHtml);
+      document.getElementById('btn-download-html-mobile').addEventListener('click', downloadCurrentHtml);
+
+      // 7. GitHub Modal
+      const modal = document.getElementById('modal-github');
+      const openModalBtns = [
+        document.getElementById('btn-github-help'),
+        document.getElementById('btn-github-help-mobile'),
+        document.getElementById('btn-footer-github')
+      ];
+      const closeModalBtns = [
+        document.getElementById('btn-close-modal'),
+        document.getElementById('btn-close-modal-bottom')
+      ];
+
+      openModalBtns.forEach(btn => {
+        if (btn) btn.addEventListener('click', () => modal.classList.remove('hidden'));
+      });
+
+      closeModalBtns.forEach(btn => {
+        if (btn) btn.addEventListener('click', () => modal.classList.add('hidden'));
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+      });
+
+      // 8. Scroll to top
+      document.getElementById('btn-scroll-top').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Initial Render
+      switchTab('sport');
+    });
+  </script>
+</body>
+</html>
