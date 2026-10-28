@@ -1,0 +1,54 @@
+/* 2026 達卡青年奧運 中華台北代表團賽程與賽果系統 專屬樣式表 */
+body {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* 綠色賽區 (Dakar: COR, CTO, CID) */
+.zone-green-active {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  border-color: #047857 !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+.zone-green-inactive {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+.zone-green-inactive:hover {
+  background-color: #d1fae5;
+}
+
+/* 黃色賽區 (Diamniadio: DAR, SAW, DEX) */
+.zone-yellow-active {
+  background-color: #d97706 !important;
+  color: #ffffff !important;
+  border-color: #b45309 !important;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+}
+.zone-yellow-inactive {
+  background-color: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.zone-yellow-inactive:hover {
+  background-color: #fef3c7;
+}
+
+/* 紅色賽區 (Saly: SBW) */
+.zone-red-active {
+  background-color: #e11d48 !important;
+  color: #ffffff !important;
+  border-color: #be123c !important;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+.zone-red-inactive {
+  background-color: #fff1f2;
+  color: #9f1239;
+  border-color: #fecdd3;
+}
+.zone-red-inactive:hover {
+  background-color: #ffe4e6;
+}
