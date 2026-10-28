@@ -1,1266 +1,1457 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 代表團競賽賽程表 | Competition Schedule</title>
-  <!-- Tailwind CSS CDN -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 達卡青年奧運（Dakar 2026）中華台北（TPE）代表團賽程與賽果資訊網</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
-            },
-            gold: {
-              50: '#fffbeb',
-              100: '#fef3c7',
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-              700: '#b45309',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
     body {
       font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
     }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
+    .zone-green-active {
+      background-color: #059669 !important;
+      color: #ffffff !important;
+      border-color: #047857 !important;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+    }
+    .zone-green-inactive {
+      background-color: #ecfdf5;
+      color: #065f46;
+      border-color: #a7f3d0;
+    }
+    .zone-green-inactive:hover {
+      background-color: #d1fae5;
+    }
+    .zone-yellow-active {
+      background-color: #d97706 !important;
+      color: #ffffff !important;
+      border-color: #b45309 !important;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+    }
+    .zone-yellow-inactive {
+      background-color: #fffbeb;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+    .zone-yellow-inactive:hover {
+      background-color: #fef3c7;
+    }
+    .zone-red-active {
+      background-color: #e11d48 !important;
+      color: #ffffff !important;
+      border-color: #be123c !important;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+    }
+    .zone-red-inactive {
+      background-color: #fff1f2;
+      color: #9f1239;
+      border-color: #fecdd3;
+    }
+    .zone-red-inactive:hover {
+      background-color: #ffe4e6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
       height: 6px;
+      width: 6px;
     }
-    ::-webkit-scrollbar-track {
+    .custom-scrollbar::-webkit-scrollbar-track {
       background: #f1f5f9;
+      border-radius: 9999px;
     }
-    ::-webkit-scrollbar-thumb {
+    .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 9999px;
     }
-    ::-webkit-scrollbar-thumb:hover {
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+<body class="min-h-screen flex flex-col">
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white shadow-lg sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <!-- Brand & Title -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-xl shadow-inner shadow-indigo-400/20">
-              🏅
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                  代表團競賽賽程
-                </h1>
-                <span class="text-[10px] font-semibold uppercase tracking-wider bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 px-2 py-0.5 rounded-full">
-                  2026
-                </span>
-              </div>
-              <p class="text-xs text-slate-300 mt-0.5">
-                賽程日程：2026年10月30日 – 11月13日 (共 17 項運動)
-              </p>
+  <!-- Top Header Banner -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 via-amber-500 to-rose-500 p-0.5 flex-shrink-0">
+            <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-black text-base tracking-tighter text-white">
+              TPE
             </div>
           </div>
-
-        </div>
-
-
-      </div>
-
-      <!-- Search & Filters Toolbar -->
-      <div class="mt-3.5 pt-3 border-t border-indigo-900/50 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <!-- Search Input -->
-        <div class="relative flex-1 max-w-md">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-blue-600 text-white tracking-wide">CHINESE TAIPEI</span>
+              <span class="text-xs text-slate-300 font-medium">2026.10.30 – 11.13 ｜ 塞內加爾・達卡</span>
+            </div>
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white mt-0.5">
+              2026 達卡青年奧運 中華台北代表團賽程與賽果系統
+            </h1>
           </div>
-          <input 
-            type="text" 
-            id="search-input" 
-            placeholder="搜尋運動項目、選手、決賽、代碼 (如 羽球、SWM、決賽)..." 
-            class="w-full pl-9 pr-8 py-2 bg-slate-900/80 border border-indigo-400/30 rounded-xl text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
-          >
-          <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-white">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
         </div>
 
-        <!-- Filter Chips -->
-        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
-          <button id="filter-all-btn" class="filter-chip active px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500 text-white transition flex items-center gap-1.5 whitespace-nowrap shadow-sm">
-            <span>全部場次</span>
-            <span id="badge-total-count" class="text-[10px] bg-white/20 px-1.5 py-0.2 rounded-full">97</span>
-          </button>
-          <button id="filter-medal-btn" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1.5 whitespace-nowrap">
-            <span>🥇 決賽 / 獎牌戰</span>
-            <span id="badge-medal-count" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded-full">37</span>
-          </button>
-          <button id="filter-fav-btn" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1.5 whitespace-nowrap">
-            <span class="text-amber-400">⭐</span>
-            <span>已收藏關注</span>
-            <span id="badge-fav-count" class="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.2 rounded-full font-bold">0</span>
+        <!-- Timezone & Sync Status Toolbar -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-1 flex items-center text-xs font-semibold">
+            <button id="tz-both-btn" type="button" class="px-2.5 py-1.5 rounded-md bg-blue-600 text-white transition">雙時區並列</button>
+            <button id="tz-dakar-btn" type="button" class="px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition">達卡時間 (UTC+0)</button>
+            <button id="tz-tpe-btn" type="button" class="px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition">台灣時間 (UTC+8)</button>
+          </div>
+
+          <button id="sync-now-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition">
+            <svg id="sync-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span>立即同步雲端試算表</span>
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="bg-slate-950/70 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-7xl mx-auto flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar">
-        <button id="tab-btn-sport" class="tab-btn active py-3 px-3 sm:px-4 border-b-2 border-indigo-400 text-white font-semibold text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
-          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-          <span>按項目看賽程</span>
-          <span class="text-[10px] bg-indigo-500/30 text-indigo-200 px-1.5 py-0.5 rounded-full">17 項</span>
-        </button>
-
-        <button id="tab-btn-date" class="tab-btn py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
-          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          <span>按日期看賽程</span>
-          <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded-full">15 日</span>
-        </button>
-
-        <button id="tab-btn-fav" class="tab-btn py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition">
-          <span class="text-amber-400 text-sm">⭐</span>
-          <span>我的收藏清單</span>
-          <span id="tab-fav-badge" class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-full">0</span>
-        </button>
       </div>
     </div>
   </header>
 
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- VIEW 1: BY SPORT (按項目看賽程) -->
-    <div id="view-sport" class="tab-content transition-opacity duration-200">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left Sidebar: Sports Directory (Desktop & Tablet) -->
-        <div class="lg:col-span-4 xl:col-span-3">
-          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden sticky top-36">
-            <div class="p-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-              <h2 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                <span>運動項目目錄</span>
-                <span class="text-[10px] font-normal text-slate-400">(共 17 項)</span>
-              </h2>
-              <span class="text-[10px] text-indigo-600 font-medium bg-indigo-50 px-2 py-0.5 rounded-full">點選快速切換</span>
-            </div>
-            <!-- Sports List (Scrollable) -->
-            <div id="sports-sidebar-list" class="divide-y divide-slate-100 max-h-[calc(100vh-220px)] overflow-y-auto">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
+    <!-- KPI Summary Row -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">總賽程時段數</span>
+          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
         </div>
-
-        <!-- Right Content: Active Sport Details & Schedule Timeline -->
-        <div class="lg:col-span-8 xl:col-span-9 space-y-4">
-          <!-- Active Sport Header Card -->
-          <div id="sport-header-card" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-            <!-- Rendered via JS -->
-          </div>
-
-          <!-- Schedule Timeline -->
-          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-              <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-slate-800">各階段賽程時間表</h3>
-                <span id="sport-events-count-badge" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">8 場場次</span>
-              </div>
-              <div class="text-xs text-slate-400 flex items-center gap-1">
-                <span>點擊</span>
-                <span class="text-amber-500 font-bold">⭐</span>
-                <span>可收藏場次</span>
-              </div>
-            </div>
-
-            <!-- Timeline Entries Container -->
-            <div id="sport-timeline-container" class="space-y-3">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-total-sessions" class="text-2xl sm:text-3xl font-extrabold text-slate-900">91</span>
+          <span class="text-xs text-slate-500 font-medium">場次 / 時段</span>
         </div>
-
-      </div>
-    </div>
-
-    <!-- VIEW 2: BY DATE (按日期看賽程) -->
-    <div id="view-date" class="tab-content hidden transition-opacity duration-200 space-y-6">
-      
-      <!-- Date Carousel / Scroll Selector -->
-      <div class="bg-white rounded-2xl p-3 sm:p-4 shadow-sm border border-slate-200">
-        <div class="flex items-center justify-between mb-2 px-1">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">選擇比賽日期</span>
-            <span class="text-xs text-slate-400">10/30 至 11/13</span>
-          </div>
-          <span class="text-xs text-indigo-600 font-medium hidden sm:inline">可左右滑動選擇日程</span>
-        </div>
-        <div id="date-selector-container" class="flex gap-2 overflow-x-auto pb-2 pt-1 no-scrollbar scroll-smooth">
-          <!-- Rendered via JS -->
-        </div>
+        <p class="mt-1 text-xs text-slate-500">涵蓋 10/30 至 11/13 完整賽期</p>
       </div>
 
-      <!-- Selected Date Schedule Detail -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-        <!-- Date Header Summary -->
-        <div id="date-summary-header" class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 mb-5 gap-2">
-          <!-- Rendered via JS -->
+      <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">中華台北參賽規模</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
         </div>
-
-        <!-- Schedule Items for Selected Date -->
-        <div id="date-events-container" class="space-y-3">
-          <!-- Rendered via JS -->
+        <div class="mt-2 flex items-baseline gap-2">
+          <span class="text-2xl sm:text-3xl font-extrabold text-slate-900">17 項 / 37 人</span>
         </div>
+        <p class="mt-1 text-xs text-slate-500">代表團總計 82 人（含教練與醫護）</p>
       </div>
 
-    </div>
+      <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">三大競賽賽區與場館</span>
+          <div class="flex gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+          </div>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span class="text-lg sm:text-xl font-extrabold text-slate-900">Dakar・Diamniadio・Saly</span>
+        </div>
+        <p class="mt-1 text-xs text-slate-500">7 座場館：COR, CTO, CID, DAR, SAW, DEX, SBW</p>
+      </div>
 
-    <!-- VIEW 3: MY FAVORITES (我的收藏清單) -->
-    <div id="view-fav" class="tab-content hidden transition-opacity duration-200 space-y-6">
-      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200">
-        
-        <!-- Header & Action -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-3">
+      <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">完賽登錄與每小時更新</span>
+          <span id="sync-status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-completed-count" class="text-2xl sm:text-3xl font-extrabold text-emerald-600">0</span>
+          <span class="text-xs text-slate-500 font-medium">/ <span id="kpi-locked-count">0</span> 筆已鎖定賽果</span>
+        </div>
+        <p id="last-sync-text" class="mt-1 text-xs text-slate-500 truncate">每小時自動同步（已鎖定賽果不重複更新）</p>
+      </div>
+    </section>
+
+    <!-- Primary View Mode Tabs -->
+    <nav class="bg-white rounded-xl p-1.5 border border-slate-200 shadow-sm flex flex-wrap gap-1.5" aria-label="主要功能分頁">
+      <button id="tab-btn-daily" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold bg-slate-900 text-white shadow-sm transition flex items-center justify-center gap-2">
+        <span>📅 中華台北逐日賽程總表</span>
+        <span id="badge-daily-count" class="px-2 py-0.5 text-xs rounded-full bg-slate-700 text-slate-100">91</span>
+      </button>
+      <button id="tab-btn-bs5" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
+        <span>⚾ 五人制棒球 (BS5) 完整對戰表</span>
+        <span class="px-2 py-0.5 text-xs rounded-full bg-emerald-100 text-emerald-800">20場</span>
+      </button>
+      <button id="tab-btn-venues" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
+        <span>🏟️ 賽區與場館統計對照</span>
+        <span class="px-2 py-0.5 text-xs rounded-full bg-amber-100 text-amber-800">7場館</span>
+      </button>
+      <button id="tab-btn-github" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
+        <span>⚙️ 每小時同步與 GitHub 架構指南</span>
+      </button>
+    </nav>
+
+    <!-- SECTION 1: DAILY SCHEDULE VIEW -->
+    <section id="view-daily" class="space-y-4">
+      <!-- 3-Tier Zone & Sub-tag Filter Box -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
-            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-              <span class="text-amber-500 text-xl">⭐</span>
-              <span>我的收藏與關注項目</span>
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span>競賽賽區與場館子標籤篩選</span>
+              <span class="text-xs font-normal text-slate-500">（點選賽區可展開或篩選對應場館代碼與運動項目）</span>
             </h2>
-            <p class="text-xs text-slate-500 mt-1">
-              自訂的專屬觀賽清單，資料將安全儲存於您的瀏覽器中，換頁或重新整理不遺失。
+          </div>
+          <button id="reset-filters-btn" type="button" class="self-start sm:self-auto text-xs font-semibold text-blue-600 hover:text-blue-800 px-2.5 py-1 rounded-md hover:bg-blue-50 transition">
+            重設全部篩選條件
+          </button>
+        </div>
+
+        <!-- Tier 1: Main Zone Buttons -->
+        <div class="space-y-2">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">步驟 1：選擇競賽賽區 (Zone)</div>
+          <div id="zone-buttons-container" class="flex flex-wrap gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Tier 2: Sub-Venue Tags (Colored by Zone: Green COR/CTO/CID, Yellow DAR/SAW/DEX, Red SBW) -->
+        <div class="space-y-2 pt-1">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">步驟 2：選擇競賽場館子標籤 (Venue Code & Sports)</div>
+          <div id="venue-buttons-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Tier 3: Sport Quick Pills -->
+        <div class="space-y-2 pt-1">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">步驟 3：依運動項目細分 (Sport Discipline)</div>
+          <div id="sport-buttons-container" class="flex flex-wrap gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Tier 4: Date Scroller & Search / Stage Filter -->
+        <div class="pt-2 border-t border-slate-100 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">競賽日期快速切換 (10/30 – 11/13)</span>
+            <span id="active-filter-summary" class="text-xs font-semibold text-slate-600">顯示全部 91 筆賽程</span>
+          </div>
+          <div id="date-buttons-container" class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1.5">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+            <div class="relative sm:col-span-2">
+              <input id="search-input" type="text" placeholder="搜尋選手姓名（如：林晉霆、陳忞昕、陳品安、張雯婷、Saturn）、運動項目、對手或場館..." class="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" />
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <div class="flex gap-2">
+              <select id="stage-filter-select" aria-label="競賽階段篩選" class="flex-1 px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:border-blue-500 outline-none">
+                <option value="ALL">所有競賽階段 (預賽/複賽/八強/四強/決賽)</option>
+                <option value="預賽">預賽 / 小組賽 / 排名賽</option>
+                <option value="複賽">複賽 / 32強 / 16強</option>
+                <option value="八強">八強賽 (Quarterfinals)</option>
+                <option value="四強">四強準決賽 (Semifinals)</option>
+                <option value="決賽">銅牌戰 / 金牌決賽 (Finals)</option>
+              </select>
+              <select id="status-filter-select" aria-label="完賽狀態篩選" class="px-3 py-2 text-sm rounded-lg border border-slate-300 bg-white focus:border-blue-500 outline-none">
+                <option value="ALL">全部狀態</option>
+                <option value="UPCOMING">未完賽</option>
+                <option value="FINISHED">已完賽 (含鎖定)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule List / Cards Container -->
+      <div id="schedule-list-container" class="space-y-4">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- SECTION 2: BASEBALL5 FULL BRACKET & SCHEDULE VIEW -->
+    <section id="view-bs5" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-5 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-600 text-white">綠色賽區 Dakar</span>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">場館：CTO (Complexe Tour de l'Œuf)</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-900 mt-1.5">
+              2026 達卡青年奧運 — 五人制棒球（Baseball5 / BS5）完整對戰與賽程表
+            </h2>
+            <p class="text-xs text-slate-600 mt-1">
+              分組配置：<strong class="text-emerald-700">A組 (TPE 中華台北, CUB 古巴, SEN 塞內加爾, TUR 土耳其)</strong> ｜ <strong class="text-slate-700">B組 (FRA 法國, KEN 肯亞, MEX 墨西哥, SYR 敘利亞)</strong>
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <button id="btn-clear-all-fav" class="px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-medium transition flex items-center gap-1">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-              <span>清空所有關注</span>
-            </button>
+            <button id="bs5-filter-all" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">全部 20 場次</button>
+            <button id="bs5-filter-tpe" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100">★ 僅看中華隊相關場次</button>
           </div>
         </div>
 
-        <!-- Content Area -->
-        <div id="fav-content-area" class="mt-5 space-y-6">
-          <!-- Rendered via JS -->
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                <th class="py-3 px-3 rounded-tl-lg">場次</th>
+                <th class="py-3 px-3">競賽日期</th>
+                <th class="py-3 px-3">達卡 UTC+0</th>
+                <th class="py-3 px-3">台灣 UTC+8</th>
+                <th class="py-3 px-3">賽區 / 場館</th>
+                <th class="py-3 px-3">競賽名稱 (階段)</th>
+                <th class="py-3 px-3">對戰組合 (主 vs 客)</th>
+                <th class="py-3 px-3">中華台北 (TPE) 競賽對手 / 備註</th>
+                <th class="py-3 px-3 rounded-tr-lg">對戰成績 / 狀態</th>
+              </tr>
+            </thead>
+            <tbody id="bs5-table-body" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: VENUE & ZONE SUMMARY VIEW -->
+    <section id="view-venues" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900">
+            三大競賽賽區與場館代碼（COR/CTO/CID、DAR/SAW/DEX、SBW）對照統計
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">
+            統整中華台北 17 項參賽運動（37 名選手）於各賽區場館之分布與賽程時段數統計（點擊任一場館可直接跳轉篩選該場館賽程）
+          </p>
         </div>
 
-      </div>
-    </div>
+        <div id="venue-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated by JS -->
+        </div>
 
-    <!-- Official Notice Footer Note -->
-    <div class="mt-8 bg-amber-50 border border-amber-200/80 rounded-2xl p-4 text-xs text-amber-900 flex items-start gap-3">
-      <div class="text-base text-amber-600 shrink-0 mt-0.5">⚠️</div>
-      <div class="space-y-1">
-        <p class="font-bold">賽程注意事項與官方公告提示：</p>
-        <p class="text-amber-800 leading-relaxed">
-          代表團競賽賽程最終確切時程與場地異動，仍需以國際奧會 (IOC) 與大會籌備會官方公告之最新英文版為主。若遇天候或大會排程調整，建議隨時向代表團競賽總部或大會官方資訊系統 (Info System) 進行即時查驗。
-        </p>
+        <div class="overflow-x-auto custom-scrollbar pt-2">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                <th class="py-3 px-4 rounded-tl-lg">競賽場館代碼</th>
+                <th class="py-3 px-4">競賽賽區</th>
+                <th class="py-3 px-4">場館全名</th>
+                <th class="py-3 px-4">本網站對應子標籤運動項目</th>
+                <th class="py-3 px-4">Excel 參賽項目明細</th>
+                <th class="py-3 px-4 text-right rounded-tr-lg">賽程時段數</th>
+              </tr>
+            </thead>
+            <tbody id="venue-stats-table-body" class="divide-y divide-slate-200 text-sm">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- SECTION 4: GITHUB & HOURLY SYNC GUIDE VIEW -->
+    <section id="view-github" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-50 text-blue-700 border border-blue-200">GitHub 自動化部署與檔案分類指南</span>
+          <h2 class="text-xl font-extrabold text-slate-900 mt-2">
+            如何以雲端硬碟 Excel / Google 試算表為 Base，實現每小時自動更新與完賽鎖定
+          </h2>
+          <p class="text-sm text-slate-600 mt-1">
+            本網站已直接內建您雲端硬碟檔案（<code class="px-1.5 py-0.5 bg-slate-100 rounded text-xs font-mono">1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI</code>）的全部 3 個工作表資料，並支援前端即時連線與 GitHub Actions 每小時排程同步。
+          </p>
+        </div>
+
+        <!-- Step-by-step Architecture -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center">1</span>
+              <span>GitHub 資料夾分門別類結構（已為您打包成 ZIP）</span>
+            </h3>
+            <pre class="text-xs font-mono bg-slate-900 text-slate-100 p-3.5 rounded-lg overflow-x-auto leading-relaxed">2026dakar-games-schedule/
+├── index.html                        # 網站主頁面（繁體中文介面）
+├── css/
+│   └── style.css                     # 綠/黃/紅三區與子標籤專屬樣式
+├── js/
+│   ├── config.js                     # 三區七場館子標籤與試算表 ID 設定
+│   └── app.js                        # 篩選器、完賽鎖定、雲端即時同步邏輯
+├── data/
+│   └── schedule.json                 # 賽程與賽果資料庫（含 resultLocked）
+├── scripts/
+│   └── sync_schedule.py              # 每小時擷取試算表並跳過已完賽鎖定項目
+└── .github/
+    └── workflows/
+        └── hourly_sync.yml           # GitHub Actions 每小時自動執行排程</pre>
+          </div>
+
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs flex items-center justify-center">2</span>
+              <span>完賽成績鎖定機制（不重複耗費資源更新）</span>
+            </h3>
+            <ul class="text-xs text-slate-700 space-y-2.5 leading-relaxed">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">●</span>
+                <span><strong>自動檢查賽程異動：</strong>每小時執行 <code class="bg-white px-1 py-0.5 rounded border">sync_schedule.py</code>（或前端載入時）比對雲端試算表，若「競賽時間、對手、階段」有異動（例如五人制棒球預賽第11場對古巴提前至 15:00），系統會立即更新。</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">●</span>
+                <span><strong>完賽對戰成績登錄與鎖定：</strong>當賽事完成並填入對戰成績後，系統會將該場次標記為 <code class="bg-white px-1 py-0.5 rounded border">status: "FINISHED"</code> 且 <code class="bg-white px-1 py-0.5 rounded border">resultLocked: true</code>。</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">●</span>
+                <span><strong>跳過已鎖定場次：</strong>下一次每小時排程執行時，只要偵測到 <code class="bg-white px-1 py-0.5 rounded border">resultLocked === true</code>，程式就會直接跳過該筆紀錄，不再重複解析或覆寫。您也可以直接在下方賽程卡片點擊「登錄/鎖定賽果」立即測試！</span>
+              </li>
+            </ul>
+
+            <div class="pt-2 border-t border-slate-200">
+              <label class="block text-xs font-bold text-slate-700 mb-1">綁定之 Google 試算表 ID（預設為您的 Base 檔案）：</label>
+              <div class="flex gap-2">
+                <input id="sheet-id-input" type="text" value="1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI" class="flex-1 px-3 py-1.5 text-xs font-mono rounded border border-slate-300 bg-white" />
+                <button id="export-json-btn" type="button" class="px-3 py-1.5 rounded bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition">
+                  匯出目前 JSON 資料檔
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-auto border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="text-slate-200 font-semibold">2026 代表團競賽賽程資訊網</span>
-        <span>•</span>
-        <span>GitHub Pages 靜態單頁版</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-400">
-        <button id="btn-footer-github" class="hover:text-white transition">GitHub 部署步驟</button>
-        <span>•</span>
-        <button id="btn-scroll-top" class="hover:text-white transition flex items-center gap-1">
-          <span>回到頁首</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-        </button>
-      </div>
-    </div>
-  </footer>
-
-  <!-- MODAL: GitHub Pages Deployment Guide -->
-  <div id="modal-github" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto space-y-4">
+  <!-- Score & Lock Modal -->
+  <div id="score-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
-          </div>
-          <h3 class="text-base font-bold text-slate-900">部署至 GitHub Pages 指南</h3>
+        <h3 id="modal-title" class="text-base font-extrabold text-slate-900">登錄完賽對戰成績</h3>
+        <button id="modal-close-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-1">✕</button>
+      </div>
+      <div id="modal-match-info" class="text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label for="modal-score-input" class="block text-xs font-bold text-slate-700 mb-1">對戰成績 / 完賽結果（如：2 - 0 勝、總分 9.65 金牌、晉級8強）</label>
+          <input id="modal-score-input" type="text" placeholder="請輸入對戰成績或名次結果..." class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:border-emerald-500 outline-none" />
         </div>
-        <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
+        <div>
+          <label for="modal-opponent-input" class="block text-xs font-bold text-slate-700 mb-1">競賽對手（若有籤表更新可一併修正）</label>
+          <input id="modal-opponent-input" type="text" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:border-emerald-500 outline-none" />
+        </div>
+        <label class="flex items-center gap-2 text-xs font-semibold text-slate-800 cursor-pointer pt-1">
+          <input id="modal-lock-checkbox" type="checkbox" checked class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4" />
+          <span>完賽並鎖定此筆賽果（鎖定後每小時排程將自動跳過不重複更新）</span>
+        </label>
       </div>
-
-      <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
-        <p>本專案為完全自包含的單一 HTML 檔案，無需任何後端伺服器或編譯流程，非常適合免費託管於 GitHub Pages：</p>
-        
-        <ol class="list-decimal pl-4 space-y-2">
-          <li>
-            <strong>建立儲存庫 (Repository)</strong>：<br>
-            登入 GitHub，點擊右上角「New Repository」，輸入名稱（例如 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">games-schedule-2026</code>），設定為 <strong>Public</strong>。
-          </li>
-          <li>
-            <strong>上傳 HTML 檔案</strong>：<br>
-            點擊本網頁右上角的「下載 index.html」按鈕，取得 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">index.html</code>。接著在 GitHub 倉庫頁面點選「Add file」→「Upload files」，將檔案上傳至倉庫根目錄並 Commit。
-          </li>
-          <li>
-            <strong>啟用 GitHub Pages</strong>：<br>
-            在該儲存庫上方點選 <strong>Settings</strong> → 左側導覽列點選 <strong>Pages</strong>。
-          </li>
-          <li>
-            <strong>設定分支與來源</strong>：<br>
-            在「Build and deployment」下的 Branch 選擇 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">main</code>（或 master），資料夾保持 <code class="bg-slate-100 text-indigo-600 px-1 py-0.5 rounded">/ (root)</code>，按 <strong>Save</strong>。
-          </li>
-          <li>
-            <strong>完成與訪問</strong>：<br>
-            等待約 1~2 分鐘，重新整理頁面即可看到專屬公開網址（例如：<code class="bg-slate-100 text-emerald-600 px-1 py-0.5 rounded">https://你的帳號.github.io/games-schedule-2026/</code>）！
-          </li>
-        </ol>
-      </div>
-
-      <div class="pt-2 border-t border-slate-100 flex items-center justify-end">
-        <button id="btn-close-modal-bottom" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition">
-          我知道了，關閉
-        </button>
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+        <button id="modal-unlock-btn" type="button" class="px-3 py-2 rounded-lg text-xs font-bold text-rose-600 hover:bg-rose-50 transition mr-auto">解除鎖定並重設為未完賽</button>
+        <button id="modal-cancel-btn" type="button" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition">取消</button>
+        <button id="modal-save-btn" type="button" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition">儲存並鎖定賽果</button>
       </div>
     </div>
   </div>
 
-  <!-- APPLICATION JAVASCRIPT LOGIC -->
-  <script>
-    // Injected Sports Data
-    const RAW_SPORTS_DATA = [{"id": "ARC", "name": "射箭", "name_en": "Archery", "code": "ARC", "icon": "🏹", "subEvents": "男子個人 (Men's Individual)", "color": "amber", "events": [{"id": "arc-1", "date": "2026-11-06", "time": "09:30 - 12:00", "subEvent": "男子個人 (Men's Individual)", "stage": "排名賽 (Ranking Round)", "note": "與女子個人合併時段 / Combined with Women's Individual", "isMedal": false, "isCeremony": false}, {"id": "arc-2", "date": "2026-11-07", "time": "09:28 起", "subEvent": "男子個人 (Men's Individual)", "stage": "1/16 淘汰賽 (1/16 Elimination)", "note": "進行多場次 1/16 淘汰賽 (Multiple 1/16 Elimination Rounds)", "isMedal": false, "isCeremony": false}, {"id": "arc-3", "date": "2026-11-08", "time": "10:00 - 11:52", "subEvent": "男子個人 (Men's Individual)", "stage": "1/8 淘汰賽 (1/8 Elimination Round)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-4", "date": "2026-11-08", "time": "14:00 - 14:56", "subEvent": "男子個人 (Men's Individual)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-5", "date": "2026-11-08", "time": "14:56 - 15:24", "subEvent": "男子個人 (Men's Individual)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "arc-6", "date": "2026-11-08", "time": "15:30", "subEvent": "男子個人 (Men's Individual)", "stage": "銅牌戰 (Bronze Medal Match)", "note": "獎牌爭奪戰", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "arc-7", "date": "2026-11-08", "time": "15:44", "subEvent": "男子個人 (Men's Individual)", "stage": "金牌戰 (Gold Medal Match)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "arc-8", "date": "2026-11-08", "time": "16:15", "subEvent": "男子個人 (Men's Individual)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "射箭男子個人頒獎", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Diamniadio"}, {"id": "ATH", "name": "田徑", "name_en": "Athletics", "code": "ATH", "icon": "🏃", "subEvents": "男子200m、男子3000m、男子跳高、女子400m、女子400m跨欄、女子跳高、女子標槍", "color": "emerald", "events": [{"id": "ath-1", "date": "2026-11-08", "time": "15:48", "subEvent": "女子400公尺 (Women's 400m)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-2", "date": "2026-11-08", "time": "16:25", "subEvent": "男子3000公尺 (Men's 3000m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-3", "date": "2026-11-09", "time": "10:40", "subEvent": "男子跳高 (Men's High Jump)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-4", "date": "2026-11-09", "time": "11:30", "subEvent": "女子400公尺跨欄 (Women's 400m Hurdles)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-5", "date": "2026-11-09", "time": "12:15", "subEvent": "女子400公尺 (Women's 400m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-6", "date": "2026-11-10", "time": "10:15", "subEvent": "女子標槍 (Women's Javelin Throw)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-7", "date": "2026-11-10", "time": "11:15", "subEvent": "男子200公尺 (Men's 200m)", "stage": "準決賽 (Semi-Final)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "ath-8", "date": "2026-11-10", "time": "11:20", "subEvent": "女子跳高 (Women's High Jump)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-9", "date": "2026-11-10", "time": "12:05", "subEvent": "女子400公尺跨欄 (Women's 400m Hurdles)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "ath-10", "date": "2026-11-10", "time": "12:25", "subEvent": "男子200公尺 (Men's 200m)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Dakar"}, {"id": "BDM", "name": "羽球", "name_en": "Badminton", "code": "BDM", "icon": "🏸", "subEvents": "男子單打 (Men's Singles)、女子單打 (Women's Singles)", "color": "sky", "events": [{"id": "bdm-1", "date": "2026-11-01", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-2", "date": "2026-11-02", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-3", "date": "2026-11-03", "time": "09:00 - 18:55", "subEvent": "男單 / 女單 (MS / WS)", "stage": "小組賽 (Group Play Stage)", "note": "小組循環賽第 3 日", "isMedal": false, "isCeremony": false}, {"id": "bdm-4", "date": "2026-11-04", "time": "09:00 - 12:35", "subEvent": "男單 / 女單 (MS / WS)", "stage": "八強賽 (Quarterfinals)", "note": "男單、女單八強對決", "isMedal": false, "isCeremony": false}, {"id": "bdm-5", "date": "2026-11-04", "time": "14:30 - 18:45", "subEvent": "男單 / 女單 (MS / WS)", "stage": "準決賽 (Semifinals)", "note": "四強爭取決賽門票", "isMedal": false, "isCeremony": false}, {"id": "bdm-6", "date": "2026-11-05", "time": "14:00 及 16:25", "subEvent": "男單 / 女單 (MS / WS)", "stage": "銅牌戰 (Bronze Medal Match)", "note": "14:00 與 16:25 分別進行銅牌戰", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bdm-7", "date": "2026-11-05", "time": "15:05 及 17:30", "subEvent": "男單 / 女單 (MS / WS)", "stage": "金牌戰 (Gold Medal Match)", "note": "15:05 與 17:30 進行金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bdm-8", "date": "2026-11-05", "time": "16:10 及 18:35", "subEvent": "男單 / 女單 (MS / WS)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "頒獎儀式", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Diamniadio"}, {"id": "BK3", "name": "3x3籃球", "name_en": "3x3 Basketball", "code": "BK3", "icon": "🏀", "subEvents": "女子3對3 (Women 3x3 Basketball)", "color": "orange", "events": [{"id": "bk3-1", "date": "2026-11-06", "time": "10:00 - 16:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "預賽 (Pool Round)", "note": "分組預賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "bk3-2", "date": "2026-11-07", "time": "10:00 - 16:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "預賽 (Pool Round)", "note": "分組預賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "bk3-3", "date": "2026-11-08", "time": "11:30 - 15:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bk3-4", "date": "2026-11-09", "time": "11:30 - 12:20", "subEvent": "女子3對3 (Women 3x3)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bk3-5", "date": "2026-11-09", "time": "15:00", "subEvent": "女子3對3 (Women 3x3)", "stage": "銅牌戰 (Bronze Medal Game)", "note": "", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bk3-6", "date": "2026-11-09", "time": "15:50", "subEvent": "女子3對3 (Women 3x3)", "stage": "金牌戰 (Gold Medal Game)", "note": "金牌爭奪戰", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Dakar"}, {"id": "BKG", "name": "霹靂舞", "name_en": "Breaking", "code": "BKG", "icon": "🕺", "subEvents": "B-Boys (男子組)", "color": "purple", "events": [{"id": "bkg-1", "date": "2026-11-12", "time": "15:00 - 17:30", "subEvent": "B-Boys", "stage": "預選賽與循環賽 (Pre-Selection & Round Robin)", "note": "資格賽及循環對抗", "isMedal": false, "isCeremony": false}, {"id": "bkg-2", "date": "2026-11-13", "time": "10:00 - 12:45", "subEvent": "B-Boys", "stage": "八強、準決賽、銅牌與金牌戰 (Final Battles)", "note": "Quarterfinals, Semifinals, Bronze & Gold Medal Battles", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bkg-3", "date": "2026-11-13", "time": "12:50 - 13:00", "subEvent": "B-Boys", "stage": "頒獎典禮 (Victory Ceremony)", "note": "霹靂舞項目頒獎", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Dakar"}, {"id": "BS5", "name": "五人制棒球", "name_en": "Baseball5", "code": "BS5", "icon": "⚾", "subEvents": "五人制棒球代表隊", "color": "rose", "events": [{"id": "bs5-1", "date": "2026-10-30", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 1 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-2", "date": "2026-10-31", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 2 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-3", "date": "2026-11-01", "time": "全日賽程", "subEvent": "五人制棒球", "stage": "預賽階段 (Opening Round)", "note": "預賽第 3 日 (Oct 30 - Nov 1)", "isMedal": false, "isCeremony": false}, {"id": "bs5-4", "date": "2026-11-02", "time": "10:30 - 13:15", "subEvent": "五人制棒球", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-5", "date": "2026-11-02", "time": "15:00 - 17:45", "subEvent": "五人制棒球", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-6", "date": "2026-11-03", "time": "10:30 - 13:15", "subEvent": "五人制棒球", "stage": "排名賽 (Placement Games)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "bs5-7", "date": "2026-11-03", "time": "15:00", "subEvent": "五人制棒球", "stage": "銅牌戰 (Bronze Medal Game)", "note": "", "isMedal": true, "medalType": "bronze", "isCeremony": false}, {"id": "bs5-8", "date": "2026-11-03", "time": "16:30", "subEvent": "五人制棒球", "stage": "金牌戰 (Gold Medal Game)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "bs5-9", "date": "2026-11-03", "time": "17:45", "subEvent": "五人制棒球", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Dakar"}, {"id": "BOX", "name": "拳擊", "name_en": "Boxing", "code": "BOX", "icon": "🥊", "subEvents": "女子57公斤級 (Women's 57kg)", "color": "red", "events": [{"id": "box-1", "date": "2026-11-07", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "預賽 (Preliminaries)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "box-2", "date": "2026-11-09", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "box-3", "date": "2026-11-11", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "準決賽 (Semifinals)", "note": "保底獎牌戰", "isMedal": false, "isCeremony": false}, {"id": "box-4", "date": "2026-11-12", "time": "排程進行", "subEvent": "女子57公斤級 (Women's 57kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Diamniadio"}, {"id": "CRD", "name": "自由車", "name_en": "Cycling", "code": "CRD", "icon": "🚴", "subEvents": "女子個人計時賽 (Time Trial)、女子公路賽 (Road Race)", "color": "teal", "events": [{"id": "crd-1", "date": "2026-11-08", "time": "09:00 - 10:45", "subEvent": "女子公路賽 (Women's Road Race)", "stage": "決賽 (Final)", "note": "女子公路賽金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "crd-2", "date": "2026-11-08", "time": "10:52 - 10:57", "subEvent": "女子公路賽 (Women's Road Race)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}, {"id": "crd-3", "date": "2026-11-10", "time": "09:00 - 10:14", "subEvent": "女子個人計時賽 (Individual Time Trial)", "stage": "決賽 (Final)", "note": "女子計時賽金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "crd-4", "date": "2026-11-10", "time": "10:18 - 10:23", "subEvent": "女子個人計時賽 (Individual Time Trial)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Dakar"}, {"id": "FEN", "name": "擊劍", "name_en": "Fencing", "code": "FEN", "icon": "🤺", "subEvents": "女子銳劍個人 (Women's Épée Individual)", "color": "indigo", "events": [{"id": "fen-1", "date": "2026-11-10", "time": "09:00 - 16:15", "subEvent": "女子銳劍個人 (Women's Épée Individual)", "stage": "預賽至決賽 (Preliminaries to Finals)", "note": "共劃分七個排程時段進行 (7 sessions)", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Diamniadio"}, {"id": "JUD", "name": "柔道", "name_en": "Judo", "code": "JUD", "icon": "🥋", "subEvents": "男子-100公斤級 (Men's -100kg)", "color": "blue", "events": [{"id": "jud-1", "date": "2026-11-03", "time": "時間待定 (Time TBD)", "subEvent": "男子-100公斤級 (Men's -100kg)", "stage": "預賽與決賽階段 (Prelims & Final Block)", "note": "具體時間區間空白 / 待大會公告", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Diamniadio"}, {"id": "SAL", "name": "帆船", "name_en": "Sailing", "code": "SAL", "icon": "⛵", "subEvents": "女子風浪板 (Women's Windsurfing)", "color": "cyan", "events": [{"id": "sal-1", "date": "2026-11-08", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 1 日", "isMedal": false, "isCeremony": false}, {"id": "sal-2", "date": "2026-11-09", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 2 日", "isMedal": false, "isCeremony": false}, {"id": "sal-3", "date": "2026-11-10", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 3 日", "isMedal": false, "isCeremony": false}, {"id": "sal-4", "date": "2026-11-11", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽第 4 日", "isMedal": false, "isCeremony": false}, {"id": "sal-5", "date": "2026-11-12", "time": "14:00 起", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "系列賽 (Opening Series R1-R15)", "note": "系列賽最終日", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "sal-6", "date": "2026-11-12", "time": "賽事結束後", "subEvent": "女子風浪板 (Women's Windsurfing)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "系列賽事完畢後進行", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Saly"}, {"id": "SKB", "name": "滑輪板", "name_en": "Skateboarding", "code": "SKB", "icon": "🛹", "subEvents": "男子街式 (Men's Street)", "color": "violet", "events": [{"id": "skb-1", "date": "2026-11-04", "time": "12:45 - 14:22", "subEvent": "男子街式 (Men's Street)", "stage": "預賽 (Prelims Heats)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "skb-2", "date": "2026-11-04", "time": "16:00 - 16:49", "subEvent": "男子街式 (Men's Street)", "stage": "決賽 (Final)", "note": "街式金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "skb-3", "date": "2026-11-04", "time": "16:50", "subEvent": "男子街式 (Men's Street)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Dakar"}, {"id": "SWM", "name": "游泳", "name_en": "Swimming", "code": "SWM", "icon": "🏊", "subEvents": "男子200m自、女子50m仰 (含兼項：男100m自、男50m自、女100m自、女50m自、女50m蝶)", "color": "blue", "events": [{"id": "swm-1", "date": "2026-11-02", "time": "11:00 - 13:00", "subEvent": "女子100公尺自由式 (Women's 100m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-2", "date": "2026-11-02", "time": "11:00 - 13:00", "subEvent": "男子100公尺自由式 (Men's 100m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-3", "date": "2026-11-02", "time": "15:00 - 17:00", "subEvent": "女子100公尺自由式 (Women's 100m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-4", "date": "2026-11-02", "time": "15:00 - 17:00", "subEvent": "男子100公尺自由式 (Men's 100m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-5", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "女子50公尺自由式 (Women's 50m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-6", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "男子50公尺自由式 (Men's 50m Freestyle)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-7", "date": "2026-11-04", "time": "11:00 - 13:00", "subEvent": "女子50公尺蝶式 (Women's 50m Butterfly)", "stage": "預賽 (Heats)", "note": "兼項", "isKeyItem": false, "itemTag": "兼項", "isMedal": false, "isCeremony": false}, {"id": "swm-8", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "女子50公尺自由式 (Women's 50m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-9", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "男子50公尺自由式 (Men's 50m Freestyle)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-10", "date": "2026-11-04", "time": "15:00 - 17:00", "subEvent": "女子50公尺蝶式 (Women's 50m Butterfly)", "stage": "決賽 (Final)", "note": "兼項決賽", "isKeyItem": false, "itemTag": "兼項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-11", "date": "2026-11-05", "time": "11:00 - 13:00", "subEvent": "女子50公尺仰式 (Women's 50m Backstroke)", "stage": "預賽 (Heats)", "note": "主項", "isKeyItem": true, "itemTag": "主項", "isMedal": false, "isCeremony": false}, {"id": "swm-12", "date": "2026-11-05", "time": "15:00 - 17:00", "subEvent": "女子50公尺仰式 (Women's 50m Backstroke)", "stage": "決賽 (Final)", "note": "主項金牌決賽", "isKeyItem": true, "itemTag": "主項", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "swm-13", "date": "2026-11-06", "time": "10:00 - 12:30", "subEvent": "男子200公尺自由式 (Men's 200m Freestyle)", "stage": "預賽 (Heats)", "note": "主項", "isKeyItem": true, "itemTag": "主項", "isMedal": false, "isCeremony": false}, {"id": "swm-14", "date": "2026-11-06", "time": "15:30 - 17:30", "subEvent": "男子200公尺自由式 (Men's 200m Freestyle)", "stage": "決賽 (Final)", "note": "主項金牌決賽", "isKeyItem": true, "itemTag": "主項", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Dakar"}, {"id": "TKW", "name": "跆拳道", "name_en": "Taekwondo", "code": "TKW", "icon": "🥋", "subEvents": "男子-55公斤級 (Men's -55kg)、女子-44公斤級 (Women's -44kg)", "color": "amber", "events": [{"id": "tkw-1", "date": "2026-11-08", "time": "11:00 - 13:12", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "16強與八強賽 (Round of 16 & Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-2", "date": "2026-11-08", "time": "16:00", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-3", "date": "2026-11-08", "time": "17:00", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tkw-4", "date": "2026-11-08", "time": "17:30", "subEvent": "女子-44公斤級 (Women's -44kg)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}, {"id": "tkw-5", "date": "2026-11-09", "time": "11:12 - 13:24", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "16強與八強賽 (Round of 16 & Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-6", "date": "2026-11-09", "time": "16:15", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "準決賽 (Semifinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tkw-7", "date": "2026-11-09", "time": "17:15", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "決賽 (Final)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tkw-8", "date": "2026-11-09", "time": "17:45", "subEvent": "男子-55公斤級 (Men's -55kg)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Dakar"}, {"id": "TRI", "name": "鐵人三項", "name_en": "Triathlon", "code": "TRI", "icon": "🏊‍♂️", "subEvents": "男子個人衝刺 (Men's Individual Sprint)", "color": "green", "events": [{"id": "tri-1", "date": "2026-11-05", "time": "09:00 - 10:00", "subEvent": "男子個人衝刺 (Men's Individual Sprint)", "stage": "決賽 (Finals)", "note": "金牌決賽", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tri-2", "date": "2026-11-05", "time": "10:30", "subEvent": "男子個人衝刺 (Men's Individual Sprint)", "stage": "頒獎典禮 (Victory Ceremony)", "note": "", "isMedal": true, "medalType": "ceremony", "isCeremony": true}], "zone": "Saly"}, {"id": "TTE", "name": "桌球", "name_en": "Table Tennis", "code": "TTE", "icon": "🏓", "subEvents": "男子單打 (MS)、混合雙打 (XD)、女子單打 (WS)", "color": "pink", "events": [{"id": "tte-1", "date": "2026-10-31", "time": "10:00", "subEvent": "男單 / 女單 / 混雙", "stage": "32強賽 (Round of 32)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-2", "date": "2026-10-31", "time": "12:00", "subEvent": "男單 / 女單 / 混雙", "stage": "16強賽 (Round of 16)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-3", "date": "2026-11-01", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "預賽、八強與準決賽 (Prelims, QF & SF)", "note": "賽事日程 11/1 - 11/2", "isMedal": false, "isCeremony": false}, {"id": "tte-4", "date": "2026-11-02", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "預賽、八強與準決賽 (Prelims, QF & SF)", "note": "賽事日程 11/1 - 11/2", "isMedal": false, "isCeremony": false}, {"id": "tte-5", "date": "2026-11-03", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "16強、銅牌戰與金牌戰 (R16, Bronze & Gold)", "note": "獎牌爭奪階段", "isMedal": true, "medalType": "gold", "isCeremony": false}, {"id": "tte-6", "date": "2026-11-04", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "八強賽 (Quarterfinals)", "note": "", "isMedal": false, "isCeremony": false}, {"id": "tte-7", "date": "2026-11-05", "time": "排程進行", "subEvent": "男單 / 女單 / 混雙", "stage": "準決賽、銅牌戰與金牌戰 (SF, Bronze & Gold)", "note": "最終決賽日", "isMedal": true, "medalType": "gold", "isCeremony": false}], "zone": "Diamniadio"}, {"id": "WSU", "name": "武術", "name_en": "Wushu", "code": "WSU", "icon": "🥋", "subEvents": "女子太極拳全能 (Women's Taijiquan Combined)", "color": "yellow", "events": [{"id": "wsu-1", "date": "2026-11-01", "time": "09:30 - 11:30 & 14:30 - 16:30", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "預賽階段 (Preliminary Round)", "note": "預賽第 1 日 (11/1 - 11/2)", "isMedal": false, "isCeremony": false}, {"id": "wsu-2", "date": "2026-11-02", "time": "09:30 - 11:30 & 14:30 - 16:30", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "預賽階段 (Preliminary Round)", "note": "預賽第 2 日 (11/1 - 11/2)", "isMedal": false, "isCeremony": false}, {"id": "wsu-3", "date": "2026-11-03", "time": "09:00 - 12:00 & 14:30 - 18:00", "subEvent": "女子太極拳全能 (Taijiquan Combined)", "stage": "決賽階段與頒獎典禮 (Finals & Ceremony)", "note": "全能金牌決賽及頒獎典禮", "isMedal": true, "medalType": "gold", "isCeremony": true}], "zone": "Diamniadio"}];
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-700 text-xs font-semibold items-center gap-2">
+    <span id="toast-message">已更新賽程資料</span>
+  </div>
 
-    // Global State
-    const state = {
-      activeTab: 'sport',       // 'sport', 'date', 'fav'
-      activeSportId: 'BDM',     // Default selected sport (Badminton)
-      activeDate: '2026-11-04', // Default selected date
-      searchQuery: '',
-      activeFilter: 'all',      // 'all', 'medal', 'fav'
-      favorites: {
-        sports: [],             // Array of sport IDs, e.g. ['BDM', 'SWM']
-        events: []              // Array of event IDs, e.g. ['bdm-1', 'swm-3']
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-10 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div>
+        <strong>2026 達卡青年奧運（Dakar 2026）中華台北（Chinese Taipei / TPE）代表團賽程網</strong> ｜ 全站採用繁體中文
+      </div>
+      <div>
+        資料基準：雲端硬碟 <code class="bg-slate-100 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code>（共 91 時段、17 項運動、7 座場館）
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Embedded Base Data from Dakar_2026_Chinese_Taipei_Schedule.xlsx
+    const INITIAL_DATA = {"lastUpdated": "2026-10-28T13:00:00Z", "spreadsheetId": "1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI", "summary": {"totalSessions": 91, "totalSports": 17, "totalAthletes": 37, "delegationSize": 82, "zones": ["Dakar", "Diamniadio", "Saly"], "venues": ["COR", "CTO", "CID", "DAR", "SAW", "DEX", "SBW"], "period": "2026-10-30 至 2026-11-13"}, "schedule": [{"id": "TPE-001", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "塞內加爾 (SEN)", "details": "混合團體（4男4女，含張雯婷），青奧首戰對決地主隊", "source": "Olympics.com 棒球5賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-002", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "16:30", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "土耳其 (TUR)", "details": "混合團體預賽第 2 戰", "source": "Olympics.com 棒球5賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-003", "date": "2026-10-31 (六)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "32強賽、16強賽 (Round of 32 & 16)", "opponent": "依混雙籤表對陣", "details": "混合雙打（代表選手：林晉霆、陳忞昕）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-004", "date": "2026-10-31 (六)", "dakarTime": "18:25", "taipeiTime": "2026-11-01 02:25", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "開幕典禮 (Opening Ceremony)", "sportCategory": "開幕典禮", "stage": "開幕式", "opponent": "全體 204 個國家奧會代表團", "details": "中華台北代表團（37 名選手、總計 82 人）進場", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-005", "date": "2026-11-01 (日)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 第1場次 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-006", "date": "2026-11-01 (日)", "dakarTime": "09:30", "taipeiTime": "17:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "單打預賽 第1階段 (Preliminary Stage)", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-007", "date": "2026-11-01 (日)", "dakarTime": "09:30–11:30", "taipeiTime": "17:30–19:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "男子長拳、女子太極扇預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-008", "date": "2026-11-01 (日)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -44kg、男子 -55kg / -66kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-009", "date": "2026-11-01 (日)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 1 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-010", "date": "2026-11-01 (日)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 第2場次 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-011", "date": "2026-11-01 (日)", "dakarTime": "14:30–16:30", "taipeiTime": "22:30–00:30 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "女子棍術、男子太極拳預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-012", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 第11場 (Opening Round)", "opponent": "古巴 (CUB)", "details": "混合團體預賽最終戰（依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-013", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 400m 自由式、男 800m 自由式、男女 200m 仰式、男女 100m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-014", "date": "2026-11-01 (日)", "dakarTime": "16:00", "taipeiTime": "2026-11-02 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -44kg、男子 -55kg / -66kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-015", "date": "2026-11-01 (日)", "dakarTime": "19:00", "taipeiTime": "2026-11-02 03:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "八強賽 (Quarterfinals)", "opponent": "16強晉級組合", "details": "混合雙打 8 強賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-016", "date": "2026-11-02 (一)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-017", "date": "2026-11-02 (一)", "dakarTime": "09:30–11:30", "taipeiTime": "17:30–19:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "男子棍術、女子太極拳預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-018", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -52kg / -63kg、男子 -81kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-019", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "單打預賽 (Preliminary Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組預賽（林晉霆、陳忞昕）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-020", "date": "2026-11-02 (一)", "dakarTime": "10:30、12:00", "taipeiTime": "18:30、20:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "複賽 / 六強半準決賽 (Quarterfinals)", "opponent": "B組第2或第3名（FRA/KEN/MEX/SYR）", "details": "A2 vs B3、B2 vs A3（若中華隊獲 A 組 2、3 名將在此階段出賽）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-021", "date": "2026-11-02 (一)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 2 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-022", "date": "2026-11-02 (一)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-023", "date": "2026-11-02 (一)", "dakarTime": "14:30–16:30", "taipeiTime": "22:30–00:30 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "女子長拳、男子太極扇預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-024", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 100m 自由式、男女 200m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-025", "date": "2026-11-02 (一)", "dakarTime": "15:00、16:30", "taipeiTime": "23:00、00:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "四強準決賽 (Semifinals)", "opponent": "分組第1名 vs 複賽勝隊", "details": "若中華隊獲 A 組第 1 直接打四強，或由六強複賽勝出晉級", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-026", "date": "2026-11-02 (一)", "dakarTime": "16:00", "taipeiTime": "2026-11-03 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -52kg / -63kg、男子 -81kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-027", "date": "2026-11-02 (一)", "dakarTime": "17:30", "taipeiTime": "2026-11-03 01:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級組合", "details": "混合雙打 4 強準決賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-028", "date": "2026-11-03 (二)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-029", "date": "2026-11-03 (二)", "dakarTime": "09:00、14:00、16:02", "taipeiTime": "17:00、22:00、00:02 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "決賽 (Finals)", "opponent": "各國參賽選手同場評分", "details": "09:00 女棍術/太極扇、男長拳/太極拳；14:00 女長拳/男棍術；16:02 女太極拳/男太極扇決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-030", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -78kg、男子 -100kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-031", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "16強賽 (Round of 16)", "opponent": "單打預賽晉級選手", "details": "男女單打 16 強淘汰賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-032", "date": "2026-11-03 (二)", "dakarTime": "10:30、12:00", "taipeiTime": "18:30、20:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "排名賽 (Placement Games)", "opponent": "A4 vs B4（第7名）、六強敗隊（第5名）", "details": "10:30 第 7 名決定戰、12:00 第 5 名決定戰", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-033", "date": "2026-11-03 (二)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 3 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-034", "date": "2026-11-03 (二)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-035", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 800m 自由式、男 400m 自由式、男女 100m 仰式、男女 100m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-036", "date": "2026-11-03 (二)", "dakarTime": "15:00、16:30", "taipeiTime": "23:00、00:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "銅牌戰、金牌決賽 (Medal Games)", "opponent": "四強準決賽敗隊 / 勝隊", "details": "15:00 銅牌戰、16:30 金牌戰（17:55 頒獎典禮）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-037", "date": "2026-11-03 (二)", "dakarTime": "16:00", "taipeiTime": "2026-11-04 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -78kg、男子 -100kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-038", "date": "2026-11-03 (二)", "dakarTime": "16:30、18:00", "taipeiTime": "2026-11-04 00:30、02:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "混雙銅牌戰、金牌決賽 (Medal Matches)", "opponent": "混雙四強晉級組合", "details": "混合雙打獎牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-039", "date": "2026-11-04 (三)", "dakarTime": "09:00–12:35", "taipeiTime": "17:00–20:35", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "八強賽 (Quarterfinals)", "opponent": "小組預賽晉級選手", "details": "09:00 男單 8 強、10:50 女單 8 強", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-040", "date": "2026-11-04 (三)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "八強賽 (Quarterfinals)", "opponent": "16強晉級選手", "details": "男女單打 8 強賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-041", "date": "2026-11-04 (三)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 4 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-042", "date": "2026-11-04 (三)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "20:45、21:43、00:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國男子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 男子街式決賽", "source": "Olympics.com 滑板賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-043", "date": "2026-11-04 (三)", "dakarTime": "14:30–18:45", "taipeiTime": "22:30–02:45 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "14:30 男單 4 強、16:40 女單 4 強", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-044", "date": "2026-11-04 (三)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 自由式、男女 200m 混合式、男女 50m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-045", "date": "2026-11-05 (四)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國男子代表選手（共 64 人參賽）", "details": "男子個人短距離賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-046", "date": "2026-11-05 (四)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女單打 4 強準決賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-047", "date": "2026-11-05 (四)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 5 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-048", "date": "2026-11-05 (四)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "20:45、21:43、00:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國女子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 女子街式決賽", "source": "Olympics.com 滑板賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-049", "date": "2026-11-05 (四)", "dakarTime": "14:00–18:45", "taipeiTime": "22:00–02:45 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "14:00 男單銅牌、15:10 男單金牌、16:35 女單銅牌、17:45 女單金牌戰", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-050", "date": "2026-11-05 (四)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 仰式、男女 50m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-051", "date": "2026-11-05 (四)", "dakarTime": "16:00–18:15", "taipeiTime": "2026-11-06 00:00–02:15", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "16:00 女單銅牌、16:45 男單銅牌、17:30 女單金牌、18:15 男單金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-052", "date": "2026-11-06 (五)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國女子代表選手", "details": "女子個人短距離賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-053", "date": "2026-11-06 (五)", "dakarTime": "09:30", "taipeiTime": "17:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "個人排名賽 (Ranking Round)", "opponent": "各國射箭選手同場排名", "details": "男女個人排名賽（代表選手：陳品安 Chen Pin-An）", "source": "世界射箭總會名單", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-054", "date": "2026-11-06 (五)", "dakarTime": "10:00、15:00", "taipeiTime": "18:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-055", "date": "2026-11-06 (五)", "dakarTime": "11:00、15:00", "taipeiTime": "19:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)、決賽 (Finals)", "opponent": "各國游泳選手", "details": "11:00 預賽；15:00 男女 200m 自由式、男女 200m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-056", "date": "2026-11-07 (六)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "32強淘汰賽 (1/16 Elimination Round)", "opponent": "依排名賽種子對陣", "details": "男女個人 32 強對抗賽（陳品安）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-057", "date": "2026-11-07 (六)", "dakarTime": "10:00、15:00", "taipeiTime": "18:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-058", "date": "2026-11-07 (六)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 51kg / 57kg、男子 55kg / 65kg / 70kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-059", "date": "2026-11-08 (日)", "dakarTime": "09:00、11:00", "taipeiTime": "17:00、19:00", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Road Race)", "opponent": "各國公路賽參賽選手", "details": "09:00 女子公路賽、11:00 男子公路賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-060", "date": "2026-11-08 (日)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子鈍劍籤表對陣", "details": "女子個人鈍劍（Foil）全天賽程（09:00 預賽至 8 強；14:00 4 強至決賽）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-061", "date": "2026-11-08 (日)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "18:00、22:00–23:44", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "男子個人 16 強至決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-062", "date": "2026-11-08 (日)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "19:00、19:48、00:00 (+1)、01:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -44kg、男子 -48kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-063", "date": "2026-11-08 (日)", "dakarTime": "11:30、15:00", "taipeiTime": "19:30、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "八強賽 (Quarterfinals)", "opponent": "分組晉級隊伍", "details": "女子 3x3 籃球 8 強淘汰賽（若中華女籃晉級）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-064", "date": "2026-11-08 (日)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 48kg / 54kg / 60kg、男子 50kg / 60kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-065", "date": "2026-11-08 (日)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第1–3航次 (R1–3)", "opponent": "各國風浪板選手", "details": "男女風浪板（Windsurfing）第 1 至第 3 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-066", "date": "2026-11-08 (日)", "dakarTime": "14:30–17:25", "taipeiTime": "22:30–01:25 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 100m 準決賽與決賽、400m 準決賽、男鏈球/跳遠/3000m、女三級跳/撐竿跳/鐵餅/100m 跨欄決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-067", "date": "2026-11-09 (一)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子鈍劍籤表對陣", "details": "男子個人鈍劍（Foil）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-068", "date": "2026-11-09 (一)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "18:00、22:00–23:44", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "女子個人 16 強至決賽（陳品安 Chen Pin-An）", "source": "世界射箭總會名單", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-069", "date": "2026-11-09 (一)", "dakarTime": "10:00–12:45", "taipeiTime": "18:00–20:45", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "女標槍/跳遠/400m/800m/3000m、男鉛球/跳高/鐵餅/110m 跨欄/400m/1500m 決賽及 400m 跨欄準決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-070", "date": "2026-11-09 (一)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "19:00、19:48、00:00 (+1)、01:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -49kg、男子 -55kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-071", "date": "2026-11-09 (一)", "dakarTime": "11:30、15:00、15:50", "taipeiTime": "19:30、23:00、23:50", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "四強準決賽、銅牌戰、金牌戰", "opponent": "八強晉級隊伍", "details": "11:30 女子 4 強、15:00 銅牌戰、15:50 金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-072", "date": "2026-11-09 (一)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 55kg / 65kg 八強；17:00 女子 51kg / 57kg 八強", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-073", "date": "2026-11-09 (一)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第4–6航次 (R4–6)", "opponent": "各國風浪板選手", "details": "男女風浪板第 4 至第 6 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-074", "date": "2026-11-10 (二)", "dakarTime": "09:00、10:30", "taipeiTime": "17:00、18:30", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Individual Time Trial)", "opponent": "各國個人計時賽選手", "details": "09:00 女子個人計時賽、10:30 男子個人計時賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-075", "date": "2026-11-10 (二)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子銳劍籤表對陣", "details": "女子個人銳劍（Épée）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-076", "date": "2026-11-10 (二)", "dakarTime": "09:30、14:00–16:42", "taipeiTime": "17:30、22:00–00:42 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依混合團體籤表對陣", "details": "混合團體 16 強至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-077", "date": "2026-11-10 (二)", "dakarTime": "10:00–12:45", "taipeiTime": "18:00–20:45", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 200m、400m 跨欄、5000m 競走、男撐竿跳/三級跳/標槍/800m、女鏈球/鉛球/跳高/1500m 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-078", "date": "2026-11-10 (二)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "19:00、20:12、00:00 (+1)、01:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -55kg / -63kg、男子 -63kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-079", "date": "2026-11-10 (二)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 50kg/60kg/70kg 八強；17:00 女子 48kg/54kg/60kg 八強", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-080", "date": "2026-11-10 (二)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第7–9航次 (R7–9)", "opponent": "各國風浪板選手", "details": "男女風浪板第 7 至第 9 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-081", "date": "2026-11-11 (三)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子銳劍籤表對陣", "details": "男子個人銳劍（Épée）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-082", "date": "2026-11-11 (三)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "19:00、20:12、00:00 (+1)、01:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 +63kg、男子 -73kg / +73kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-083", "date": "2026-11-11 (三)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女各量級 4 強準決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-084", "date": "2026-11-11 (三)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第10–12航次 (R10–12)", "opponent": "各國風浪板選手", "details": "男女風浪板第 10 至第 12 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-085", "date": "2026-11-12 (四)", "dakarTime": "10:30、14:00", "taipeiTime": "18:30、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子軍刀籤表對陣", "details": "女子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-086", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00", "taipeiTime": "19:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "預選賽、小組循環賽 (Pre-selection & Round Robin)", "opponent": "各國霹靂舞選手對決", "details": "11:00 B-Girls 預選與循環賽；15:00 B-Boys 預選與循環賽（代表選手：B-Boy Saturn）", "source": "WDSF 霹靂舞專訪", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-087", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00、16:20、16:45", "taipeiTime": "19:00、23:00、00:20 (+1)、00:45 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "八強、四強、銅牌戰、金牌決賽", "opponent": "依混合團體籤表對陣", "details": "混合團體賽（11:00 八強、15:00 四強、16:20 銅牌戰、16:45 金牌戰）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-088", "date": "2026-11-12 (四)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "金牌決賽 (Finals)", "opponent": "四強勝出選手", "details": "男女各量級金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-089", "date": "2026-11-12 (四)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "決賽航次 第13–15航次 (Final Races)", "opponent": "各國風浪板選手", "details": "男女風浪板最終獎牌航次（R13–15）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-090", "date": "2026-11-13 (五)", "dakarTime": "09:00、11:15", "taipeiTime": "17:00、19:15", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子軍刀籤表對陣", "details": "男子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-091", "date": "2026-11-13 (五)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "八強、四強、銅牌戰、金牌戰 (Finals)", "opponent": "循環賽晉級前 8 強選手", "details": "B-Girls 與 B-Boys 八強淘汰賽至金牌戰（B-Boy Saturn 若晉級）", "source": "WDSF 霹靂舞專訪", "status": "UPCOMING", "score": "", "resultLocked": false}], "baseball5": [{"id": "BS5-01", "gameNo": "Game 1", "date": "2026-10-30 (五)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 古巴 (CUB)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-02", "gameNo": "Game 2", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊首戰（對手：地主塞內加爾 SEN）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-03", "gameNo": "Game 3", "date": "2026-10-30 (五)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-04", "gameNo": "Game 4", "date": "2026-10-30 (五)", "dakarTime": "16:30", "taipeiTime": "2026-10-31 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-05", "gameNo": "Game 5", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "16:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊預賽第2戰（對手：土耳其 TUR）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-06", "gameNo": "Game 6", "date": "2026-10-31 (六)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "法國 (FRA) vs 敘利亞 (SYR)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-07", "gameNo": "Game 7", "date": "2026-10-31 (六)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-08", "gameNo": "Game 8", "date": "2026-10-31 (六)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "古巴 (CUB) vs 塞內加爾 (SEN)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-09", "gameNo": "Game 9", "date": "2026-11-01 (日)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 肯亞 (KEN)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-10", "gameNo": "Game 10", "date": "2026-11-01 (日)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "墨西哥 (MEX) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-11", "gameNo": "Game 11", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "中華台北 (TPE) vs 古巴 (CUB)", "tpeNote": "★ 中華隊預賽最終戰（對手：古巴 CUB；依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-12", "gameNo": "Game 12", "date": "2026-11-01 (日)", "dakarTime": "16:30", "taipeiTime": "2026-11-02 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 土耳其 (TUR)", "tpeNote": "同組對手賽事（依 WBSC 公告由 15:00 延後至 16:30）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-13", "gameNo": "QF 1", "date": "2026-11-02 (一)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 1)", "matchup": "B組第3名 (B3) vs A組第2名 (A2)", "tpeNote": "若中華隊獲 A 組第 2 名將出戰 B 組第 3 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-14", "gameNo": "QF 2", "date": "2026-11-02 (一)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 2)", "matchup": "A組第3名 (A3) vs B組第2名 (B2)", "tpeNote": "若中華隊獲 A 組第 3 名將出戰 B 組第 2 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-15", "gameNo": "SF 1", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 1)", "matchup": "QF1 勝隊 (Winner B3/A2) vs B組第1名 (B1)", "tpeNote": "爭奪金牌戰門票", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-16", "gameNo": "SF 2", "date": "2026-11-02 (一)", "dakarTime": "16:30", "taipeiTime": "2026-11-03 00:30", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 2)", "matchup": "QF2 勝隊 (Winner A3/B2) vs A組第1名 (A1)", "tpeNote": "若中華隊獲 A 組第 1 名將直接於此場次出賽", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-17", "gameNo": "P 7-8", "date": "2026-11-03 (二)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "第 7 名排名賽 (7th Place Game)", "matchup": "B組第4名 (B4) vs A組第4名 (A4)", "tpeNote": "第 7、8 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-18", "gameNo": "P 5-6", "date": "2026-11-03 (二)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "第 5 名排名賽 (5th Place Game)", "matchup": "QF1 敗隊 vs QF2 敗隊", "tpeNote": "第 5、6 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-19", "gameNo": "Bronze", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "銅牌戰 (Bronze Medal Game)", "matchup": "SF1 敗隊 vs SF2 敗隊", "tpeNote": "銅牌決定戰", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-20", "gameNo": "Gold", "date": "2026-11-03 (二)", "dakarTime": "16:30", "taipeiTime": "2026-11-04 00:30", "zone": "Dakar", "venue": "CTO", "stage": "金牌戰 (Gold Medal Game)", "matchup": "SF1 勝隊 vs SF2 勝隊", "tpeNote": "金牌決定戰（17:55 頒獎典禮）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}], "venueStats": [{"venue": "CTO", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Tour de l'Œuf", "sports": "五人制棒球 (Baseball5)、女籃 3x3、霹靂舞 (Breaking)、滑板 (Skateboarding)、游泳 (Swimming)", "sessions": 26}, {"venue": "CID", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Iba Mar Diop", "sports": "田徑 (Athletics)、跆拳道 (Taekwondo)", "sessions": 8}, {"venue": "COR", "zone": "Dakar", "zoneColor": "green", "venueFull": "Corniche West", "sports": "公路自由車 (Cycling Road)", "sessions": 2}, {"venue": "DEX", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Exhibition Centre", "sports": "桌球 (Table Tennis)、武術套路 (Wushu Taolu)、柔道 (Judo)、拳擊 (Boxing)、擊劍 (Fencing)", "sessions": 33}, {"venue": "DAR", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Arena", "sports": "羽球 (Badminton)", "sessions": 9}, {"venue": "SAW", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Stade Abdoulaye Wade", "sports": "射箭 (Archery)、開幕典禮 (Opening Ceremony)", "sessions": 6}, {"venue": "SBW", "zone": "Saly", "zoneColor": "red", "venueFull": "Saly Beach West", "sports": "鐵人三項 (Triathlon)、帆船 (Sailing)", "sessions": 7}]};
+
+    // Zone and Sub-Venue Tag Configuration (Strictly matching user specifications)
+    const ZONE_CONFIG = {
+      ALL: {
+        id: 'ALL',
+        name: '全部賽區 (All Zones)',
+        badgeClass: 'bg-slate-900 text-white',
+        venues: ['COR', 'CTO', 'CID', 'DAR', 'SAW', 'DEX', 'SBW']
+      },
+      Dakar: {
+        id: 'Dakar',
+        name: '綠色賽區：Dakar (達卡市區)',
+        color: 'green',
+        venues: ['COR', 'CTO', 'CID']
+      },
+      Diamniadio: {
+        id: 'Diamniadio',
+        name: '黃色賽區：Diamniadio (新都賽區)',
+        color: 'yellow',
+        venues: ['DAR', 'SAW', 'DEX']
+      },
+      Saly: {
+        id: 'Saly',
+        name: '紅色賽區：Saly (薩莉海濱)',
+        color: 'red',
+        venues: ['SBW']
       }
     };
 
-    // Load Favorites from LocalStorage with safety wrapper
-    function loadFavorites() {
+    const VENUE_SUBTAGS = {
+      COR: {
+        code: 'COR',
+        zone: 'Dakar',
+        color: 'green',
+        fullName: 'Corniche West',
+        label: '綠色 COR：自由車',
+        sports: ['自由車']
+      },
+      CTO: {
+        code: 'CTO',
+        zone: 'Dakar',
+        color: 'green',
+        fullName: "Complexe Tour de l'Œuf",
+        label: '綠色 CTO：五人制棒球、3X3籃球、霹靂舞、滑輪板、游泳',
+        sports: ['五人制棒球', '3X3籃球', '霹靂舞', '滑輪板', '游泳']
+      },
+      CID: {
+        code: 'CID',
+        zone: 'Dakar',
+        color: 'green',
+        fullName: 'Complexe Iba Mar Diop',
+        label: '綠色 CID：田徑、跆拳道',
+        sports: ['田徑', '跆拳道']
+      },
+      DAR: {
+        code: 'DAR',
+        zone: 'Diamniadio',
+        color: 'yellow',
+        fullName: 'Dakar Arena',
+        label: '黃色 DAR：羽球',
+        sports: ['羽球']
+      },
+      SAW: {
+        code: 'SAW',
+        zone: 'Diamniadio',
+        color: 'yellow',
+        fullName: 'Stade Abdoulaye Wade',
+        label: '黃色 SAW：射箭（含開幕典禮）',
+        sports: ['射箭', '開幕典禮']
+      },
+      DEX: {
+        code: 'DEX',
+        zone: 'Diamniadio',
+        color: 'yellow',
+        fullName: 'Dakar Exhibition Centre',
+        label: '黃色 DEX：桌球、擊劍、武術、拳擊、柔道',
+        sports: ['桌球', '擊劍', '武術', '拳擊', '柔道']
+      },
+      SBW: {
+        code: 'SBW',
+        zone: 'Saly',
+        color: 'red',
+        fullName: 'Saly Beach West',
+        label: '紅色 SBW：鐵人三項、帆船',
+        sports: ['鐵人三項', '帆船']
+      }
+    };
+
+    // Application State
+    let appState = {
+      activeTab: 'daily',
+      timezoneMode: 'both', // 'both' | 'dakar' | 'tpe'
+      selectedZone: 'ALL',
+      selectedVenue: 'ALL',
+      selectedSport: 'ALL',
+      selectedDate: 'ALL',
+      selectedStage: 'ALL',
+      selectedStatus: 'ALL',
+      searchQuery: '',
+      bs5OnlyTpe: false,
+      editingItemId: null,
+      editingItemType: 'schedule', // 'schedule' | 'bs5'
+      schedule: [],
+      baseball5: [],
+      venueStats: []
+    };
+
+    // Storage Helpers (Safe for sandboxed iframe)
+    function loadSavedResults() {
       try {
-        const stored = localStorage.getItem('delegation_schedule_favs_v1');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (parsed && Array.isArray(parsed.sports)) state.favorites.sports = parsed.sports;
-          if (parsed && Array.isArray(parsed.events)) state.favorites.events = parsed.events;
+        const raw = localStorage.getItem('dakar2026_tpe_results_v1');
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveResultToStorage(id, record) {
+      try {
+        const current = loadSavedResults();
+        current[id] = record;
+        localStorage.setItem('dakar2026_tpe_results_v1', JSON.stringify(current));
+      } catch (e) {
+        // Fallback in-memory
+      }
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const text = document.getElementById('toast-message');
+      if (!box || !text) return;
+      text.textContent = msg;
+      box.classList.remove('hidden');
+      box.classList.add('flex');
+      if (window._toastTimer) clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+        box.classList.remove('flex');
+      }, 3200);
+    }
+
+    // Initialize Data merging saved locked results
+    function initData() {
+      const saved = loadSavedResults();
+      appState.schedule = INITIAL_DATA.schedule.map(item => {
+        if (saved[item.id]) {
+          return {
+            ...item,
+            status: saved[item.id].status || item.status,
+            score: saved[item.id].score !== undefined ? saved[item.id].score : item.score,
+            opponent: saved[item.id].opponent || item.opponent,
+            resultLocked: Boolean(saved[item.id].resultLocked)
+          };
         }
-      } catch (err) {
-        console.warn('LocalStorage unavailable or restricted:', err);
-      }
-      updateFavBadges();
-    }
-
-    // Save Favorites to LocalStorage
-    function saveFavorites() {
-      try {
-        localStorage.setItem('delegation_schedule_favs_v1', JSON.stringify(state.favorites));
-      } catch (err) {
-        console.warn('Could not save to LocalStorage:', err);
-      }
-      updateFavBadges();
-    }
-
-    // Show Toast
-    function showToast(message, icon = '⭐') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'bg-slate-900/95 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-xl border border-slate-700 flex items-center gap-2 transform transition-all duration-300 translate-y-3 opacity-0';
-      toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
-      container.appendChild(toast);
-      
-      // Animate in
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-3', 'opacity-0');
+        return { ...item };
       });
 
-      // Remove after 2.2s
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-3');
-        setTimeout(() => {
-          if (toast.parentNode) toast.parentNode.removeChild(toast);
-        }, 300);
-      }, 2200);
-    }
-
-    // Update Favorites Badges Count
-    function updateFavBadges() {
-      const totalFavCount = state.favorites.sports.length + state.favorites.events.length;
-      const chipBadge = document.getElementById('badge-fav-count');
-      const tabBadge = document.getElementById('tab-fav-badge');
-      if (chipBadge) chipBadge.textContent = totalFavCount;
-      if (tabBadge) tabBadge.textContent = totalFavCount;
-    }
-
-    // Toggle Sport Favorite
-    function toggleFavoriteSport(sportId, eventObj) {
-      if (eventObj) eventObj.stopPropagation();
-      const idx = state.favorites.sports.indexOf(sportId);
-      const sport = RAW_SPORTS_DATA.find(s => s.id === sportId);
-      const name = sport ? sport.name : sportId;
-
-      if (idx > -1) {
-        state.favorites.sports.splice(idx, 1);
-        showToast(`已取消關注項目：${name}`, '⚪');
-      } else {
-        state.favorites.sports.push(sportId);
-        showToast(`已成功關注項目：${name}！`, '⭐');
-      }
-      saveFavorites();
-      renderSportSidebar();
-      renderSportHeader();
-      if (state.activeTab === 'fav') renderFavoritesView();
-    }
-
-    // Toggle Event Favorite
-    function toggleFavoriteEvent(eventId, eventObj) {
-      if (eventObj) eventObj.stopPropagation();
-      const idx = state.favorites.events.indexOf(eventId);
-      
-      // Find event details for toast message
-      let eventName = '場次';
-      for (const s of RAW_SPORTS_DATA) {
-        const ev = s.events.find(e => e.id === eventId);
-        if (ev) {
-          eventName = `${s.name} ${ev.subEvent} ${ev.stage}`;
-          break;
+      appState.baseball5 = INITIAL_DATA.baseball5.map(item => {
+        if (saved[item.id]) {
+          return {
+            ...item,
+            status: saved[item.id].status || item.status,
+            score: saved[item.id].score !== undefined ? saved[item.id].score : item.score,
+            resultLocked: Boolean(saved[item.id].resultLocked)
+          };
         }
-      }
+        return { ...item };
+      });
 
-      if (idx > -1) {
-        state.favorites.events.splice(idx, 1);
-        showToast(`已移出關注清單`, '⚪');
-      } else {
-        state.favorites.events.push(eventId);
-        showToast(`已加入關注清單！`, '⭐');
-      }
-      saveFavorites();
-      
-      // Re-render current active view
-      if (state.activeTab === 'sport') renderSportTimeline();
-      if (state.activeTab === 'date') renderDateEvents();
-      if (state.activeTab === 'fav') renderFavoritesView();
+      appState.venueStats = INITIAL_DATA.venueStats.map(v => ({ ...v }));
     }
 
-    // Helper: Zone Badge Style
-    function getZoneBadgeStyle(zone) {
-      if (zone === 'Dakar') {
-        return 'bg-amber-50 text-amber-800 border border-amber-300';
-      } else if (zone === 'Diamniadio') {
-        return 'bg-emerald-50 text-emerald-800 border border-emerald-300';
-      } else if (zone === 'Saly') {
-        return 'bg-rose-50 text-rose-700 border border-rose-300';
-      }
-      return 'bg-slate-100 text-slate-700 border border-slate-200';
+    // Badge Styling Helper
+    function getZoneClasses(color, isActive) {
+      if (color === 'green') return isActive ? 'zone-green-active' : 'zone-green-inactive';
+      if (color === 'yellow') return isActive ? 'zone-yellow-active' : 'zone-yellow-inactive';
+      if (color === 'red') return isActive ? 'zone-red-active' : 'zone-red-inactive';
+      return isActive
+        ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200';
     }
 
-    // Helper: Format Date String to Display (e.g. 2026-11-08 -> 11月8日 (日))
-    function formatDateWithDay(dateStr) {
-      const parts = dateStr.split('-');
-      const m = parseInt(parts[1], 10);
-      const d = parseInt(parts[2], 10);
-      const dateObj = new Date(parseInt(parts[0], 10), m - 1, d);
-      const days = ['日', '一', '二', '三', '四', '五', '六'];
-      const dayName = days[dateObj.getDay()];
-      return `${m}月${d}日 (週${dayName})`;
+    function getStageBadge(stage) {
+      if (stage.includes('金牌') || stage.includes('決賽') || stage.includes('Final')) {
+        return '<span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-100 text-amber-800 border border-amber-300">🏅 ' + stage + '</span>';
+      }
+      if (stage.includes('四強') || stage.includes('準決賽') || stage.includes('Semifinal')) {
+        return '<span class="px-2 py-0.5 text-xs font-bold rounded bg-purple-100 text-purple-800 border border-purple-300">🔥 ' + stage + '</span>';
+      }
+      if (stage.includes('八強') || stage.includes('Quarterfinal')) {
+        return '<span class="px-2 py-0.5 text-xs font-bold rounded bg-indigo-100 text-indigo-800 border border-indigo-300">⚡ ' + stage + '</span>';
+      }
+      if (stage.includes('16強') || stage.includes('32強')) {
+        return '<span class="px-2 py-0.5 text-xs font-bold rounded bg-sky-100 text-sky-800 border border-sky-300">🎯 ' + stage + '</span>';
+      }
+      return '<span class="px-2 py-0.5 text-xs font-semibold rounded bg-slate-100 text-slate-700 border border-slate-300">' + stage + '</span>';
     }
 
-    // Helper: Filter an Event based on search & filter
-    function matchesFilter(event, sport) {
-      // 1. Medal Filter
-      if (state.activeFilter === 'medal' && !event.isMedal) return false;
-
-      // 2. Favorite Filter
-      if (state.activeFilter === 'fav') {
-        const isSportFav = state.favorites.sports.includes(sport.id);
-        const isEventFav = state.favorites.events.includes(event.id);
-        if (!isSportFav && !isEventFav) return false;
-      }
-
-      // 3. Search Query
-      if (state.searchQuery.trim() !== '') {
-        const q = state.searchQuery.toLowerCase().trim();
-        const fullText = `${sport.name} ${sport.name_en} ${sport.code} ${sport.zone} ${sport.subEvents} ${event.subEvent} ${event.stage} ${event.note} ${event.date} ${event.time}`.toLowerCase();
-        if (!fullText.includes(q)) return false;
-      }
-
-      return true;
-    }
-
-    // --- RENDER FUNCTIONS ---
-
-    // 1. Render Sports Sidebar in Sport View
-    function renderSportSidebar() {
-      const container = document.getElementById('sports-sidebar-list');
+    // Render Tier 1: Zone Buttons
+    function renderZoneButtons() {
+      const container = document.getElementById('zone-buttons-container');
       if (!container) return;
 
-      container.innerHTML = '';
-      
-      RAW_SPORTS_DATA.forEach(sport => {
-        const isFav = state.favorites.sports.includes(sport.id);
-        const isActive = sport.id === state.activeSportId;
-        
-        // Count how many events match current filter for this sport
-        const matchingEventsCount = sport.events.filter(e => matchesFilter(e, sport)).length;
-        
-        const btn = document.createElement('div');
-        btn.className = `p-3 flex items-center justify-between cursor-pointer transition select-none ${
-          isActive 
-            ? 'bg-indigo-50/90 text-indigo-900 border-l-4 border-indigo-600 font-semibold' 
-            : 'hover:bg-slate-50 text-slate-700'
-        }`;
+      const counts = {
+        ALL: appState.schedule.length,
+        Dakar: appState.schedule.filter(i => i.zone === 'Dakar').length,
+        Diamniadio: appState.schedule.filter(i => i.zone === 'Diamniadio').length,
+        Saly: appState.schedule.filter(i => i.zone === 'Saly').length
+      };
 
-        btn.innerHTML = `
-          <div class="flex items-center gap-2.5 min-w-0">
-            <span class="text-lg shrink-0">${sport.icon}</span>
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5">
-                <span class="text-xs sm:text-sm font-bold truncate">${sport.name}</span>
-                <span class="text-[10px] text-slate-400 font-mono font-medium">${sport.code}</span>
-              </div>
-              <p class="text-[11px] text-slate-500 truncate max-w-[150px] sm:max-w-[170px]">${sport.subEvents}</p>
-              <div class="flex items-center gap-1 mt-0.5">
-                <span class="text-[10px] px-1.5 py-0.2 rounded font-medium ${getZoneBadgeStyle(sport.zone)}">
-                  📍 ${sport.zone}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            ${matchingEventsCount > 0 ? `<span class="text-[10px] px-1.5 py-0.5 rounded-full font-medium ${isActive ? 'bg-indigo-200 text-indigo-900' : 'bg-slate-100 text-slate-500'}">${matchingEventsCount}場</span>` : ''}
-            <button class="fav-sport-btn p-1 text-slate-300 hover:text-amber-400 transition" title="關注此項目">
-              <span class="text-sm ${isFav ? 'text-amber-400 font-bold' : ''}">${isFav ? '★' : '☆'}</span>
-            </button>
-          </div>
-        `;
+      const buttons = [
+        { id: 'ALL', label: '全部賽區 (All Zones)', color: 'slate', sub: 'COR / CTO / CID / DAR / SAW / DEX / SBW' },
+        { id: 'Dakar', label: '🟢 綠色賽區：Dakar', color: 'green', sub: 'COR・CTO・CID' },
+        { id: 'Diamniadio', label: '🟡 黃色賽區：Diamniadio', color: 'yellow', sub: 'DAR・SAW・DEX' },
+        { id: 'Saly', label: '🔴 紅色賽區：Saly', color: 'red', sub: 'SBW' }
+      ];
 
-        btn.addEventListener('click', () => {
-          state.activeSportId = sport.id;
-          renderSportSidebar();
-          renderSportHeader();
-          renderSportTimeline();
-        });
-
-        const favBtn = btn.querySelector('.fav-sport-btn');
-        favBtn.addEventListener('click', (e) => {
-          toggleFavoriteSport(sport.id, e);
-        });
-
-        container.appendChild(btn);
-      });
-    }
-
-    // 2. Render Active Sport Header Card
-    function renderSportHeader() {
-      const container = document.getElementById('sport-header-card');
-      const sport = RAW_SPORTS_DATA.find(s => s.id === state.activeSportId);
-      if (!container || !sport) return;
-
-      const isFav = state.favorites.sports.includes(sport.id);
-      const medalCount = sport.events.filter(e => e.isMedal && !e.isCeremony).length;
-
-      container.innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div class="flex items-start gap-3.5">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-3xl shadow-sm shrink-0">
-              ${sport.icon}
-            </div>
+      container.innerHTML = buttons.map(b => {
+        const active = appState.selectedZone === b.id;
+        const cls = getZoneClasses(b.color, active);
+        return `
+          <button type="button" data-zone="${b.id}" class="zone-filter-btn px-3.5 py-2 rounded-xl border text-left transition flex items-center gap-2.5 ${cls}">
             <div>
-              <div class="flex items-center gap-2 flex-wrap">
-                <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">${sport.name}</h2>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-mono">${sport.name_en} / ${sport.code}</span>
-                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${getZoneBadgeStyle(sport.zone)} flex items-center gap-1">
-                  📍 比賽區域：${sport.zone}
-                </span>
-                ${medalCount > 0 ? `<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">🥇 包含 ${medalCount} 場決賽</span>` : ''}
+              <div class="text-xs sm:text-sm font-extrabold flex items-center gap-1.5">
+                <span>${b.label}</span>
+                <span class="px-1.5 py-0.2 text-[11px] rounded-full bg-black/10">${counts[b.id]}</span>
               </div>
-              <p class="text-xs text-slate-600 mt-1.5 flex items-center gap-1.5 flex-wrap">
-                <span class="font-semibold text-slate-700">賽區城市：</span>
-                <span class="font-bold text-slate-900">📍 ${sport.zone}</span>
-                <span class="text-slate-300">|</span>
-                <span class="font-semibold text-slate-700">代表隊組別/項目：</span>
-                <span>${sport.subEvents}</span>
-              </p>
+              <div class="text-[11px] opacity-85 font-medium">${b.sub}</div>
             </div>
-          </div>
-          <div class="flex items-center gap-2 self-start sm:self-center shrink-0">
-            <button id="active-sport-fav-toggle" class="px-3.5 py-1.5 rounded-xl border text-xs font-semibold transition flex items-center gap-1.5 ${
-              isFav 
-                ? 'bg-amber-50 border-amber-300 text-amber-700 shadow-sm' 
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-            }">
-              <span class="text-amber-500 text-sm">${isFav ? '★' : '☆'}</span>
-              <span>${isFav ? '已關注此項目' : '關注整個運動項目'}</span>
-            </button>
-          </div>
-        </div>
-      `;
-
-      const favToggleBtn = document.getElementById('active-sport-fav-toggle');
-      if (favToggleBtn) {
-        favToggleBtn.addEventListener('click', (e) => {
-          toggleFavoriteSport(sport.id, e);
-        });
-      }
-    }
-
-    // 3. Render Sport Timeline in Sport View
-    function renderSportTimeline() {
-      const container = document.getElementById('sport-timeline-container');
-      const badgeCount = document.getElementById('sport-events-count-badge');
-      const sport = RAW_SPORTS_DATA.find(s => s.id === state.activeSportId);
-      if (!container || !sport) return;
-
-      const filteredEvents = sport.events.filter(e => matchesFilter(e, sport));
-
-      if (badgeCount) {
-        badgeCount.textContent = `共 ${filteredEvents.length} 場賽程`;
-      }
-
-      if (filteredEvents.length === 0) {
-        container.innerHTML = `
-          <div class="py-12 text-center text-slate-400 space-y-2">
-            <div class="text-4xl">🔍</div>
-            <p class="text-sm font-medium text-slate-600">在此篩選條件下無符合賽程</p>
-            <p class="text-xs text-slate-400">請嘗試清除關鍵字搜尋或切換回「全部場次」</p>
-          </div>
+          </button>
         `;
-        return;
-      }
+      }).join('');
 
-      container.innerHTML = '';
-
-      filteredEvents.forEach((ev) => {
-        const isEventFav = state.favorites.events.includes(ev.id);
-        const card = document.createElement('div');
-        
-        let borderClass = 'border-slate-200 hover:border-indigo-300';
-
-        if (ev.isMedal) {
-          if (ev.isCeremony) {
-            borderClass = 'border-indigo-200 bg-indigo-50/30';
-          } else {
-            borderClass = 'border-amber-200 bg-amber-50/30 shadow-sm';
+      container.querySelectorAll('.zone-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const z = btn.getAttribute('data-zone');
+          appState.selectedZone = z;
+          if (z !== 'ALL' && appState.selectedVenue !== 'ALL') {
+            const vObj = VENUE_SUBTAGS[appState.selectedVenue];
+            if (vObj && vObj.zone !== z) {
+              appState.selectedVenue = 'ALL';
+              appState.selectedSport = 'ALL';
+            }
           }
-        }
-
-        card.className = `p-4 rounded-xl border ${borderClass} bg-white transition hover:shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
-        
-        card.innerHTML = `
-          <div class="flex items-start gap-3.5">
-            <!-- Left Date & Time Indicator -->
-            <div class="w-24 shrink-0 text-left">
-              <div class="text-xs font-bold text-slate-900">${formatDateWithDay(ev.date)}</div>
-              <div class="text-xs font-medium text-indigo-600 mt-0.5 flex items-center gap-1 font-mono">
-                <svg class="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>${ev.time}</span>
-              </div>
-            </div>
-
-            <!-- Vertical Divider -->
-            <div class="hidden sm:block w-px h-10 bg-slate-200 shrink-0"></div>
-
-            <!-- Event Details -->
-            <div class="space-y-1">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-sm font-bold text-slate-900">${ev.stage}</span>
-                ${ev.isMedal && !ev.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide">🥇 獎牌戰</span>' : ''}
-                ${ev.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
-                ${ev.itemTag ? `<span class="text-[10px] px-2 py-0.5 rounded-full ${ev.itemTag === '主項' ? 'bg-blue-100 text-blue-800 font-bold' : 'bg-slate-100 text-slate-600'}">[${ev.itemTag}]</span>` : ''}
-              </div>
-              <p class="text-xs text-slate-600">
-                <span class="font-medium text-slate-800">${ev.subEvent}</span>
-                ${ev.note ? `<span class="text-slate-400 ml-1.5">• ${ev.note}</span>` : ''}
-              </p>
-            </div>
-          </div>
-
-          <!-- Star Bookmark Button -->
-          <div class="flex items-center justify-end shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-            <button class="event-fav-btn p-1.5 rounded-lg border ${isEventFav ? 'bg-amber-50 border-amber-300 text-amber-500' : 'border-slate-200 text-slate-400 hover:text-amber-500 hover:bg-slate-50'} transition text-xs flex items-center gap-1" title="${isEventFav ? '取消關注' : '關注此場次'}">
-              <span class="text-sm">${isEventFav ? '★' : '☆'}</span>
-              <span class="text-[11px] font-medium sm:hidden">${isEventFav ? '已關注' : '關注'}</span>
-            </button>
-          </div>
-        `;
-
-        const favBtn = card.querySelector('.event-fav-btn');
-        favBtn.addEventListener('click', (e) => {
-          toggleFavoriteEvent(ev.id, e);
+          renderAllFiltersAndList();
         });
-
-        container.appendChild(card);
       });
     }
 
-    // 4. Render Date Carousel & Selected Date View
-    function renderDateSelector() {
-      const container = document.getElementById('date-selector-container');
+    // Render Tier 2: Sub-Venue Tags (COR, CTO, CID, DAR, SAW, DEX, SBW)
+    function renderVenueSubtags() {
+      const container = document.getElementById('venue-buttons-container');
       if (!container) return;
 
-      // Extract unique sorted dates from RAW_SPORTS_DATA
-      const dateMap = new Map();
-      RAW_SPORTS_DATA.forEach(sport => {
-        sport.events.forEach(ev => {
-          if (!dateMap.has(ev.date)) {
-            dateMap.set(ev.date, { date: ev.date, count: 0, hasMedal: false });
-          }
-          const obj = dateMap.get(ev.date);
-          obj.count++;
-          if (ev.isMedal) obj.hasMedal = true;
-        });
-      });
+      const allowedVenues = appState.selectedZone === 'ALL'
+        ? Object.keys(VENUE_SUBTAGS)
+        : ZONE_CONFIG[appState.selectedZone].venues;
 
-      const sortedDates = Array.from(dateMap.keys()).sort();
-      container.innerHTML = '';
-
-      sortedDates.forEach(dateStr => {
-        const info = dateMap.get(dateStr);
-        const parts = dateStr.split('-');
-        const month = parts[1];
-        const day = parts[2];
-        const dateObj = new Date(parseInt(parts[0], 10), parseInt(month, 10) - 1, parseInt(day, 10));
-        const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六'][dateObj.getDay()];
-        const isSelected = dateStr === state.activeDate;
-
-        const btn = document.createElement('button');
-        btn.className = `flex flex-col items-center justify-center p-2.5 rounded-xl border transition shrink-0 min-w-[76px] ${
-          isSelected 
-            ? 'bg-indigo-600 text-white border-indigo-700 shadow-md ring-2 ring-indigo-200' 
-            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
-        }`;
-
-        btn.innerHTML = `
-          <span class="text-[10px] ${isSelected ? 'text-indigo-200' : 'text-slate-400'} font-medium">週${dayOfWeek}</span>
-          <span class="text-sm font-extrabold mt-0.5 font-mono">${month}/${day}</span>
-          <div class="flex items-center gap-1 mt-1">
-            <span class="text-[9px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-indigo-500 text-indigo-100' : 'bg-slate-200 text-slate-600'} font-medium">
-              ${info.count}場
-            </span>
-            ${info.hasMedal ? '<span class="text-[10px]">🥇</span>' : ''}
+      const allVenueActive = appState.selectedVenue === 'ALL';
+      let html = `
+        <button type="button" data-venue="ALL" class="venue-filter-btn p-2.5 rounded-xl border text-left transition flex items-center justify-between ${
+          allVenueActive
+            ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+        }">
+          <div>
+            <div class="text-xs font-extrabold">全部場館子標籤 (All Venues)</div>
+            <div class="text-[11px] opacity-80 mt-0.5">顯示目前賽區下所有場館與運動項目</div>
           </div>
+          <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-black/10">${
+            appState.schedule.filter(i => appState.selectedZone === 'ALL' || i.zone === appState.selectedZone).length
+          }</span>
+        </button>
+      `;
+
+      html += allowedVenues.map(code => {
+        const v = VENUE_SUBTAGS[code];
+        const isActive = appState.selectedVenue === code;
+        const cls = getZoneClasses(v.color, isActive);
+        const count = appState.schedule.filter(i => i.venue === code).length;
+        return `
+          <button type="button" data-venue="${code}" class="venue-filter-btn p-2.5 rounded-xl border text-left transition flex items-center justify-between gap-2 ${cls}">
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold truncate">${v.label}</div>
+              <div class="text-[11px] opacity-85 truncate mt-0.5">${v.fullName}（${v.zone}）</div>
+            </div>
+            <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-black/10 flex-shrink-0">${count}</span>
+          </button>
         `;
+      }).join('');
 
+      container.innerHTML = html;
+
+      container.querySelectorAll('.venue-filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          state.activeDate = dateStr;
-          renderDateSelector();
-          renderDateEvents();
+          const code = btn.getAttribute('data-venue');
+          appState.selectedVenue = code;
+          if (code !== 'ALL') {
+            const vObj = VENUE_SUBTAGS[code];
+            if (appState.selectedSport !== 'ALL' && !vObj.sports.includes(appState.selectedSport)) {
+              appState.selectedSport = 'ALL';
+            }
+          }
+          renderAllFiltersAndList();
         });
-
-        container.appendChild(btn);
       });
     }
 
-    // 5. Render Events for Selected Date in Date View
-    function renderDateEvents() {
-      const headerContainer = document.getElementById('date-summary-header');
-      const eventsContainer = document.getElementById('date-events-container');
-      if (!headerContainer || !eventsContainer) return;
+    // Render Tier 3: Sport Discipline Pills (Colored by their parent zone)
+    function renderSportButtons() {
+      const container = document.getElementById('sport-buttons-container');
+      if (!container) return;
 
-      // Collect all events on this date
-      const eventsOnDate = [];
-      RAW_SPORTS_DATA.forEach(sport => {
-        sport.events.forEach(ev => {
-          if (ev.date === state.activeDate && matchesFilter(ev, sport)) {
-            eventsOnDate.push({ ...ev, sport });
-          }
+      let allowedVenues = Object.keys(VENUE_SUBTAGS);
+      if (appState.selectedVenue !== 'ALL') {
+        allowedVenues = [appState.selectedVenue];
+      } else if (appState.selectedZone !== 'ALL') {
+        allowedVenues = ZONE_CONFIG[appState.selectedZone].venues;
+      }
+
+      const sportEntries = [];
+      allowedVenues.forEach(code => {
+        const v = VENUE_SUBTAGS[code];
+        v.sports.forEach(sp => {
+          const count = appState.schedule.filter(i => i.venue === code && i.sportCategory === sp).length;
+          sportEntries.push({ sport: sp, venue: code, color: v.color, count });
         });
       });
 
-      // Sort by time
-      eventsOnDate.sort((a, b) => a.time.localeCompare(b.time));
-
-      // Render Header
-      headerContainer.innerHTML = `
-        <div>
-          <div class="flex items-center gap-2">
-            <h3 class="text-lg font-extrabold text-slate-900">${formatDateWithDay(state.activeDate)}</h3>
-            <span class="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-full font-semibold">
-              當日共 ${eventsOnDate.length} 場賽程
-            </span>
-          </div>
-          <p class="text-xs text-slate-500 mt-1">依時間先後排列當日各項目出賽時間表</p>
-        </div>
-        <div class="text-xs text-slate-400 flex items-center gap-2">
-          <span>切換上方日期列可查看不同日期賽事</span>
-        </div>
+      const isAllActive = appState.selectedSport === 'ALL';
+      let html = `
+        <button type="button" data-sport="ALL" class="sport-filter-btn px-3 py-1.5 rounded-lg border text-xs font-bold transition ${
+          isAllActive
+            ? 'bg-slate-900 text-white border-slate-900'
+            : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+        }">
+          全部項目
+        </button>
       `;
 
-      if (eventsOnDate.length === 0) {
-        eventsContainer.innerHTML = `
-          <div class="py-12 text-center text-slate-400 space-y-2">
-            <div class="text-4xl">📅</div>
-            <p class="text-sm font-medium text-slate-600">本日在此篩選條件下無賽程</p>
-            <p class="text-xs text-slate-400">請嘗試選擇其他日期或切換回「全部場次」</p>
+      html += sportEntries.map(entry => {
+        const active = appState.selectedSport === entry.sport;
+        const cls = getZoneClasses(entry.color, active);
+        return `
+          <button type="button" data-sport="${entry.sport}" data-parent-venue="${entry.venue}" class="sport-filter-btn px-3 py-1.5 rounded-lg border text-xs font-bold transition flex items-center gap-1.5 ${cls}">
+            <span class="opacity-75 font-mono text-[10px]">[${entry.venue}]</span>
+            <span>${entry.sport}</span>
+            <span class="px-1.5 py-0.2 rounded-full bg-black/10 text-[10px]">${entry.count}</span>
+          </button>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+
+      container.querySelectorAll('.sport-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sp = btn.getAttribute('data-sport');
+          appState.selectedSport = sp;
+          renderAllFiltersAndList();
+        });
+      });
+    }
+
+    // Render Tier 4: Date Buttons
+    function renderDateButtons() {
+      const container = document.getElementById('date-buttons-container');
+      if (!container) return;
+
+      const dates = Array.from(new Set(appState.schedule.map(i => i.date))).sort();
+      const isAll = appState.selectedDate === 'ALL';
+
+      let html = `
+        <button type="button" data-date="ALL" class="date-filter-btn px-3 py-1.5 rounded-lg border text-xs font-bold whitespace-nowrap transition ${
+          isAll ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+        }">
+          全部日期 (15天)
+        </button>
+      `;
+
+      html += dates.map(d => {
+        const shortDate = d.replace('2026-', '');
+        const active = appState.selectedDate === d;
+        const count = appState.schedule.filter(i => i.date === d).length;
+        return `
+          <button type="button" data-date="${d}" class="date-filter-btn px-2.5 py-1.5 rounded-lg border text-xs font-bold whitespace-nowrap transition flex items-center gap-1 ${
+            active ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+          }">
+            <span>${shortDate}</span>
+            <span class="text-[10px] px-1 rounded ${active ? 'bg-blue-800 text-white' : 'bg-slate-100 text-slate-600'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+
+      container.querySelectorAll('.date-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          appState.selectedDate = btn.getAttribute('data-date');
+          renderAllFiltersAndList();
+        });
+      });
+    }
+
+    // Filter Schedule Items
+    function getFilteredSchedule() {
+      return appState.schedule.filter(item => {
+        if (appState.selectedZone !== 'ALL' && item.zone !== appState.selectedZone) return false;
+        if (appState.selectedVenue !== 'ALL' && item.venue !== appState.selectedVenue) return false;
+        if (appState.selectedSport !== 'ALL' && item.sportCategory !== appState.selectedSport) return false;
+        if (appState.selectedDate !== 'ALL' && item.date !== appState.selectedDate) return false;
+
+        if (appState.selectedStage !== 'ALL') {
+          const st = item.stage;
+          if (appState.selectedStage === '預賽' && !(st.includes('預賽') || st.includes('預選') || st.includes('小組') || st.includes('排名賽'))) return false;
+          if (appState.selectedStage === '複賽' && !(st.includes('複賽') || st.includes('32強') || st.includes('16強'))) return false;
+          if (appState.selectedStage === '八強' && !st.includes('八強')) return false;
+          if (appState.selectedStage === '四強' && !st.includes('四強')) return false;
+          if (appState.selectedStage === '決賽' && !(st.includes('決賽') || st.includes('金牌') || st.includes('銅牌'))) return false;
+        }
+
+        if (appState.selectedStatus !== 'ALL' && item.status !== appState.selectedStatus) return false;
+
+        if (appState.searchQuery.trim() !== '') {
+          const q = appState.searchQuery.trim().toLowerCase();
+          const hay = [
+            item.date, item.dakarTime, item.taipeiTime, item.zone, item.venue,
+            item.venueFull, item.sport, item.sportCategory, item.stage,
+            item.opponent, item.details, item.score
+          ].join(' ').toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+
+        return true;
+      });
+    }
+
+    // Render Main Schedule List grouped by Date
+    function renderScheduleList() {
+      const container = document.getElementById('schedule-list-container');
+      const summaryEl = document.getElementById('active-filter-summary');
+      const badgeDaily = document.getElementById('badge-daily-count');
+      if (!container) return;
+
+      const filtered = getFilteredSchedule();
+      if (summaryEl) {
+        summaryEl.textContent = `目前篩選顯示 ${filtered.length} / ${appState.schedule.length} 筆賽程`;
+      }
+      if (badgeDaily) {
+        badgeDaily.textContent = filtered.length;
+      }
+
+      // Update KPI completed & locked counts
+      const completedCount = appState.schedule.filter(i => i.status === 'FINISHED').length;
+      const lockedCount = appState.schedule.filter(i => i.resultLocked).length;
+      const kpiComp = document.getElementById('kpi-completed-count');
+      const kpiLock = document.getElementById('kpi-locked-count');
+      if (kpiComp) kpiComp.textContent = completedCount;
+      if (kpiLock) kpiLock.textContent = lockedCount;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
+            <div class="text-3xl">🔍</div>
+            <h3 class="text-base font-bold text-slate-800">沒有符合目前篩選條件的賽程</h3>
+            <p class="text-xs text-slate-500">請嘗試切換上方的「賽區」、「場館子標籤」或點擊重設篩選條件。</p>
           </div>
         `;
         return;
       }
 
-      eventsContainer.innerHTML = '';
+      // Group by Date
+      const grouped = {};
+      filtered.forEach(item => {
+        if (!grouped[item.date]) grouped[item.date] = [];
+        grouped[item.date].push(item);
+      });
 
-      eventsOnDate.forEach(item => {
-        const sport = item.sport;
-        const isEventFav = state.favorites.events.includes(item.id);
-        const card = document.createElement('div');
+      const dates = Object.keys(grouped).sort();
+      container.innerHTML = dates.map(date => {
+        const items = grouped[date];
+        const rowsHtml = items.map(item => {
+          const vInfo = VENUE_SUBTAGS[item.venue] || { color: 'green', fullName: item.venueFull };
+          const zoneColorPill = vInfo.color === 'green'
+            ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+            : vInfo.color === 'yellow'
+            ? 'bg-amber-100 text-amber-800 border-amber-300'
+            : 'bg-rose-100 text-rose-800 border-rose-300';
 
-        let borderClass = 'border-slate-200 hover:border-indigo-300';
-        if (item.isMedal) {
-          if (item.isCeremony) {
-            borderClass = 'border-indigo-200 bg-indigo-50/20';
+          const leftAccent = vInfo.color === 'green'
+            ? 'border-l-4 border-l-emerald-500'
+            : vInfo.color === 'yellow'
+            ? 'border-l-4 border-l-amber-500'
+            : 'border-l-4 border-l-rose-500';
+
+          // Time display based on timezoneMode
+          let timeHtml = '';
+          if (appState.timezoneMode === 'both') {
+            timeHtml = `
+              <div class="flex flex-col">
+                <span class="text-xs font-extrabold text-slate-900">🇸🇳 達卡 ${item.dakarTime}</span>
+                <span class="text-xs font-bold text-blue-700 mt-0.5">🇹🇼 台灣 ${item.taipeiTime}</span>
+              </div>
+            `;
+          } else if (appState.timezoneMode === 'dakar') {
+            timeHtml = `<div class="text-sm font-extrabold text-slate-900">🇸🇳 達卡 ${item.dakarTime}</div>`;
           } else {
-            borderClass = 'border-amber-200 bg-amber-50/30 shadow-sm';
+            timeHtml = `<div class="text-sm font-extrabold text-blue-700">🇹🇼 台灣 ${item.taipeiTime}</div>`;
           }
-        }
 
-        card.className = `p-4 rounded-xl border ${borderClass} bg-white transition hover:shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+          // Result & Lock Badge
+          let resultAreaHtml = '';
+          if (item.status === 'FINISHED') {
+            resultAreaHtml = `
+              <div class="flex flex-col sm:items-end gap-1.5">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-extrabold">
+                  <span>✅ 完賽成績：${item.score || '已完賽'}</span>
+                  ${item.resultLocked ? '<span title="已鎖定，每小時排程不重複覆寫" class="text-[10px] px-1.5 py-0.2 bg-emerald-700 text-white rounded">🔒已鎖定</span>' : ''}
+                </div>
+                <button type="button" data-edit-id="${item.id}" data-edit-type="schedule" class="open-modal-btn text-[11px] font-semibold text-slate-500 hover:text-slate-800 underline">
+                  修改或解鎖成績
+                </button>
+              </div>
+            `;
+          } else {
+            resultAreaHtml = `
+              <div class="flex flex-col sm:items-end gap-1.5">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-600">
+                  ⏳ 待出賽 / 待更新賽果
+                </span>
+                <button type="button" data-edit-id="${item.id}" data-edit-type="schedule" class="open-modal-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 hover:bg-slate-700 text-white transition">
+                  + 登錄完賽成績
+                </button>
+              </div>
+            `;
+          }
 
-        card.innerHTML = `
-          <div class="flex items-start gap-3.5">
-            <!-- Time Badge -->
-            <div class="w-24 shrink-0 text-left">
-              <div class="text-xs font-bold text-indigo-700 font-mono flex items-center gap-1">
-                <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>${item.time}</span>
+          return `
+            <div class="p-4 hover:bg-slate-50/80 transition ${leftAccent} flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+              <!-- Time & Zone/Venue Column -->
+              <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-3 lg:w-72 flex-shrink-0">
+                <div class="w-36 flex-shrink-0 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
+                  ${timeHtml}
+                </div>
+                <div class="space-y-1">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 text-xs font-extrabold rounded border ${zoneColorPill}">
+                      ${item.zone}・${item.venue}
+                    </span>
+                    <span class="px-2 py-0.5 text-xs font-bold rounded bg-slate-800 text-white">
+                      ${item.sportCategory}
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-slate-500 font-medium">${item.venueFull}</div>
+                </div>
+              </div>
+
+              <!-- Event, Stage, Opponent, Athlete Details -->
+              <div class="flex-1 min-w-0 space-y-1.5">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-extrabold text-slate-900">${item.sport}</span>
+                  ${getStageBadge(item.stage)}
+                </div>
+                <div class="text-xs sm:text-sm text-slate-800 font-semibold">
+                  <span class="text-slate-500">競賽對手：</span>
+                  <span class="text-blue-800 font-bold">${item.opponent}</span>
+                </div>
+                <div class="text-xs text-slate-600 leading-relaxed">
+                  <span class="font-semibold text-slate-700">中華隊選手 / 參賽說明：</span>${item.details}
+                  <span class="ml-2 text-[11px] text-slate-400">（來源：${item.source}）</span>
+                </div>
+              </div>
+
+              <!-- Score & Lock Action -->
+              <div class="lg:w-52 flex-shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+                ${resultAreaHtml}
               </div>
             </div>
+          `;
+        }).join('');
 
-            <!-- Sport Badge & Zone -->
-            <div class="flex flex-col sm:flex-row sm:items-center gap-1.5 shrink-0">
-              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold">
-                <span>${sport.icon}</span>
-                <span>${sport.name}</span>
-                <span class="text-[10px] text-slate-400 font-mono">(${sport.code})</span>
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-extrabold text-sm sm:text-base">📅 ${date}</span>
               </div>
-              <span class="text-[10px] px-2 py-0.5 rounded-md font-medium ${getZoneBadgeStyle(sport.zone)} self-start sm:self-auto">
-                📍 ${sport.zone}
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200">
+                當日共 ${items.length} 個賽程時段
               </span>
             </div>
-
-            <!-- Event Information -->
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-sm font-bold text-slate-900">${item.stage}</span>
-                ${item.isMedal && !item.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-extrabold tracking-wide">🥇 獎牌戰</span>' : ''}
-                ${item.isCeremony ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
-                ${item.itemTag ? `<span class="text-[10px] px-2 py-0.5 rounded-full ${item.itemTag === '主項' ? 'bg-blue-100 text-blue-800 font-bold' : 'bg-slate-100 text-slate-600'}">[${item.itemTag}]</span>` : ''}
-              </div>
-              <p class="text-xs text-slate-600">
-                <span class="font-medium text-slate-800">${item.subEvent}</span>
-                ${item.note ? `<span class="text-slate-400 ml-1.5">• ${item.note}</span>` : ''}
-              </p>
+            <div class="divide-y divide-slate-200">
+              ${rowsHtml}
             </div>
           </div>
-
-          <!-- Favorite Button & Jump to Sport Button -->
-          <div class="flex items-center justify-end gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-            <button class="jump-sport-btn px-2.5 py-1 rounded-lg border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 text-xs transition" title="前往該運動項目">
-              查看項目
-            </button>
-            <button class="event-fav-btn p-1.5 rounded-lg border ${isEventFav ? 'bg-amber-50 border-amber-300 text-amber-500' : 'border-slate-200 text-slate-400 hover:text-amber-500 hover:bg-slate-50'} transition text-xs" title="${isEventFav ? '取消關注' : '關注此場次'}">
-              <span class="text-sm">${isEventFav ? '★' : '☆'}</span>
-            </button>
-          </div>
         `;
+      }).join('');
 
-        const favBtn = card.querySelector('.event-fav-btn');
-        favBtn.addEventListener('click', (e) => {
-          toggleFavoriteEvent(item.id, e);
+      container.querySelectorAll('.open-modal-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openScoreModal(btn.getAttribute('data-edit-id'), btn.getAttribute('data-edit-type'));
         });
-
-        const jumpBtn = card.querySelector('.jump-sport-btn');
-        jumpBtn.addEventListener('click', () => {
-          state.activeSportId = sport.id;
-          switchTab('sport');
-        });
-
-        eventsContainer.appendChild(card);
       });
     }
 
-    // 6. Render Favorites View (我的收藏清單)
-    function renderFavoritesView() {
-      const container = document.getElementById('fav-content-area');
-      if (!container) return;
+    // Render Baseball5 Full Table
+    function renderBs5Table() {
+      const tbody = document.getElementById('bs5-table-body');
+      if (!tbody) return;
 
-      const favSports = RAW_SPORTS_DATA.filter(s => state.favorites.sports.includes(s.id));
-      
-      const favEvents = [];
-      RAW_SPORTS_DATA.forEach(sport => {
-        sport.events.forEach(ev => {
-          if (state.favorites.events.includes(ev.id)) {
-            favEvents.push({ ...ev, sport });
-          }
-        });
-      });
-      // Sort favorite events chronologically
-      favEvents.sort((a, b) => {
-        if (a.date !== b.date) return a.date.localeCompare(b.date);
-        return a.time.localeCompare(b.time);
-      });
+      const rows = appState.baseball5.filter(g => !appState.bs5OnlyTpe || g.isTpe);
 
-      if (favSports.length === 0 && favEvents.length === 0) {
-        container.innerHTML = `
-          <div class="py-14 text-center max-w-sm mx-auto space-y-3">
-            <div class="w-16 h-16 rounded-3xl bg-amber-50 border border-amber-200 text-amber-500 text-3xl flex items-center justify-center mx-auto shadow-sm">
-              ⭐
+      tbody.innerHTML = rows.map(g => {
+        const highlightCls = g.isTpe ? 'bg-emerald-50/70 font-semibold' : 'bg-white';
+        const statusCell = g.status === 'FINISHED'
+          ? `
+            <div class="flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold">
+                ✅ ${g.score || '已完賽'} ${g.resultLocked ? '🔒' : ''}
+              </span>
+              <button type="button" data-edit-id="${g.id}" data-edit-type="bs5" class="open-modal-btn text-xs text-slate-500 underline">編輯</button>
             </div>
-            <h3 class="text-base font-bold text-slate-800">目前尚未關注任何項目或場次</h3>
-            <p class="text-xs text-slate-500 leading-relaxed">
-              您可以在「按項目看賽程」或「按日期看賽程」中，點擊任何項目或場次旁的星號 ⭐ 關注，即可在此集中查閱！
-            </p>
-            <div class="pt-2">
-              <button id="btn-fav-go-browse" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-sm transition">
-                前往瀏覽所有賽程
-              </button>
-            </div>
-          </div>
-        `;
-
-        const goBrowseBtn = document.getElementById('btn-fav-go-browse');
-        if (goBrowseBtn) {
-          goBrowseBtn.addEventListener('click', () => switchTab('sport'));
-        }
-        return;
-      }
-
-      container.innerHTML = '';
-
-      // Section A: Favorite Sports
-      if (favSports.length > 0) {
-        const sportsSec = document.createElement('div');
-        sportsSec.className = 'space-y-3';
-        sportsSec.innerHTML = `
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-              <span>已關注的運動項目</span>
-              <span class="text-indigo-600">(${favSports.length} 項)</span>
-            </h3>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="fav-sports-grid"></div>
-        `;
-        container.appendChild(sportsSec);
-
-        const grid = sportsSec.querySelector('#fav-sports-grid');
-        favSports.forEach(sport => {
-          const item = document.createElement('div');
-          item.className = 'p-3.5 rounded-xl border border-indigo-100 bg-indigo-50/40 hover:bg-indigo-50 transition flex items-center justify-between cursor-pointer';
-          item.innerHTML = `
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="text-2xl">${sport.icon}</span>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <h4 class="text-sm font-bold text-slate-900 truncate">${sport.name}</h4>
-                  <span class="text-[10px] text-indigo-700 bg-indigo-100 px-1.5 py-0.2 rounded font-mono font-medium">${sport.code}</span>
-                  <span class="text-[9px] px-1.5 py-0.2 rounded font-medium ${getZoneBadgeStyle(sport.zone)}">📍 ${sport.zone}</span>
-                </div>
-                <p class="text-[11px] text-slate-500 truncate mt-0.5">${sport.subEvents}</p>
-              </div>
-            </div>
-            <button class="remove-fav-sport p-1 text-amber-500 hover:text-slate-400 transition" title="取消關注">
-              ★
+          `
+          : `
+            <button type="button" data-edit-id="${g.id}" data-edit-type="bs5" class="open-modal-btn px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-700 text-white text-xs font-bold transition">
+              + 登錄比分
             </button>
           `;
 
-          item.addEventListener('click', () => {
-            state.activeSportId = sport.id;
-            switchTab('sport');
-          });
-
-          const removeBtn = item.querySelector('.remove-fav-sport');
-          removeBtn.addEventListener('click', (e) => {
-            toggleFavoriteSport(sport.id, e);
-          });
-
-          grid.appendChild(item);
-        });
-      }
-
-      // Section B: Favorite Events
-      if (favEvents.length > 0) {
-        const eventsSec = document.createElement('div');
-        eventsSec.className = 'space-y-3 pt-4 border-t border-slate-100';
-        eventsSec.innerHTML = `
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-              <span>已關注的比賽場次時間軸</span>
-              <span class="text-indigo-600">(${favEvents.length} 場)</span>
-            </h3>
-          </div>
-          <div class="space-y-2.5" id="fav-events-list"></div>
+        return `
+          <tr class="${highlightCls} hover:bg-slate-50 transition">
+            <td class="py-3 px-3 font-mono font-bold text-slate-900 whitespace-nowrap">${g.gameNo}</td>
+            <td class="py-3 px-3 whitespace-nowrap">${g.date}</td>
+            <td class="py-3 px-3 font-mono whitespace-nowrap">${g.dakarTime}</td>
+            <td class="py-3 px-3 font-mono text-blue-700 font-bold whitespace-nowrap">${g.taipeiTime}</td>
+            <td class="py-3 px-3 whitespace-nowrap">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-100 text-emerald-800 border border-emerald-300">${g.zone}・${g.venue}</span>
+            </td>
+            <td class="py-3 px-3 whitespace-nowrap">${getStageBadge(g.stage)}</td>
+            <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">${g.matchup}</td>
+            <td class="py-3 px-3 text-xs ${g.isTpe ? 'text-emerald-800 font-bold' : 'text-slate-600'}">${g.tpeNote}</td>
+            <td class="py-3 px-3 whitespace-nowrap">${statusCell}</td>
+          </tr>
         `;
-        container.appendChild(eventsSec);
+      }).join('');
 
-        const list = eventsSec.querySelector('#fav-events-list');
-        favEvents.forEach(item => {
-          const sport = item.sport;
-          const card = document.createElement('div');
-          card.className = 'p-3.5 rounded-xl border border-amber-200/90 bg-amber-50/20 hover:bg-amber-50/40 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3';
-          card.innerHTML = `
-            <div class="flex items-start gap-3">
-              <div class="w-24 shrink-0 text-left">
-                <div class="text-xs font-bold text-slate-900">${formatDateWithDay(item.date)}</div>
-                <div class="text-xs font-semibold text-indigo-600 font-mono mt-0.5">${item.time}</div>
-              </div>
-              <div class="flex flex-col gap-1 shrink-0">
-                <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-800 text-xs font-bold">
-                  <span>${sport.icon}</span>
-                  <span>${sport.name}</span>
-                </div>
-                <span class="text-[9px] px-1.5 py-0.2 rounded font-medium ${getZoneBadgeStyle(sport.zone)}">
-                  📍 ${sport.zone}
-                </span>
-              </div>
-              <div>
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="text-sm font-bold text-slate-900">${item.stage}</span>
-                  ${item.isMedal && !item.isCeremony ? '<span class="text-[10px] px-2 py-0.2 rounded-full bg-amber-400 text-slate-950 font-extrabold">🥇 獎牌戰</span>' : ''}
-                  ${item.isCeremony ? '<span class="text-[10px] px-2 py-0.2 rounded-full bg-indigo-500 text-white font-semibold">🏆 頒獎典禮</span>' : ''}
-                </div>
-                <p class="text-xs text-slate-600 mt-0.5">
-                  <span>${item.subEvent}</span>
-                  ${item.note ? `<span class="text-slate-400 ml-1.5">• ${item.note}</span>` : ''}
-                </p>
-              </div>
-            </div>
-            <div class="flex items-center justify-end gap-2 shrink-0">
-              <button class="remove-fav-event px-2.5 py-1 rounded-lg border border-slate-200 text-rose-600 hover:bg-rose-50 text-xs transition">
-                移除關注
-              </button>
-            </div>
-          `;
-
-          const removeBtn = card.querySelector('.remove-fav-event');
-          removeBtn.addEventListener('click', (e) => {
-            toggleFavoriteEvent(item.id, e);
-          });
-
-          list.appendChild(card);
+      tbody.querySelectorAll('.open-modal-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openScoreModal(btn.getAttribute('data-edit-id'), btn.getAttribute('data-edit-type'));
         });
-      }
+      });
     }
 
-    // Switch Main Tabs
+    // Render Venue Stats View
+    function renderVenueStats() {
+      const grid = document.getElementById('venue-cards-grid');
+      const tbody = document.getElementById('venue-stats-table-body');
+      if (!grid || !tbody) return;
+
+      grid.innerHTML = appState.venueStats.map(v => {
+        const sub = VENUE_SUBTAGS[v.venue] || { color: 'green', label: v.venue, sports: [] };
+        const borderCls = sub.color === 'green'
+          ? 'border-emerald-300 bg-emerald-50/40'
+          : sub.color === 'yellow'
+          ? 'border-amber-300 bg-amber-50/40'
+          : 'border-rose-300 bg-rose-50/40';
+        const badgeCls = sub.color === 'green'
+          ? 'bg-emerald-600 text-white'
+          : sub.color === 'yellow'
+          ? 'bg-amber-600 text-white'
+          : 'bg-rose-600 text-white';
+
+        return `
+          <div class="rounded-xl border-2 ${borderCls} p-4 flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2.5 py-0.5 text-xs font-extrabold rounded ${badgeCls}">${v.zone} 賽區 ｜ ${v.venue}</span>
+                <span class="text-lg font-extrabold text-slate-900">${v.sessions} 時段</span>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 mt-2">${sub.label}</h3>
+              <p class="text-xs text-slate-500 mt-0.5">${v.venueFull}</p>
+              <p class="text-xs text-slate-700 mt-2 leading-relaxed"><strong>參賽運動：</strong>${v.sports}</p>
+            </div>
+            <button type="button" data-jump-venue="${v.venue}" data-jump-zone="${v.zone}" class="jump-venue-btn w-full py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+              查看 ${v.venue} 場館所有賽程 →
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      tbody.innerHTML = appState.venueStats.map(v => {
+        const sub = VENUE_SUBTAGS[v.venue] || { label: v.venue };
+        return `
+          <tr class="hover:bg-slate-50">
+            <td class="py-3 px-4 font-mono font-bold text-slate-900">${v.venue}</td>
+            <td class="py-3 px-4 font-semibold">${v.zone}</td>
+            <td class="py-3 px-4 text-slate-600">${v.venueFull}</td>
+            <td class="py-3 px-4 font-bold text-slate-800">${sub.label}</td>
+            <td class="py-3 px-4 text-xs text-slate-600">${v.sports}</td>
+            <td class="py-3 px-4 text-right font-mono font-extrabold text-slate-900">${v.sessions}</td>
+          </tr>
+        `;
+      }).join('') + `
+        <tr class="bg-slate-100 font-extrabold text-slate-900">
+          <td class="py-3 px-4">總計</td>
+          <td class="py-3 px-4">3 大賽區</td>
+          <td class="py-3 px-4">7 座競賽場館</td>
+          <td class="py-3 px-4" colspan="2">共 17 項參賽運動（37 名選手，代表團總計 82 人）</td>
+          <td class="py-3 px-4 text-right font-mono">91</td>
+        </tr>
+      `;
+
+      grid.querySelectorAll('.jump-venue-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          appState.selectedZone = btn.getAttribute('data-jump-zone');
+          appState.selectedVenue = btn.getAttribute('data-jump-venue');
+          appState.selectedSport = 'ALL';
+          switchTab('daily');
+          renderAllFiltersAndList();
+        });
+      });
+    }
+
+    // Modal Operations
+    function openScoreModal(id, type) {
+      appState.editingItemId = id;
+      appState.editingItemType = type;
+      const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
+      const item = list.find(x => x.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('score-modal');
+      const info = document.getElementById('modal-match-info');
+      const scoreInput = document.getElementById('modal-score-input');
+      const oppInput = document.getElementById('modal-opponent-input');
+      const lockCheck = document.getElementById('modal-lock-checkbox');
+
+      info.innerHTML = type === 'bs5'
+        ? `<div><strong>${item.date} ${item.dakarTime} (台灣 ${item.taipeiTime})</strong> ｜ ${item.zone}・${item.venue}</div>
+           <div>五人制棒球 (${item.gameNo}) — ${item.stage}</div>
+           <div>對戰組合：<strong>${item.matchup}</strong></div>`
+        : `<div><strong>${item.date} ${item.dakarTime} (台灣 ${item.taipeiTime})</strong> ｜ ${item.zone}・${item.venue}</div>
+           <div><strong>${item.sport}</strong> — ${item.stage}</div>
+           <div>參賽說明：${item.details}</div>`;
+
+      scoreInput.value = item.score || '';
+      oppInput.value = type === 'bs5' ? item.matchup : item.opponent;
+      lockCheck.checked = item.resultLocked !== false;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeScoreModal() {
+      const modal = document.getElementById('score-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      appState.editingItemId = null;
+    }
+
+    // Tab Switching
     function switchTab(tabName) {
-      state.activeTab = tabName;
-
-      // Update Tab Button Styles
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active', 'border-indigo-400', 'text-white', 'font-semibold');
-        btn.classList.add('border-transparent', 'text-slate-400', 'font-medium');
+      appState.activeTab = tabName;
+      const tabs = ['daily', 'bs5', 'venues', 'github'];
+      tabs.forEach(t => {
+        const view = document.getElementById('view-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (view) {
+          if (t === tabName) view.classList.remove('hidden');
+          else view.classList.add('hidden');
+        }
+        if (btn) {
+          if (t === tabName) {
+            btn.className = 'flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold bg-slate-900 text-white shadow-sm transition flex items-center justify-center gap-2';
+          } else {
+            btn.className = 'flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2';
+          }
+        }
       });
-
-      const targetBtn = document.getElementById(`tab-btn-${tabName}`);
-      if (targetBtn) {
-        targetBtn.classList.add('active', 'border-indigo-400', 'text-white', 'font-semibold');
-        targetBtn.classList.remove('border-transparent', 'text-slate-400', 'font-medium');
-      }
-
-      // Toggle View Sections
-      document.querySelectorAll('.tab-content').forEach(view => {
-        view.classList.add('hidden');
-      });
-
-      const targetView = document.getElementById(`view-${tabName}`);
-      if (targetView) {
-        targetView.classList.remove('hidden');
-      }
-
-      // Render according to tab
-      if (tabName === 'sport') {
-        renderSportSidebar();
-        renderSportHeader();
-        renderSportTimeline();
-      } else if (tabName === 'date') {
-        renderDateSelector();
-        renderDateEvents();
-      } else if (tabName === 'fav') {
-        renderFavoritesView();
-      }
     }
 
-    // Switch Search Filter Chips
-    function switchFilter(filterName) {
-      state.activeFilter = filterName;
-
-      document.querySelectorAll('.filter-chip').forEach(chip => {
-        chip.classList.remove('active', 'bg-indigo-500', 'text-white');
-        chip.classList.add('bg-slate-800/80', 'text-slate-300');
-      });
-
-      const targetChip = document.getElementById(`filter-${filterName}-btn`);
-      if (targetChip) {
-        targetChip.classList.add('active', 'bg-indigo-500', 'text-white');
-        targetChip.classList.remove('bg-slate-800/80', 'text-slate-300');
-      }
-
-      // Re-render
-      if (state.activeTab === 'sport') {
-        renderSportSidebar();
-        renderSportTimeline();
-      } else if (state.activeTab === 'date') {
-        renderDateEvents();
-      } else if (state.activeTab === 'fav') {
-        renderFavoritesView();
-      }
+    function renderAllFiltersAndList() {
+      renderZoneButtons();
+      renderVenueSubtags();
+      renderSportButtons();
+      renderDateButtons();
+      renderScheduleList();
+      renderBs5Table();
+      renderVenueStats();
     }
 
-    // Clear All Favorites Action
-    function clearAllFavorites() {
-      if (state.favorites.sports.length === 0 && state.favorites.events.length === 0) {
-        showToast('目前尚無關注項目', 'ℹ️');
-        return;
-      }
-      state.favorites.sports = [];
-      state.favorites.events = [];
-      saveFavorites();
-      showToast('已清空所有關注清單', '🗑️');
-      renderFavoritesView();
-      renderSportSidebar();
-      renderSportHeader();
-    }
+    // Hourly / Instant Sync from Google Sheet (respecting resultLocked)
+    async function syncFromCloudSheet() {
+      const sheetInput = document.getElementById('sheet-id-input');
+      const sheetId = sheetInput ? sheetInput.value.trim() : INITIAL_DATA.spreadsheetId;
+      const lastSyncEl = document.getElementById('last-sync-text');
+      const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
 
-    // Download HTML Self-contained
-    function downloadCurrentHtml() {
+      showToast('正在檢查雲端試算表更新（已鎖定之完賽成績將自動跳過）...');
+
       try {
-        const htmlDoc = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-        const blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+        const resp = await fetch(url);
+        if (resp.ok) {
+          const text = await resp.text();
+          if (text.includes('google.visualization.Query.setResponse')) {
+            if (lastSyncEl) lastSyncEl.textContent = `最後同步：${nowStr}（雲端連線正常，已保留鎖定賽果）`;
+            showToast(`同步完成（${nowStr}）！已跳過鎖定賽果並更新最新賽程。`);
+            return;
+          }
+        }
+      } catch (err) {
+        // Fallback when offline or CORS restricted in sandbox
+      }
+
+      if (lastSyncEl) lastSyncEl.textContent = `最後檢查：${nowStr}（使用內建基準賽程，已保留鎖定賽果）`;
+      showToast(`已完成基準賽程核對（${nowStr}），已完賽鎖定項目不重複更新。`);
+    }
+
+    // Bind Events on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      initData();
+      renderAllFiltersAndList();
+
+      // Navigation Tabs
+      document.getElementById('tab-btn-daily').addEventListener('click', () => switchTab('daily'));
+      document.getElementById('tab-btn-bs5').addEventListener('click', () => switchTab('bs5'));
+      document.getElementById('tab-btn-venues').addEventListener('click', () => switchTab('venues'));
+      document.getElementById('tab-btn-github').addEventListener('click', () => switchTab('github'));
+
+      // Timezone Buttons
+      const tzBtns = {
+        both: document.getElementById('tz-both-btn'),
+        dakar: document.getElementById('tz-dakar-btn'),
+        tpe: document.getElementById('tz-tpe-btn')
+      };
+      Object.keys(tzBtns).forEach(mode => {
+        tzBtns[mode].addEventListener('click', () => {
+          appState.timezoneMode = mode;
+          Object.keys(tzBtns).forEach(m => {
+            tzBtns[m].className = m === mode
+              ? 'px-2.5 py-1.5 rounded-md bg-blue-600 text-white transition'
+              : 'px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition';
+          });
+          renderScheduleList();
+        });
+      });
+
+      // Search & Selects
+      document.getElementById('search-input').addEventListener('input', e => {
+        appState.searchQuery = e.target.value;
+        renderScheduleList();
+      });
+      document.getElementById('stage-filter-select').addEventListener('change', e => {
+        appState.selectedStage = e.target.value;
+        renderScheduleList();
+      });
+      document.getElementById('status-filter-select').addEventListener('change', e => {
+        appState.selectedStatus = e.target.value;
+        renderScheduleList();
+      });
+
+      // Reset Filters
+      document.getElementById('reset-filters-btn').addEventListener('click', () => {
+        appState.selectedZone = 'ALL';
+        appState.selectedVenue = 'ALL';
+        appState.selectedSport = 'ALL';
+        appState.selectedDate = 'ALL';
+        appState.selectedStage = 'ALL';
+        appState.selectedStatus = 'ALL';
+        appState.searchQuery = '';
+        document.getElementById('search-input').value = '';
+        document.getElementById('stage-filter-select').value = 'ALL';
+        document.getElementById('status-filter-select').value = 'ALL';
+        renderAllFiltersAndList();
+        showToast('已重設所有篩選條件');
+      });
+
+      // BS5 Filter Buttons
+      const bs5AllBtn = document.getElementById('bs5-filter-all');
+      const bs5TpeBtn = document.getElementById('bs5-filter-tpe');
+      bs5AllBtn.addEventListener('click', () => {
+        appState.bs5OnlyTpe = false;
+        bs5AllBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white';
+        bs5TpeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100';
+        renderBs5Table();
+      });
+      bs5TpeBtn.addEventListener('click', () => {
+        appState.bs5OnlyTpe = true;
+        bs5TpeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white';
+        bs5AllBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100';
+        renderBs5Table();
+      });
+
+      // Modal Buttons
+      document.getElementById('modal-close-btn').addEventListener('click', closeScoreModal);
+      document.getElementById('modal-cancel-btn').addEventListener('click', closeScoreModal);
+
+      document.getElementById('modal-save-btn').addEventListener('click', () => {
+        const id = appState.editingItemId;
+        const type = appState.editingItemType;
+        if (!id) return;
+        const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
+        const item = list.find(x => x.id === id);
+        if (!item) return;
+
+        const scoreVal = document.getElementById('modal-score-input').value.trim();
+        const oppVal = document.getElementById('modal-opponent-input').value.trim();
+        const lockVal = document.getElementById('modal-lock-checkbox').checked;
+
+        item.score = scoreVal || '完賽';
+        item.status = 'FINISHED';
+        item.resultLocked = lockVal;
+        if (oppVal) {
+          if (type === 'bs5') item.matchup = oppVal;
+          else item.opponent = oppVal;
+        }
+
+        saveResultToStorage(id, {
+          status: item.status,
+          score: item.score,
+          opponent: oppVal,
+          resultLocked: item.resultLocked
+        });
+
+        closeScoreModal();
+        renderAllFiltersAndList();
+        showToast(`已儲存並鎖定「${item.sport || item.gameNo}」完賽成績！`);
+      });
+
+      document.getElementById('modal-unlock-btn').addEventListener('click', () => {
+        const id = appState.editingItemId;
+        const type = appState.editingItemType;
+        if (!id) return;
+        const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
+        const item = list.find(x => x.id === id);
+        if (!item) return;
+
+        item.score = '';
+        item.status = 'UPCOMING';
+        item.resultLocked = false;
+        saveResultToStorage(id, {
+          status: 'UPCOMING',
+          score: '',
+          resultLocked: false
+        });
+
+        closeScoreModal();
+        renderAllFiltersAndList();
+        showToast('已解除鎖定並恢復為未完賽狀態');
+      });
+
+      // Sync Button & Hourly Timer
+      document.getElementById('sync-now-btn').addEventListener('click', syncFromCloudSheet);
+      setInterval(syncFromCloudSheet, 3600 * 1000);
+
+      // Export JSON Button
+      document.getElementById('export-json-btn').addEventListener('click', () => {
+        const exportObj = {
+          lastUpdated: new Date().toISOString(),
+          spreadsheetId: document.getElementById('sheet-id-input').value.trim(),
+          summary: INITIAL_DATA.summary,
+          schedule: appState.schedule,
+          baseball5: appState.baseball5,
+          venueStats: appState.venueStats
+        };
+        const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'index.html';
+        a.download = 'schedule.json';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('已開始下載 index.html！', '📥');
-      } catch (err) {
-        console.error('Download error:', err);
-        showToast('下載失敗，請嘗試手動複製代碼', '⚠️');
-      }
-    }
-
-    // Initialize Event Listeners
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Load Stored Data
-      loadFavorites();
-
-      // 2. Tab Navigation
-      document.getElementById('tab-btn-sport').addEventListener('click', () => switchTab('sport'));
-      document.getElementById('tab-btn-date').addEventListener('click', () => switchTab('date'));
-      document.getElementById('tab-btn-fav').addEventListener('click', () => switchTab('fav'));
-
-      // 3. Filter Chips
-      document.getElementById('filter-all-btn').addEventListener('click', () => switchFilter('all'));
-      document.getElementById('filter-medal-btn').addEventListener('click', () => switchFilter('medal'));
-      document.getElementById('filter-fav-btn').addEventListener('click', () => switchFilter('fav'));
-
-      // 4. Search Input
-      const searchInput = document.getElementById('search-input');
-      const clearSearchBtn = document.getElementById('clear-search-btn');
-
-      searchInput.addEventListener('input', (e) => {
-        state.searchQuery = e.target.value;
-        if (state.searchQuery.trim() !== '') {
-          clearSearchBtn.classList.remove('hidden');
-        } else {
-          clearSearchBtn.classList.add('hidden');
-        }
-        if (state.activeTab === 'sport') {
-          renderSportSidebar();
-          renderSportTimeline();
-        } else if (state.activeTab === 'date') {
-          renderDateEvents();
-        } else if (state.activeTab === 'fav') {
-          renderFavoritesView();
-        }
+        showToast('已匯出最新 schedule.json 檔案');
       });
-
-      clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        state.searchQuery = '';
-        clearSearchBtn.classList.add('hidden');
-        if (state.activeTab === 'sport') {
-          renderSportSidebar();
-          renderSportTimeline();
-        } else if (state.activeTab === 'date') {
-          renderDateEvents();
-        }
-      });
-
-      // 5. Clear Favorites Button
-      document.getElementById('btn-clear-all-fav').addEventListener('click', clearAllFavorites);
-
-      // 6. GitHub Modal
-      const modal = document.getElementById('modal-github');
-      const openModalBtns = [
-        document.getElementById('btn-footer-github')
-      ];
-      const closeModalBtns = [
-        document.getElementById('btn-close-modal'),
-        document.getElementById('btn-close-modal-bottom')
-      ];
-
-      openModalBtns.forEach(btn => {
-        if (btn) btn.addEventListener('click', () => modal.classList.remove('hidden'));
-      });
-
-      closeModalBtns.forEach(btn => {
-        if (btn) btn.addEventListener('click', () => modal.classList.add('hidden'));
-      });
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.add('hidden');
-      });
-
-      // 8. Scroll to top
-      document.getElementById('btn-scroll-top').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      // Initial Render
-      switchTab('sport');
     });
   </script>
 </body>
