@@ -98,10 +98,8 @@
 
         <!-- Timezone & Sync Status Toolbar -->
         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-          <div class="bg-slate-800/90 border border-slate-700 rounded-lg p-1 flex items-center text-xs font-semibold">
-            <button id="tz-both-btn" type="button" class="px-2.5 py-1.5 rounded-md bg-blue-600 text-white transition">雙時區並列</button>
-            <button id="tz-dakar-btn" type="button" class="px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition">達卡時間 (UTC+0)</button>
-            <button id="tz-tpe-btn" type="button" class="px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition">台灣時間 (UTC+8)</button>
+          <div class="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs font-bold text-slate-200">
+            <span>🕒 競賽時間：達卡當地時間 (UTC+0)</span>
           </div>
 
           <button id="sync-now-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition">
@@ -177,16 +175,9 @@
         <span>📅 中華台北逐日賽程總表</span>
         <span id="badge-daily-count" class="px-2 py-0.5 text-xs rounded-full bg-slate-700 text-slate-100">91</span>
       </button>
-      <button id="tab-btn-bs5" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
-        <span>⚾ 五人制棒球 (BS5) 完整對戰表</span>
-        <span class="px-2 py-0.5 text-xs rounded-full bg-emerald-100 text-emerald-800">20場</span>
-      </button>
       <button id="tab-btn-venues" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
         <span>🏟️ 賽區與場館統計對照</span>
         <span class="px-2 py-0.5 text-xs rounded-full bg-amber-100 text-amber-800">7場館</span>
-      </button>
-      <button id="tab-btn-github" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
-        <span>⚙️ 每小時同步與 GitHub 架構指南</span>
       </button>
     </nav>
 
@@ -272,51 +263,6 @@
       </div>
     </section>
 
-    <!-- SECTION 2: BASEBALL5 FULL BRACKET & SCHEDULE VIEW -->
-    <section id="view-bs5" class="hidden space-y-4">
-      <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-5 space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-slate-100 pb-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-600 text-white">綠色賽區 Dakar</span>
-              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">場館：CTO (Complexe Tour de l'Œuf)</span>
-            </div>
-            <h2 class="text-xl font-extrabold text-slate-900 mt-1.5">
-              2026 達卡青年奧運 — 五人制棒球（Baseball5 / BS5）完整對戰與賽程表
-            </h2>
-            <p class="text-xs text-slate-600 mt-1">
-              分組配置：<strong class="text-emerald-700">A組 (TPE 中華台北, CUB 古巴, SEN 塞內加爾, TUR 土耳其)</strong> ｜ <strong class="text-slate-700">B組 (FRA 法國, KEN 肯亞, MEX 墨西哥, SYR 敘利亞)</strong>
-            </p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="bs5-filter-all" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">全部 20 場次</button>
-            <button id="bs5-filter-tpe" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100">★ 僅看中華隊相關場次</button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto custom-scrollbar">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
-                <th class="py-3 px-3 rounded-tl-lg">場次</th>
-                <th class="py-3 px-3">競賽日期</th>
-                <th class="py-3 px-3">達卡 UTC+0</th>
-                <th class="py-3 px-3">台灣 UTC+8</th>
-                <th class="py-3 px-3">賽區 / 場館</th>
-                <th class="py-3 px-3">競賽名稱 (階段)</th>
-                <th class="py-3 px-3">對戰組合 (主 vs 客)</th>
-                <th class="py-3 px-3">中華台北 (TPE) 競賽對手 / 備註</th>
-                <th class="py-3 px-3 rounded-tr-lg">對戰成績 / 狀態</th>
-              </tr>
-            </thead>
-            <tbody id="bs5-table-body" class="divide-y divide-slate-200 text-sm">
-              <!-- Populated by JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
     <!-- SECTION 3: VENUE & ZONE SUMMARY VIEW -->
     <section id="view-venues" class="hidden space-y-6">
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
@@ -353,75 +299,7 @@
       </div>
     </section>
 
-    <!-- SECTION 4: GITHUB & HOURLY SYNC GUIDE VIEW -->
-    <section id="view-github" class="hidden space-y-6">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
-        <div class="border-b border-slate-100 pb-4">
-          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-50 text-blue-700 border border-blue-200">GitHub 自動化部署與檔案分類指南</span>
-          <h2 class="text-xl font-extrabold text-slate-900 mt-2">
-            如何以雲端硬碟 Excel / Google 試算表為 Base，實現每小時自動更新與完賽鎖定
-          </h2>
-          <p class="text-sm text-slate-600 mt-1">
-            本網站已直接內建您雲端硬碟檔案（<code class="px-1.5 py-0.5 bg-slate-100 rounded text-xs font-mono">1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI</code>）的全部 3 個工作表資料，並支援前端即時連線與 GitHub Actions 每小時排程同步。
-          </p>
-        </div>
 
-        <!-- Step-by-step Architecture -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center">1</span>
-              <span>GitHub 資料夾分門別類結構（已為您打包成 ZIP）</span>
-            </h3>
-            <pre class="text-xs font-mono bg-slate-900 text-slate-100 p-3.5 rounded-lg overflow-x-auto leading-relaxed">2026dakar-games-schedule/
-├── index.html                        # 網站主頁面（繁體中文介面）
-├── css/
-│   └── style.css                     # 綠/黃/紅三區與子標籤專屬樣式
-├── js/
-│   ├── config.js                     # 三區七場館子標籤與試算表 ID 設定
-│   └── app.js                        # 篩選器、完賽鎖定、雲端即時同步邏輯
-├── data/
-│   └── schedule.json                 # 賽程與賽果資料庫（含 resultLocked）
-├── scripts/
-│   └── sync_schedule.py              # 每小時擷取試算表並跳過已完賽鎖定項目
-└── .github/
-    └── workflows/
-        └── hourly_sync.yml           # GitHub Actions 每小時自動執行排程</pre>
-          </div>
-
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs flex items-center justify-center">2</span>
-              <span>完賽成績鎖定機制（不重複耗費資源更新）</span>
-            </h3>
-            <ul class="text-xs text-slate-700 space-y-2.5 leading-relaxed">
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-600 font-bold">●</span>
-                <span><strong>自動檢查賽程異動：</strong>每小時執行 <code class="bg-white px-1 py-0.5 rounded border">sync_schedule.py</code>（或前端載入時）比對雲端試算表，若「競賽時間、對手、階段」有異動（例如五人制棒球預賽第11場對古巴提前至 15:00），系統會立即更新。</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-600 font-bold">●</span>
-                <span><strong>完賽對戰成績登錄與鎖定：</strong>當賽事完成並填入對戰成績後，系統會將該場次標記為 <code class="bg-white px-1 py-0.5 rounded border">status: "FINISHED"</code> 且 <code class="bg-white px-1 py-0.5 rounded border">resultLocked: true</code>。</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-600 font-bold">●</span>
-                <span><strong>跳過已鎖定場次：</strong>下一次每小時排程執行時，只要偵測到 <code class="bg-white px-1 py-0.5 rounded border">resultLocked === true</code>，程式就會直接跳過該筆紀錄，不再重複解析或覆寫。您也可以直接在下方賽程卡片點擊「登錄/鎖定賽果」立即測試！</span>
-              </li>
-            </ul>
-
-            <div class="pt-2 border-t border-slate-200">
-              <label class="block text-xs font-bold text-slate-700 mb-1">綁定之 Google 試算表 ID（預設為您的 Base 檔案）：</label>
-              <div class="flex gap-2">
-                <input id="sheet-id-input" type="text" value="1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI" class="flex-1 px-3 py-1.5 text-xs font-mono rounded border border-slate-300 bg-white" />
-                <button id="export-json-btn" type="button" class="px-3 py-1.5 rounded bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition">
-                  匯出目前 JSON 資料檔
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
   </main>
 
@@ -465,7 +343,7 @@
   <footer class="bg-white border-t border-slate-200 mt-10 py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div>
-        <strong>2026 達卡青年奧運（Dakar 2026）中華台北（Chinese Taipei / TPE）代表團賽程網</strong> ｜ CREATED BY 李孟柔醫師
+        <strong>2026 達卡青年奧運（Dakar 2026）中華台北（Chinese Taipei / TPE）代表團賽程網</strong> ｜ 全站採用繁體中文
       </div>
       <div>
         資料基準：雲端硬碟 <code class="bg-slate-100 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code>（共 91 時段、17 項運動、7 座場館）
@@ -567,7 +445,6 @@
     // Application State
     let appState = {
       activeTab: 'daily',
-      timezoneMode: 'both', // 'both' | 'dakar' | 'tpe'
       selectedZone: 'ALL',
       selectedVenue: 'ALL',
       selectedSport: 'ALL',
@@ -575,11 +452,8 @@
       selectedStage: 'ALL',
       selectedStatus: 'ALL',
       searchQuery: '',
-      bs5OnlyTpe: false,
       editingItemId: null,
-      editingItemType: 'schedule', // 'schedule' | 'bs5'
       schedule: [],
-      baseball5: [],
       venueStats: []
     };
 
@@ -901,7 +775,7 @@
         if (appState.searchQuery.trim() !== '') {
           const q = appState.searchQuery.trim().toLowerCase();
           const hay = [
-            item.date, item.dakarTime, item.taipeiTime, item.zone, item.venue,
+            item.date, item.dakarTime, item.zone, item.venue,
             item.venueFull, item.sport, item.sportCategory, item.stage,
             item.opponent, item.details, item.score
           ].join(' ').toLowerCase();
@@ -970,20 +844,13 @@
             ? 'border-l-4 border-l-amber-500'
             : 'border-l-4 border-l-rose-500';
 
-          // Time display based on timezoneMode
-          let timeHtml = '';
-          if (appState.timezoneMode === 'both') {
-            timeHtml = `
-              <div class="flex flex-col">
-                <span class="text-xs font-extrabold text-slate-900">🇸🇳 達卡 ${item.dakarTime}</span>
-                <span class="text-xs font-bold text-blue-700 mt-0.5">🇹🇼 台灣 ${item.taipeiTime}</span>
-              </div>
-            `;
-          } else if (appState.timezoneMode === 'dakar') {
-            timeHtml = `<div class="text-sm font-extrabold text-slate-900">🇸🇳 達卡 ${item.dakarTime}</div>`;
-          } else {
-            timeHtml = `<div class="text-sm font-extrabold text-blue-700">🇹🇼 台灣 ${item.taipeiTime}</div>`;
-          }
+          // Display Dakar local time (UTC+0) only
+          const timeHtml = `
+            <div class="flex flex-col">
+              <span class="text-[11px] font-semibold text-slate-500">達卡時間 (UTC+0)</span>
+              <span class="text-sm font-extrabold text-slate-900 mt-0.5">🕒 ${item.dakarTime}</span>
+            </div>
+          `;
 
           // Result & Lock Badge
           let resultAreaHtml = '';
@@ -1080,54 +947,6 @@
       });
     }
 
-    // Render Baseball5 Full Table
-    function renderBs5Table() {
-      const tbody = document.getElementById('bs5-table-body');
-      if (!tbody) return;
-
-      const rows = appState.baseball5.filter(g => !appState.bs5OnlyTpe || g.isTpe);
-
-      tbody.innerHTML = rows.map(g => {
-        const highlightCls = g.isTpe ? 'bg-emerald-50/70 font-semibold' : 'bg-white';
-        const statusCell = g.status === 'FINISHED'
-          ? `
-            <div class="flex items-center gap-1.5">
-              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold">
-                ✅ ${g.score || '已完賽'} ${g.resultLocked ? '🔒' : ''}
-              </span>
-              <button type="button" data-edit-id="${g.id}" data-edit-type="bs5" class="open-modal-btn text-xs text-slate-500 underline">編輯</button>
-            </div>
-          `
-          : `
-            <button type="button" data-edit-id="${g.id}" data-edit-type="bs5" class="open-modal-btn px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-700 text-white text-xs font-bold transition">
-              + 登錄比分
-            </button>
-          `;
-
-        return `
-          <tr class="${highlightCls} hover:bg-slate-50 transition">
-            <td class="py-3 px-3 font-mono font-bold text-slate-900 whitespace-nowrap">${g.gameNo}</td>
-            <td class="py-3 px-3 whitespace-nowrap">${g.date}</td>
-            <td class="py-3 px-3 font-mono whitespace-nowrap">${g.dakarTime}</td>
-            <td class="py-3 px-3 font-mono text-blue-700 font-bold whitespace-nowrap">${g.taipeiTime}</td>
-            <td class="py-3 px-3 whitespace-nowrap">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-100 text-emerald-800 border border-emerald-300">${g.zone}・${g.venue}</span>
-            </td>
-            <td class="py-3 px-3 whitespace-nowrap">${getStageBadge(g.stage)}</td>
-            <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">${g.matchup}</td>
-            <td class="py-3 px-3 text-xs ${g.isTpe ? 'text-emerald-800 font-bold' : 'text-slate-600'}">${g.tpeNote}</td>
-            <td class="py-3 px-3 whitespace-nowrap">${statusCell}</td>
-          </tr>
-        `;
-      }).join('');
-
-      tbody.querySelectorAll('.open-modal-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          openScoreModal(btn.getAttribute('data-edit-id'), btn.getAttribute('data-edit-type'));
-        });
-      });
-    }
-
     // Render Venue Stats View
     function renderVenueStats() {
       const grid = document.getElementById('venue-cards-grid');
@@ -1199,11 +1018,9 @@
     }
 
     // Modal Operations
-    function openScoreModal(id, type) {
+    function openScoreModal(id) {
       appState.editingItemId = id;
-      appState.editingItemType = type;
-      const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
-      const item = list.find(x => x.id === id);
+      const item = appState.schedule.find(x => x.id === id);
       if (!item) return;
 
       const modal = document.getElementById('score-modal');
@@ -1212,16 +1029,12 @@
       const oppInput = document.getElementById('modal-opponent-input');
       const lockCheck = document.getElementById('modal-lock-checkbox');
 
-      info.innerHTML = type === 'bs5'
-        ? `<div><strong>${item.date} ${item.dakarTime} (台灣 ${item.taipeiTime})</strong> ｜ ${item.zone}・${item.venue}</div>
-           <div>五人制棒球 (${item.gameNo}) — ${item.stage}</div>
-           <div>對戰組合：<strong>${item.matchup}</strong></div>`
-        : `<div><strong>${item.date} ${item.dakarTime} (台灣 ${item.taipeiTime})</strong> ｜ ${item.zone}・${item.venue}</div>
+      info.innerHTML = `<div><strong>${item.date} ｜ 達卡時間 ${item.dakarTime} (UTC+0)</strong> ｜ ${item.zone}・${item.venue}</div>
            <div><strong>${item.sport}</strong> — ${item.stage}</div>
            <div>參賽說明：${item.details}</div>`;
 
       scoreInput.value = item.score || '';
-      oppInput.value = type === 'bs5' ? item.matchup : item.opponent;
+      oppInput.value = item.opponent;
       lockCheck.checked = item.resultLocked !== false;
 
       modal.classList.remove('hidden');
@@ -1238,7 +1051,7 @@
     // Tab Switching
     function switchTab(tabName) {
       appState.activeTab = tabName;
-      const tabs = ['daily', 'bs5', 'venues', 'github'];
+      const tabs = ['daily', 'venues'];
       tabs.forEach(t => {
         const view = document.getElementById('view-' + t);
         const btn = document.getElementById('tab-btn-' + t);
@@ -1262,14 +1075,12 @@
       renderSportButtons();
       renderDateButtons();
       renderScheduleList();
-      renderBs5Table();
       renderVenueStats();
     }
 
     // Hourly / Instant Sync from Google Sheet (respecting resultLocked)
     async function syncFromCloudSheet() {
-      const sheetInput = document.getElementById('sheet-id-input');
-      const sheetId = sheetInput ? sheetInput.value.trim() : INITIAL_DATA.spreadsheetId;
+      const sheetId = INITIAL_DATA.spreadsheetId;
       const lastSyncEl = document.getElementById('last-sync-text');
       const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
 
@@ -1301,27 +1112,7 @@
 
       // Navigation Tabs
       document.getElementById('tab-btn-daily').addEventListener('click', () => switchTab('daily'));
-      document.getElementById('tab-btn-bs5').addEventListener('click', () => switchTab('bs5'));
       document.getElementById('tab-btn-venues').addEventListener('click', () => switchTab('venues'));
-      document.getElementById('tab-btn-github').addEventListener('click', () => switchTab('github'));
-
-      // Timezone Buttons
-      const tzBtns = {
-        both: document.getElementById('tz-both-btn'),
-        dakar: document.getElementById('tz-dakar-btn'),
-        tpe: document.getElementById('tz-tpe-btn')
-      };
-      Object.keys(tzBtns).forEach(mode => {
-        tzBtns[mode].addEventListener('click', () => {
-          appState.timezoneMode = mode;
-          Object.keys(tzBtns).forEach(m => {
-            tzBtns[m].className = m === mode
-              ? 'px-2.5 py-1.5 rounded-md bg-blue-600 text-white transition'
-              : 'px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white transition';
-          });
-          renderScheduleList();
-        });
-      });
 
       // Search & Selects
       document.getElementById('search-input').addEventListener('input', e => {
@@ -1353,32 +1144,14 @@
         showToast('已重設所有篩選條件');
       });
 
-      // BS5 Filter Buttons
-      const bs5AllBtn = document.getElementById('bs5-filter-all');
-      const bs5TpeBtn = document.getElementById('bs5-filter-tpe');
-      bs5AllBtn.addEventListener('click', () => {
-        appState.bs5OnlyTpe = false;
-        bs5AllBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white';
-        bs5TpeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100';
-        renderBs5Table();
-      });
-      bs5TpeBtn.addEventListener('click', () => {
-        appState.bs5OnlyTpe = true;
-        bs5TpeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white';
-        bs5AllBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100';
-        renderBs5Table();
-      });
-
       // Modal Buttons
       document.getElementById('modal-close-btn').addEventListener('click', closeScoreModal);
       document.getElementById('modal-cancel-btn').addEventListener('click', closeScoreModal);
 
       document.getElementById('modal-save-btn').addEventListener('click', () => {
         const id = appState.editingItemId;
-        const type = appState.editingItemType;
         if (!id) return;
-        const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
-        const item = list.find(x => x.id === id);
+        const item = appState.schedule.find(x => x.id === id);
         if (!item) return;
 
         const scoreVal = document.getElementById('modal-score-input').value.trim();
@@ -1389,8 +1162,7 @@
         item.status = 'FINISHED';
         item.resultLocked = lockVal;
         if (oppVal) {
-          if (type === 'bs5') item.matchup = oppVal;
-          else item.opponent = oppVal;
+          item.opponent = oppVal;
         }
 
         saveResultToStorage(id, {
@@ -1402,15 +1174,13 @@
 
         closeScoreModal();
         renderAllFiltersAndList();
-        showToast(`已儲存並鎖定「${item.sport || item.gameNo}」完賽成績！`);
+        showToast(`已儲存並鎖定「${item.sport}」完賽成績！`);
       });
 
       document.getElementById('modal-unlock-btn').addEventListener('click', () => {
         const id = appState.editingItemId;
-        const type = appState.editingItemType;
         if (!id) return;
-        const list = type === 'bs5' ? appState.baseball5 : appState.schedule;
-        const item = list.find(x => x.id === id);
+        const item = appState.schedule.find(x => x.id === id);
         if (!item) return;
 
         item.score = '';
@@ -1430,28 +1200,6 @@
       // Sync Button & Hourly Timer
       document.getElementById('sync-now-btn').addEventListener('click', syncFromCloudSheet);
       setInterval(syncFromCloudSheet, 3600 * 1000);
-
-      // Export JSON Button
-      document.getElementById('export-json-btn').addEventListener('click', () => {
-        const exportObj = {
-          lastUpdated: new Date().toISOString(),
-          spreadsheetId: document.getElementById('sheet-id-input').value.trim(),
-          summary: INITIAL_DATA.summary,
-          schedule: appState.schedule,
-          baseball5: appState.baseball5,
-          venueStats: appState.venueStats
-        };
-        const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'schedule.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast('已匯出最新 schedule.json 檔案');
-      });
     });
   </script>
 </body>
