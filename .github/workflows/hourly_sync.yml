@@ -1,0 +1,40 @@
+name: 每小時同步達卡青奧賽程與賽果 (Hourly Schedule Sync)
+
+on:
+  schedule:
+    # 每小時整點執行一次
+    - cron: '0 * * * *'
+  workflow_dispatch: # 允許於 GitHub Actions 頁面手動觸發
+
+permissions:
+  contents: write
+
+jobs:
+  sync-schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 檢出專案原始碼 (Checkout Repository)
+        uses: actions/checkout@v4
+
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 執行賽程與賽果同步腳本（自動跳過已完賽鎖定項目）
+        env:
+          SPREADSHEET_ID: '1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI'
+        run: |
+          python3 scripts/sync_schedule.py
+
+      - name: 若賽程或賽果有變化則自動提交並更新網站
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/schedule.json
+          if git diff --staged --quiet; then
+            echo "賽程無變化，無須重新部署。"
+          else
+            git commit -m "chore: 每小時自動更新達卡青奧中華隊賽程與完賽結果"
+            git push
+          fi
