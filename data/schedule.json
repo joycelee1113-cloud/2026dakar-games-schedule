@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-30T19:45:34Z",
+  "lastUpdated": "2026-10-30T23:19:10Z",
   "spreadsheetId": "1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI",
   "summary": {
     "totalSessions": 91,
@@ -64,7 +64,7 @@
     {
       "id": "TPE-003",
       "date": "2026-10-31 (六)",
-      "dakarTime": "10:00",
+      "dakarTime": "12:00",
       "taipeiTime": "18:00",
       "zone": "Diamniadio",
       "zoneColor": "yellow",
@@ -72,7 +72,7 @@
       "venueFull": "Dakar Exhibition Centre",
       "sport": "桌球 (Table Tennis)",
       "sportCategory": "桌球",
-      "stage": "32強賽、16強賽 (Round of 32 & 16)",
+      "stage": "16強賽 (Round 16)",
       "opponent": "依混雙籤表對陣",
       "details": "混合雙打（代表選手：林晉霆、陳忞昕）",
       "source": "Olympics.com 桌球賽程",
