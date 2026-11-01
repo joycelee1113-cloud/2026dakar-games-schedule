@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2026 達卡青年奧運（Dakar 2026）中華台北（TPE）代表團賽程與賽果資訊網</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -75,6 +76,9 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
+  <!-- Hidden Excel File Input for Instant Excel -> Website Sync -->
+  <input id="excel-file-input" type="file" accept=".xlsx,.xls,.csv" class="hidden" />
+
   <!-- Top Header Banner -->
   <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
@@ -96,17 +100,28 @@
           </div>
         </div>
 
-        <!-- Timezone & Sync Status Toolbar -->
-        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-          <div class="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1.5 flex items-center gap-1.5 text-xs font-bold text-slate-200">
-            <span>🕒 競賽時間：達卡當地時間 (UTC+0)</span>
+        <!-- Timezone & Excel -> Website Sync Toolbar -->
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-slate-800/90 border border-slate-700 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-xs font-bold text-slate-200">
+            <span>🕒 達卡時間 (UTC+0)</span>
           </div>
 
-          <button id="sync-now-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition">
+          <button id="upload-excel-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm transition" title="直接選取電腦或手機中的 Excel (.xlsx) 檔案，立即將最新賽程與賽果同步到網站">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            <span>📂 讀取 Excel 檔同步至網站</span>
+          </button>
+
+          <button id="sync-now-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition" title="從 Google 雲端試算表拉取最新資料並同步至網站">
             <svg id="sync-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>
-            <span>立即同步雲端試算表</span>
+            <span>📥 雲端試算表 → 網站同步</span>
+          </button>
+
+          <button id="open-sync-center-btn" type="button" class="inline-flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="貼上 Excel 表格內容或檢視同步狀態">
+            <span>📋 貼上表格同步</span>
           </button>
         </div>
       </div>
@@ -116,6 +131,33 @@
   <!-- Main Content Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
+    <!-- Homepage Excel -> Website Quick Sync Bar -->
+    <section id="excel-sync-banner" class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 text-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-700 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-2 py-0.5 text-[11px] font-extrabold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">單向安全同步：Excel 檔案 ➔ 網站</span>
+          <span id="sync-source-badge" class="text-xs text-slate-300 font-medium">目前資料基準：已載入最新籤表與賽程（共 90 筆時段）</span>
+        </div>
+        <h2 class="text-sm sm:text-base font-extrabold text-white">
+          修改 Excel 賽程或籤表後，點選右側按鈕即可將「Excel 檔案」資訊即時同步至「網站」（絕不反向覆蓋您的 Excel）
+        </h2>
+        <p class="text-xs text-slate-300">
+          支援直接選取或拖曳 <code class="bg-white/10 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code> 檔案、從雲端試算表拉取、或直接複製 Excel 儲存格貼上更新。
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 flex-shrink-0">
+        <button id="hero-upload-excel-btn" type="button" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-blue-500 hover:bg-blue-400 text-white shadow transition flex items-center gap-1.5">
+          <span>📂 選擇 Excel (.xlsx) 立即同步至網站</span>
+        </button>
+        <button id="hero-cloud-pull-btn" type="button" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white shadow transition flex items-center gap-1.5">
+          <span>📥 從雲端試算表拉取更新</span>
+        </button>
+        <button id="hero-paste-sync-btn" type="button" class="px-3 py-2.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition">
+          <span>📋 複製貼上同步</span>
+        </button>
+      </div>
+    </section>
+
     <!-- KPI Summary Row -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
@@ -124,7 +166,7 @@
           <span class="w-2 h-2 rounded-full bg-blue-500"></span>
         </div>
         <div class="mt-2 flex items-baseline gap-2">
-          <span id="kpi-total-sessions" class="text-2xl sm:text-3xl font-extrabold text-slate-900">91</span>
+          <span id="kpi-total-sessions" class="text-2xl sm:text-3xl font-extrabold text-slate-900">90</span>
           <span class="text-xs text-slate-500 font-medium">場次 / 時段</span>
         </div>
         <p class="mt-1 text-xs text-slate-500">涵蓋 10/30 至 11/13 完整賽期</p>
@@ -165,7 +207,7 @@
           <span id="kpi-completed-count" class="text-2xl sm:text-3xl font-extrabold text-emerald-600">0</span>
           <span class="text-xs text-slate-500 font-medium">/ <span id="kpi-locked-count">0</span> 筆已鎖定賽果</span>
         </div>
-        <p id="last-sync-text" class="mt-1 text-xs text-slate-500 truncate">每小時自動同步（已鎖定賽果不重複更新）</p>
+        <p id="last-sync-text" class="mt-1 text-xs text-slate-500 truncate">單向讀取 Excel 更新至網站（已鎖定賽果不覆蓋）</p>
       </div>
     </section>
 
@@ -173,7 +215,7 @@
     <nav class="bg-white rounded-xl p-1.5 border border-slate-200 shadow-sm flex flex-wrap gap-1.5" aria-label="主要功能分頁">
       <button id="tab-btn-daily" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold bg-slate-900 text-white shadow-sm transition flex items-center justify-center gap-2">
         <span>📅 中華台北逐日賽程總表</span>
-        <span id="badge-daily-count" class="px-2 py-0.5 text-xs rounded-full bg-slate-700 text-slate-100">91</span>
+        <span id="badge-daily-count" class="px-2 py-0.5 text-xs rounded-full bg-slate-700 text-slate-100">90</span>
       </button>
       <button id="tab-btn-venues" type="button" class="flex-1 min-w-[160px] py-2.5 px-4 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
         <span>🏟️ 賽區與場館統計對照</span>
@@ -225,7 +267,7 @@
         <div class="pt-2 border-t border-slate-100 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">競賽日期快速切換 (10/30 – 11/13)</span>
-            <span id="active-filter-summary" class="text-xs font-semibold text-slate-600">顯示全部 91 筆賽程</span>
+            <span id="active-filter-summary" class="text-xs font-semibold text-slate-600">顯示全部 90 筆賽程</span>
           </div>
           <div id="date-buttons-container" class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1.5">
             <!-- Populated by JS -->
@@ -233,7 +275,7 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
             <div class="relative sm:col-span-2">
-              <input id="search-input" type="text" placeholder="搜尋選手姓名（如：林晉霆、陳忞昕、陳品安、張雯婷、Saturn）、運動項目、對手或場館..." class="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" />
+              <input id="search-input" type="text" placeholder="搜尋選手姓名（如：林晉霆、陳忞昕、陳品安、林泳岳）、運動項目、對手或場館..." class="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" />
               <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
@@ -299,8 +341,6 @@
       </div>
     </section>
 
-
-
   </main>
 
   <!-- Score & Lock Modal -->
@@ -334,6 +374,52 @@
     </div>
   </div>
 
+  <!-- Excel / Cloud -> Website Sync Center Modal -->
+  <div id="excel-sync-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-base font-extrabold text-slate-900">📥 Excel 檔案 ➔ 網站 即時同步中心</h3>
+          <p class="text-xs text-slate-500 mt-0.5">單向將 Excel 試算表內的最新賽程、時間、籤表對手與完賽結果匯入網站，絕不反向覆蓋您的 Excel 檔</p>
+        </div>
+        <button id="sync-modal-close-btn" type="button" class="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-1">✕</button>
+      </div>
+
+      <!-- Option 1: Direct Excel (.xlsx) File Pick / Drop -->
+      <div class="bg-blue-50/70 border-2 border-dashed border-blue-300 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="space-y-1">
+          <div class="text-xs font-extrabold text-blue-950">方法 1：直接選取 Excel 檔案 (.xlsx / .csv) 即時同步（最推薦・100% 離線與跨網域可用）</div>
+          <p class="text-xs text-blue-800">支援直接讀取 <code class="bg-white px-1 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code> 的「中華台北 逐日賽程總表」分頁（10欄或12欄格式皆自動相容）。</p>
+        </div>
+        <button id="modal-pick-excel-btn" type="button" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-blue-600 hover:bg-blue-500 text-white shadow-sm transition flex-shrink-0">
+          📂 選擇 .xlsx 檔案同步
+        </button>
+      </div>
+
+      <!-- Option 2: Paste from Excel / Google Sheets -->
+      <div class="space-y-2">
+        <label for="paste-excel-textarea" class="block text-xs font-extrabold text-slate-800">
+          方法 2：從 Excel 或 Google 雲端試算表直接複製（Ctrl+C）並貼上（Ctrl+V）同步
+        </label>
+        <p class="text-xs text-slate-500">
+          您可以在雲端試算表選取第 8 列標題或第 9 列以後的賽程資料列（A 欄「競賽日期」至 J 欄「對戰成績」），複製後貼在下方框內，點擊「立即解析並同步至網站」即可瞬間更新：
+        </p>
+        <textarea id="paste-excel-textarea" rows="5" placeholder="在此貼上從 Excel 或 Google 試算表複製的賽程列（Tab 分隔格式）..." class="w-full p-3 text-xs font-mono rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"></textarea>
+        <div class="flex items-center justify-between gap-2 pt-1">
+          <button id="reset-schedule-baseline-btn" type="button" class="px-3 py-2 rounded-lg text-xs font-bold text-rose-600 hover:bg-rose-50 transition">
+            還原為系統內建最新基準賽程 (11/01 版)
+          </button>
+          <div class="flex items-center gap-2">
+            <button id="sync-modal-cancel-btn" type="button" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition">關閉</button>
+            <button id="apply-paste-sync-btn" type="button" class="px-4 py-2 rounded-lg text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition">
+              ✅ 立即解析貼上內容並同步至網站
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-700 text-xs font-semibold items-center gap-2">
     <span id="toast-message">已更新賽程資料</span>
@@ -346,14 +432,14 @@
         <strong>2026 達卡青年奧運（Dakar 2026）中華台北（Chinese Taipei / TPE）代表團賽程網</strong> ｜ 全站採用繁體中文
       </div>
       <div>
-        資料基準：雲端硬碟 <code class="bg-slate-100 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code>（共 91 時段、17 項運動、7 座場館）
+        資料基準：雲端硬碟 <code class="bg-slate-100 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code>（共 <span id="footer-session-count">90</span> 時段、17 項運動、7 座場館）
       </div>
     </div>
   </footer>
 
   <script>
-    // Embedded Base Data from Dakar_2026_Chinese_Taipei_Schedule.xlsx
-    const INITIAL_DATA = {"lastUpdated": "2026-10-28T13:00:00Z", "spreadsheetId": "1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI", "summary": {"totalSessions": 91, "totalSports": 17, "totalAthletes": 37, "delegationSize": 82, "zones": ["Dakar", "Diamniadio", "Saly"], "venues": ["COR", "CTO", "CID", "DAR", "SAW", "DEX", "SBW"], "period": "2026-10-30 至 2026-11-13"}, "schedule": [{"id": "TPE-001", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "塞內加爾 (SEN)", "details": "混合團體（4男4女，含張雯婷），青奧首戰對決地主隊", "source": "Olympics.com 棒球5賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-002", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "16:30", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "土耳其 (TUR)", "details": "混合團體預賽第 2 戰", "source": "Olympics.com 棒球5賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-003", "date": "2026-10-31 (六)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "32強賽、16強賽 (Round of 32 & 16)", "opponent": "依混雙籤表對陣", "details": "混合雙打（代表選手：林晉霆、陳忞昕）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-004", "date": "2026-10-31 (六)", "dakarTime": "18:25", "taipeiTime": "2026-11-01 02:25", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "開幕典禮 (Opening Ceremony)", "sportCategory": "開幕典禮", "stage": "開幕式", "opponent": "全體 204 個國家奧會代表團", "details": "中華台北代表團（37 名選手、總計 82 人）進場", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-005", "date": "2026-11-01 (日)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 第1場次 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-006", "date": "2026-11-01 (日)", "dakarTime": "09:30", "taipeiTime": "17:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "單打預賽 第1階段 (Preliminary Stage)", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-007", "date": "2026-11-01 (日)", "dakarTime": "09:30–11:30", "taipeiTime": "17:30–19:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "男子長拳、女子太極扇預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-008", "date": "2026-11-01 (日)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -44kg、男子 -55kg / -66kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-009", "date": "2026-11-01 (日)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 1 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-010", "date": "2026-11-01 (日)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 第2場次 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-011", "date": "2026-11-01 (日)", "dakarTime": "14:30–16:30", "taipeiTime": "22:30–00:30 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "女子棍術、男子太極拳預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-012", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 第11場 (Opening Round)", "opponent": "古巴 (CUB)", "details": "混合團體預賽最終戰（依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-013", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 400m 自由式、男 800m 自由式、男女 200m 仰式、男女 100m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-014", "date": "2026-11-01 (日)", "dakarTime": "16:00", "taipeiTime": "2026-11-02 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -44kg、男子 -55kg / -66kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-015", "date": "2026-11-01 (日)", "dakarTime": "19:00", "taipeiTime": "2026-11-02 03:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "八強賽 (Quarterfinals)", "opponent": "16強晉級組合", "details": "混合雙打 8 強賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-016", "date": "2026-11-02 (一)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-017", "date": "2026-11-02 (一)", "dakarTime": "09:30–11:30", "taipeiTime": "17:30–19:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "男子棍術、女子太極拳預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-018", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -52kg / -63kg、男子 -81kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-019", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "單打預賽 (Preliminary Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組預賽（林晉霆、陳忞昕）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-020", "date": "2026-11-02 (一)", "dakarTime": "10:30、12:00", "taipeiTime": "18:30、20:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "複賽 / 六強半準決賽 (Quarterfinals)", "opponent": "B組第2或第3名（FRA/KEN/MEX/SYR）", "details": "A2 vs B3、B2 vs A3（若中華隊獲 A 組 2、3 名將在此階段出賽）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-021", "date": "2026-11-02 (一)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 2 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-022", "date": "2026-11-02 (一)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-023", "date": "2026-11-02 (一)", "dakarTime": "14:30–16:30", "taipeiTime": "22:30–00:30 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "女子長拳、男子太極扇預賽", "source": "Olympics.com 武術賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-024", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 100m 自由式、男女 200m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-025", "date": "2026-11-02 (一)", "dakarTime": "15:00、16:30", "taipeiTime": "23:00、00:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "四強準決賽 (Semifinals)", "opponent": "分組第1名 vs 複賽勝隊", "details": "若中華隊獲 A 組第 1 直接打四強，或由六強複賽勝出晉級", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-026", "date": "2026-11-02 (一)", "dakarTime": "16:00", "taipeiTime": "2026-11-03 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -52kg / -63kg、男子 -81kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-027", "date": "2026-11-02 (一)", "dakarTime": "17:30", "taipeiTime": "2026-11-03 01:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級組合", "details": "混合雙打 4 強準決賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-028", "date": "2026-11-03 (二)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-029", "date": "2026-11-03 (二)", "dakarTime": "09:00、14:00、16:02", "taipeiTime": "17:00、22:00、00:02 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "決賽 (Finals)", "opponent": "各國參賽選手同場評分", "details": "09:00 女棍術/太極扇、男長拳/太極拳；14:00 女長拳/男棍術；16:02 女太極拳/男太極扇決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-030", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -78kg、男子 -100kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-031", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "16強賽 (Round of 16)", "opponent": "單打預賽晉級選手", "details": "男女單打 16 強淘汰賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-032", "date": "2026-11-03 (二)", "dakarTime": "10:30、12:00", "taipeiTime": "18:30、20:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "排名賽 (Placement Games)", "opponent": "A4 vs B4（第7名）、六強敗隊（第5名）", "details": "10:30 第 7 名決定戰、12:00 第 5 名決定戰", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-033", "date": "2026-11-03 (二)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 3 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-034", "date": "2026-11-03 (二)", "dakarTime": "14:30", "taipeiTime": "22:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-035", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 800m 自由式、男 400m 自由式、男女 100m 仰式、男女 100m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-036", "date": "2026-11-03 (二)", "dakarTime": "15:00、16:30", "taipeiTime": "23:00、00:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "銅牌戰、金牌決賽 (Medal Games)", "opponent": "四強準決賽敗隊 / 勝隊", "details": "15:00 銅牌戰、16:30 金牌戰（17:55 頒獎典禮）", "source": "WBSC 賽程異動公告", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-037", "date": "2026-11-03 (二)", "dakarTime": "16:00", "taipeiTime": "2026-11-04 00:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -78kg、男子 -100kg 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-038", "date": "2026-11-03 (二)", "dakarTime": "16:30、18:00", "taipeiTime": "2026-11-04 00:30、02:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "混雙銅牌戰、金牌決賽 (Medal Matches)", "opponent": "混雙四強晉級組合", "details": "混合雙打獎牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-039", "date": "2026-11-04 (三)", "dakarTime": "09:00–12:35", "taipeiTime": "17:00–20:35", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "八強賽 (Quarterfinals)", "opponent": "小組預賽晉級選手", "details": "09:00 男單 8 強、10:50 女單 8 強", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-040", "date": "2026-11-04 (三)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "八強賽 (Quarterfinals)", "opponent": "16強晉級選手", "details": "男女單打 8 強賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-041", "date": "2026-11-04 (三)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 4 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-042", "date": "2026-11-04 (三)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "20:45、21:43、00:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國男子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 男子街式決賽", "source": "Olympics.com 滑板賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-043", "date": "2026-11-04 (三)", "dakarTime": "14:30–18:45", "taipeiTime": "22:30–02:45 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "14:30 男單 4 強、16:40 女單 4 強", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-044", "date": "2026-11-04 (三)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 自由式、男女 200m 混合式、男女 50m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-045", "date": "2026-11-05 (四)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國男子代表選手（共 64 人參賽）", "details": "男子個人短距離賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-046", "date": "2026-11-05 (四)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女單打 4 強準決賽", "source": "Olympics.com 桌球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-047", "date": "2026-11-05 (四)", "dakarTime": "11:00", "taipeiTime": "19:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 5 日分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-048", "date": "2026-11-05 (四)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "20:45、21:43、00:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國女子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 女子街式決賽", "source": "Olympics.com 滑板賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-049", "date": "2026-11-05 (四)", "dakarTime": "14:00–18:45", "taipeiTime": "22:00–02:45 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "14:00 男單銅牌、15:10 男單金牌、16:35 女單銅牌、17:45 女單金牌戰", "source": "Olympics.com 羽球賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-050", "date": "2026-11-05 (四)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 仰式、男女 50m 蛙式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-051", "date": "2026-11-05 (四)", "dakarTime": "16:00–18:15", "taipeiTime": "2026-11-06 00:00–02:15", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "16:00 女單銅牌、16:45 男單銅牌、17:30 女單金牌、18:15 男單金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-052", "date": "2026-11-06 (五)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國女子代表選手", "details": "女子個人短距離賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-053", "date": "2026-11-06 (五)", "dakarTime": "09:30", "taipeiTime": "17:30", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "個人排名賽 (Ranking Round)", "opponent": "各國射箭選手同場排名", "details": "男女個人排名賽（代表選手：陳品安 Chen Pin-An）", "source": "世界射箭總會名單", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-054", "date": "2026-11-06 (五)", "dakarTime": "10:00、15:00", "taipeiTime": "18:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-055", "date": "2026-11-06 (五)", "dakarTime": "11:00、15:00", "taipeiTime": "19:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)、決賽 (Finals)", "opponent": "各國游泳選手", "details": "11:00 預賽；15:00 男女 200m 自由式、男女 200m 蝶式決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-056", "date": "2026-11-07 (六)", "dakarTime": "09:00", "taipeiTime": "17:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "32強淘汰賽 (1/16 Elimination Round)", "opponent": "依排名賽種子對陣", "details": "男女個人 32 強對抗賽（陳品安）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-057", "date": "2026-11-07 (六)", "dakarTime": "10:00、15:00", "taipeiTime": "18:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-058", "date": "2026-11-07 (六)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 51kg / 57kg、男子 55kg / 65kg / 70kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-059", "date": "2026-11-08 (日)", "dakarTime": "09:00、11:00", "taipeiTime": "17:00、19:00", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Road Race)", "opponent": "各國公路賽參賽選手", "details": "09:00 女子公路賽、11:00 男子公路賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-060", "date": "2026-11-08 (日)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子鈍劍籤表對陣", "details": "女子個人鈍劍（Foil）全天賽程（09:00 預賽至 8 強；14:00 4 強至決賽）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-061", "date": "2026-11-08 (日)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "18:00、22:00–23:44", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "男子個人 16 強至決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-062", "date": "2026-11-08 (日)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "19:00、19:48、00:00 (+1)、01:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -44kg、男子 -48kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-063", "date": "2026-11-08 (日)", "dakarTime": "11:30、15:00", "taipeiTime": "19:30、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "八強賽 (Quarterfinals)", "opponent": "分組晉級隊伍", "details": "女子 3x3 籃球 8 強淘汰賽（若中華女籃晉級）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-064", "date": "2026-11-08 (日)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 48kg / 54kg / 60kg、男子 50kg / 60kg 預賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-065", "date": "2026-11-08 (日)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第1–3航次 (R1–3)", "opponent": "各國風浪板選手", "details": "男女風浪板（Windsurfing）第 1 至第 3 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-066", "date": "2026-11-08 (日)", "dakarTime": "14:30–17:25", "taipeiTime": "22:30–01:25 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 100m 準決賽與決賽、400m 準決賽、男鏈球/跳遠/3000m、女三級跳/撐竿跳/鐵餅/100m 跨欄決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-067", "date": "2026-11-09 (一)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子鈍劍籤表對陣", "details": "男子個人鈍劍（Foil）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-068", "date": "2026-11-09 (一)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "18:00、22:00–23:44", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "女子個人 16 強至決賽（陳品安 Chen Pin-An）", "source": "世界射箭總會名單", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-069", "date": "2026-11-09 (一)", "dakarTime": "10:00–12:45", "taipeiTime": "18:00–20:45", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "女標槍/跳遠/400m/800m/3000m、男鉛球/跳高/鐵餅/110m 跨欄/400m/1500m 決賽及 400m 跨欄準決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-070", "date": "2026-11-09 (一)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "19:00、19:48、00:00 (+1)、01:00 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -49kg、男子 -55kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-071", "date": "2026-11-09 (一)", "dakarTime": "11:30、15:00、15:50", "taipeiTime": "19:30、23:00、23:50", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "四強準決賽、銅牌戰、金牌戰", "opponent": "八強晉級隊伍", "details": "11:30 女子 4 強、15:00 銅牌戰、15:50 金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-072", "date": "2026-11-09 (一)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 55kg / 65kg 八強；17:00 女子 51kg / 57kg 八強", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-073", "date": "2026-11-09 (一)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第4–6航次 (R4–6)", "opponent": "各國風浪板選手", "details": "男女風浪板第 4 至第 6 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-074", "date": "2026-11-10 (二)", "dakarTime": "09:00、10:30", "taipeiTime": "17:00、18:30", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Individual Time Trial)", "opponent": "各國個人計時賽選手", "details": "09:00 女子個人計時賽、10:30 男子個人計時賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-075", "date": "2026-11-10 (二)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子銳劍籤表對陣", "details": "女子個人銳劍（Épée）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-076", "date": "2026-11-10 (二)", "dakarTime": "09:30、14:00–16:42", "taipeiTime": "17:30、22:00–00:42 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依混合團體籤表對陣", "details": "混合團體 16 強至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-077", "date": "2026-11-10 (二)", "dakarTime": "10:00–12:45", "taipeiTime": "18:00–20:45", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 200m、400m 跨欄、5000m 競走、男撐竿跳/三級跳/標槍/800m、女鏈球/鉛球/跳高/1500m 決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-078", "date": "2026-11-10 (二)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "19:00、20:12、00:00 (+1)、01:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -55kg / -63kg、男子 -63kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-079", "date": "2026-11-10 (二)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 50kg/60kg/70kg 八強；17:00 女子 48kg/54kg/60kg 八強", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-080", "date": "2026-11-10 (二)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第7–9航次 (R7–9)", "opponent": "各國風浪板選手", "details": "男女風浪板第 7 至第 9 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-081", "date": "2026-11-11 (三)", "dakarTime": "09:00、14:00", "taipeiTime": "17:00、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子銳劍籤表對陣", "details": "男子個人銳劍（Épée）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-082", "date": "2026-11-11 (三)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "19:00、20:12、00:00 (+1)、01:30 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 +63kg、男子 -73kg / +73kg 全天淘汰賽至金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-083", "date": "2026-11-11 (三)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女各量級 4 強準決賽", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-084", "date": "2026-11-11 (三)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第10–12航次 (R10–12)", "opponent": "各國風浪板選手", "details": "男女風浪板第 10 至第 12 航次", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-085", "date": "2026-11-12 (四)", "dakarTime": "10:30、14:00", "taipeiTime": "18:30、22:00", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子軍刀籤表對陣", "details": "女子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-086", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00", "taipeiTime": "19:00、23:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "預選賽、小組循環賽 (Pre-selection & Round Robin)", "opponent": "各國霹靂舞選手對決", "details": "11:00 B-Girls 預選與循環賽；15:00 B-Boys 預選與循環賽（代表選手：B-Boy Saturn）", "source": "WDSF 霹靂舞專訪", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-087", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00、16:20、16:45", "taipeiTime": "19:00、23:00、00:20 (+1)、00:45 (+1)", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "八強、四強、銅牌戰、金牌決賽", "opponent": "依混合團體籤表對陣", "details": "混合團體賽（11:00 八強、15:00 四強、16:20 銅牌戰、16:45 金牌戰）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-088", "date": "2026-11-12 (四)", "dakarTime": "12:00、17:00", "taipeiTime": "20:00、01:00 (+1)", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "金牌決賽 (Finals)", "opponent": "四強勝出選手", "details": "男女各量級金牌戰", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-089", "date": "2026-11-12 (四)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "決賽航次 第13–15航次 (Final Races)", "opponent": "各國風浪板選手", "details": "男女風浪板最終獎牌航次（R13–15）", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-090", "date": "2026-11-13 (五)", "dakarTime": "09:00、11:15", "taipeiTime": "17:00、19:15", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子軍刀籤表對陣", "details": "男子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 總賽程", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-091", "date": "2026-11-13 (五)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "八強、四強、銅牌戰、金牌戰 (Finals)", "opponent": "循環賽晉級前 8 強選手", "details": "B-Girls 與 B-Boys 八強淘汰賽至金牌戰（B-Boy Saturn 若晉級）", "source": "WDSF 霹靂舞專訪", "status": "UPCOMING", "score": "", "resultLocked": false}], "baseball5": [{"id": "BS5-01", "gameNo": "Game 1", "date": "2026-10-30 (五)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 古巴 (CUB)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-02", "gameNo": "Game 2", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊首戰（對手：地主塞內加爾 SEN）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-03", "gameNo": "Game 3", "date": "2026-10-30 (五)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-04", "gameNo": "Game 4", "date": "2026-10-30 (五)", "dakarTime": "16:30", "taipeiTime": "2026-10-31 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-05", "gameNo": "Game 5", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "16:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊預賽第2戰（對手：土耳其 TUR）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-06", "gameNo": "Game 6", "date": "2026-10-31 (六)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "法國 (FRA) vs 敘利亞 (SYR)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-07", "gameNo": "Game 7", "date": "2026-10-31 (六)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-08", "gameNo": "Game 8", "date": "2026-10-31 (六)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "古巴 (CUB) vs 塞內加爾 (SEN)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-09", "gameNo": "Game 9", "date": "2026-11-01 (日)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 肯亞 (KEN)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-10", "gameNo": "Game 10", "date": "2026-11-01 (日)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "墨西哥 (MEX) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-11", "gameNo": "Game 11", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "中華台北 (TPE) vs 古巴 (CUB)", "tpeNote": "★ 中華隊預賽最終戰（對手：古巴 CUB；依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-12", "gameNo": "Game 12", "date": "2026-11-01 (日)", "dakarTime": "16:30", "taipeiTime": "2026-11-02 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 土耳其 (TUR)", "tpeNote": "同組對手賽事（依 WBSC 公告由 15:00 延後至 16:30）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-13", "gameNo": "QF 1", "date": "2026-11-02 (一)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 1)", "matchup": "B組第3名 (B3) vs A組第2名 (A2)", "tpeNote": "若中華隊獲 A 組第 2 名將出戰 B 組第 3 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-14", "gameNo": "QF 2", "date": "2026-11-02 (一)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 2)", "matchup": "A組第3名 (A3) vs B組第2名 (B2)", "tpeNote": "若中華隊獲 A 組第 3 名將出戰 B 組第 2 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-15", "gameNo": "SF 1", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 1)", "matchup": "QF1 勝隊 (Winner B3/A2) vs B組第1名 (B1)", "tpeNote": "爭奪金牌戰門票", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-16", "gameNo": "SF 2", "date": "2026-11-02 (一)", "dakarTime": "16:30", "taipeiTime": "2026-11-03 00:30", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 2)", "matchup": "QF2 勝隊 (Winner A3/B2) vs A組第1名 (A1)", "tpeNote": "若中華隊獲 A 組第 1 名將直接於此場次出賽", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-17", "gameNo": "P 7-8", "date": "2026-11-03 (二)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "第 7 名排名賽 (7th Place Game)", "matchup": "B組第4名 (B4) vs A組第4名 (A4)", "tpeNote": "第 7、8 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-18", "gameNo": "P 5-6", "date": "2026-11-03 (二)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "第 5 名排名賽 (5th Place Game)", "matchup": "QF1 敗隊 vs QF2 敗隊", "tpeNote": "第 5、6 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-19", "gameNo": "Bronze", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "銅牌戰 (Bronze Medal Game)", "matchup": "SF1 敗隊 vs SF2 敗隊", "tpeNote": "銅牌決定戰", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-20", "gameNo": "Gold", "date": "2026-11-03 (二)", "dakarTime": "16:30", "taipeiTime": "2026-11-04 00:30", "zone": "Dakar", "venue": "CTO", "stage": "金牌戰 (Gold Medal Game)", "matchup": "SF1 勝隊 vs SF2 勝隊", "tpeNote": "金牌決定戰（17:55 頒獎典禮）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}], "venueStats": [{"venue": "CTO", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Tour de l'Œuf", "sports": "五人制棒球 (Baseball5)、女籃 3x3、霹靂舞 (Breaking)、滑板 (Skateboarding)、游泳 (Swimming)", "sessions": 26}, {"venue": "CID", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Iba Mar Diop", "sports": "田徑 (Athletics)、跆拳道 (Taekwondo)", "sessions": 8}, {"venue": "COR", "zone": "Dakar", "zoneColor": "green", "venueFull": "Corniche West", "sports": "公路自由車 (Cycling Road)", "sessions": 2}, {"venue": "DEX", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Exhibition Centre", "sports": "桌球 (Table Tennis)、武術套路 (Wushu Taolu)、柔道 (Judo)、拳擊 (Boxing)、擊劍 (Fencing)", "sessions": 33}, {"venue": "DAR", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Arena", "sports": "羽球 (Badminton)", "sessions": 9}, {"venue": "SAW", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Stade Abdoulaye Wade", "sports": "射箭 (Archery)、開幕典禮 (Opening Ceremony)", "sessions": 6}, {"venue": "SBW", "zone": "Saly", "zoneColor": "red", "venueFull": "Saly Beach West", "sports": "鐵人三項 (Triathlon)、帆船 (Sailing)", "sessions": 7}]};
+    // Embedded Base Data from Dakar_2026_Chinese_Taipei_Schedule.xlsx (Updated 2026-11-01)
+    const INITIAL_DATA = {"lastUpdated": "2026-11-01T15:00:00Z", "spreadsheetId": "1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI", "spreadsheetGid": "502502877", "summary": {"totalSessions": 90, "totalSports": 17, "totalAthletes": 37, "delegationSize": 82, "zones": ["Dakar", "Diamniadio", "Saly"], "venues": ["COR", "CTO", "CID", "DAR", "SAW", "DEX", "SBW"], "period": "2026-10-30 至 2026-11-13"}, "schedule": [{"id": "TPE-001", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "塞內加爾 (SEN)", "details": "混合團體，青奧首戰對決地主隊", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-002", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 (Opening Round)", "opponent": "土耳其 (TUR)", "details": "混合團體預賽第 2 戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-003", "date": "2026-10-31 (六)", "dakarTime": "12:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "16強賽 (Round 16)", "opponent": "依混雙籤表對陣", "details": "混合雙打（代表選手：林晉霆、陳忞昕）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-004", "date": "2026-11-01 (日)", "dakarTime": "09:45", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "男單C組預賽", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-005", "date": "2026-11-01 (日)", "dakarTime": "11:35", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "女單D組預賽", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-006", "date": "2026-11-01 (日)", "dakarTime": "09:55", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "男單5組預賽", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-007", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "男單5組預賽", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-008", "date": "2026-11-01 (日)", "dakarTime": "11:35", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "女單7組預賽", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-009", "date": "2026-11-01 (日)", "dakarTime": "17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "女單7組預賽", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-010", "date": "2026-11-01 (日)", "dakarTime": "19:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "混雙八強賽 (Quarterfinals)", "opponent": "依單打分組籤表對陣", "details": "男子單打（林晉霆）、女子單打（陳忞昕）小組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-011", "date": "2026-11-01 (日)", "dakarTime": "10:12", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "太極扇預賽", "opponent": "各國參賽選手同場評分", "details": "男子長拳、女子太極扇預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-012", "date": "2026-11-01 (日)", "dakarTime": "11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 1 日分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-013", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "預賽 A 組 第11場 (Opening Round)", "opponent": "古巴 (CUB)", "details": "混合團體預賽最終戰（依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-014", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 400m 自由式、男 800m 自由式、男女 200m 仰式、男女 100m 蝶式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-015", "date": "2026-11-02 (一)", "dakarTime": "09:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-016", "date": "2026-11-02 (一)", "dakarTime": "09:30–11:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "男子棍術、女子太極拳預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-017", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -52kg / -63kg、男子 -81kg 預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-018", "date": "2026-11-02 (一)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "單打預賽 (Preliminary Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組預賽（林晉霆、陳忞昕）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-019", "date": "2026-11-02 (一)", "dakarTime": "10:30、12:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "複賽 / 六強半準決賽 (Quarterfinals)", "opponent": "B組第2或第3名（FRA/KEN/MEX/SYR）", "details": "A2 vs B3、B2 vs A3（若中華隊獲 A 組 2、3 名將在此階段出賽）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-020", "date": "2026-11-02 (一)", "dakarTime": "11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 2 日分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-021", "date": "2026-11-02 (一)", "dakarTime": "14:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-022", "date": "2026-11-02 (一)", "dakarTime": "14:30–16:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "預賽 (Preliminary Round)", "opponent": "各國參賽選手同場評分", "details": "女子長拳、男子太極扇預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-023", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 100m 自由式、男女 200m 蛙式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-024", "date": "2026-11-02 (一)", "dakarTime": "15:00、16:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "四強準決賽 (Semifinals)", "opponent": "分組第1名 vs 複賽勝隊", "details": "若中華隊獲 A 組第 1 直接打四強，或由六強複賽勝出晉級", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-025", "date": "2026-11-02 (一)", "dakarTime": "16:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -52kg / -63kg、男子 -81kg 決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-026", "date": "2026-11-02 (一)", "dakarTime": "17:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級組合", "details": "混合雙打 4 強準決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-027", "date": "2026-11-03 (二)", "dakarTime": "09:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-028", "date": "2026-11-03 (二)", "dakarTime": "09:00、14:00、16:02", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "武術套路 (Wushu Taolu)", "sportCategory": "武術", "stage": "決賽 (Finals)", "opponent": "各國參賽選手同場評分", "details": "09:00 女棍術/太極扇、男長拳/太極拳；14:00 女長拳/男棍術；16:02 女太極拳/男太極扇決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-029", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "預賽 / 淘汰賽 (Preliminary Rounds)", "opponent": "依量級籤表對陣", "details": "女子 -78kg、男子 -100kg 預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-030", "date": "2026-11-03 (二)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "16強賽 (Round of 16)", "opponent": "單打預賽晉級選手", "details": "男女單打 16 強淘汰賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-031", "date": "2026-11-03 (二)", "dakarTime": "10:30、12:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "排名賽 (Placement Games)", "opponent": "A4 vs B4（第7名）、六強敗隊（第5名）", "details": "10:30 第 7 名決定戰、12:00 第 5 名決定戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-032", "date": "2026-11-03 (二)", "dakarTime": "11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 3 日分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-033", "date": "2026-11-03 (二)", "dakarTime": "14:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "小組預賽 (Group Play Stage)", "opponent": "依單打分組籤表對陣", "details": "男女單打小組循環賽最終輪", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-034", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "女 800m 自由式、男 400m 自由式、男女 100m 仰式、男女 100m 蛙式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-035", "date": "2026-11-03 (二)", "dakarTime": "15:00、16:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "五人制棒球 (Baseball5)", "sportCategory": "五人制棒球", "stage": "銅牌戰、金牌決賽 (Medal Games)", "opponent": "四強準決賽敗隊 / 勝隊", "details": "15:00 銅牌戰、16:30 金牌戰（17:55 頒獎典禮）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-036", "date": "2026-11-03 (二)", "dakarTime": "16:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "柔道 (Judo)", "sportCategory": "柔道", "stage": "銅牌戰、金牌決賽 (Finals)", "opponent": "預賽晉級選手", "details": "女子 -78kg、男子 -100kg 決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-037", "date": "2026-11-03 (二)", "dakarTime": "16:30、18:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "混雙銅牌戰、金牌決賽 (Medal Matches)", "opponent": "混雙四強晉級組合", "details": "混合雙打獎牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-038", "date": "2026-11-04 (三)", "dakarTime": "09:00–12:35", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "八強賽 (Quarterfinals)", "opponent": "小組預賽晉級選手", "details": "09:00 男單 8 強、10:50 女單 8 強", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-039", "date": "2026-11-04 (三)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "八強賽 (Quarterfinals)", "opponent": "16強晉級選手", "details": "男女單打 8 強賽（林晉霆、陳忞昕若晉級）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-040", "date": "2026-11-04 (三)", "dakarTime": "11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 4 日分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-041", "date": "2026-11-04 (三)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國男子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 男子街式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-042", "date": "2026-11-04 (三)", "dakarTime": "14:30–18:45", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "14:30 男單 4 強、16:40 女單 4 強", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-043", "date": "2026-11-04 (三)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 自由式、男女 200m 混合式、男女 50m 蝶式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-044", "date": "2026-11-05 (四)", "dakarTime": "09:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國男子代表選手（共 64 人參賽）", "details": "男子個人短距離賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-045", "date": "2026-11-05 (四)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女單打 4 強準決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-046", "date": "2026-11-05 (四)", "dakarTime": "11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)", "opponent": "各國分組水道選手", "details": "男女各單項第 5 日分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-047", "date": "2026-11-05 (四)", "dakarTime": "12:45、13:43、16:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "滑板 (Skateboarding)", "sportCategory": "滑輪板", "stage": "預賽 (Prelims)、決賽 (Final)", "opponent": "各國女子街式參賽選手", "details": "12:45 預賽第1組、13:43 預賽第2組、16:00 女子街式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-048", "date": "2026-11-05 (四)", "dakarTime": "14:00–18:45", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DAR", "venueFull": "Dakar Arena", "sport": "羽球 (Badminton)", "sportCategory": "羽球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "14:00 男單銅牌、15:10 男單金牌、16:35 女單銅牌、17:45 女單金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-049", "date": "2026-11-05 (四)", "dakarTime": "15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "決賽 (Finals)", "opponent": "預賽晉級前 8 名選手", "details": "男女 50m 仰式、男女 50m 蛙式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-050", "date": "2026-11-05 (四)", "dakarTime": "16:00–18:15", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "桌球 (Table Tennis)", "sportCategory": "桌球", "stage": "銅牌戰、金牌決賽 (Medal Matches)", "opponent": "四強敗隊 / 勝隊", "details": "16:00 女單銅牌、16:45 男單銅牌、17:30 女單金牌、18:15 男單金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-051", "date": "2026-11-06 (五)", "dakarTime": "09:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "鐵人三項 (Triathlon)", "sportCategory": "鐵人三項", "stage": "決賽 (Individual Final)", "opponent": "各國女子代表選手", "details": "女子個人短距離賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-052", "date": "2026-11-06 (五)", "dakarTime": "09:30", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "個人排名賽 (Ranking Round)", "opponent": "各國射箭選手同場排名", "details": "男女個人排名賽（陳品安）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-053", "date": "2026-11-06 (五)", "dakarTime": "10:00、15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-054", "date": "2026-11-06 (五)", "dakarTime": "11:00、15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "游泳 (Swimming)", "sportCategory": "游泳", "stage": "預賽 (Heats)、決賽 (Finals)", "opponent": "各國游泳選手", "details": "11:00 預賽；15:00 男女 200m 自由式、男女 200m 蝶式決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-055", "date": "2026-11-07 (六)", "dakarTime": "09:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "32強淘汰賽 (1/16 Elimination Round)", "opponent": "依排名賽種子對陣", "details": "男女個人 32 強對抗賽（陳品安）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-056", "date": "2026-11-07 (六)", "dakarTime": "10:00、15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "預賽 / 分組循環賽 (Pool Round)", "opponent": "依女子分組籤表對陣", "details": "中華台北女子 3x3 籃球代表隊分組預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-057", "date": "2026-11-07 (六)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 51kg / 57kg、男子 55kg / 65kg / 70kg 預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-058", "date": "2026-11-08 (日)", "dakarTime": "09:00、11:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Road Race)", "opponent": "各國公路賽參賽選手", "details": "09:00 女子公路賽、11:00 男子公路賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-059", "date": "2026-11-08 (日)", "dakarTime": "09:00、14:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子鈍劍籤表對陣", "details": "女子個人鈍劍（Foil）全天賽程（09:00 預賽至 8 強；14:00 4 強至決賽）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-060", "date": "2026-11-08 (日)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "男子個人 16 強至決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-061", "date": "2026-11-08 (日)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -44kg、男子 -48kg 全天淘汰賽至金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-062", "date": "2026-11-08 (日)", "dakarTime": "11:30、15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "八強賽 (Quarterfinals)", "opponent": "分組晉級隊伍", "details": "女子 3x3 籃球 8 強淘汰賽（若中華女籃晉級）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-063", "date": "2026-11-08 (日)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "預賽 (Preliminaries)", "opponent": "依各量級籤表對陣", "details": "女子 48kg / 54kg / 60kg、男子 50kg / 60kg 預賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-064", "date": "2026-11-08 (日)", "dakarTime": "13:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第1–3航次 (R1–3)", "opponent": "各國風浪板選手", "details": "男女風浪板（Windsurfing）第 1 至第 3 航次", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-065", "date": "2026-11-08 (日)", "dakarTime": "14:30–17:25", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 100m 準決賽與決賽、400m 準決賽、男鏈球/跳遠/3000m、女三級跳/撐竿跳/鐵餅/100m 跨欄決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-066", "date": "2026-11-09 (一)", "dakarTime": "09:00、14:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子鈍劍籤表對陣", "details": "男子個人鈍劍（Foil）全天賽程", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-067", "date": "2026-11-09 (一)", "dakarTime": "10:00、14:00–15:44", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依淘汰賽籤表對陣", "details": "女子個人 16 強至決賽（陳品安 Chen Pin-An）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-068", "date": "2026-11-09 (一)", "dakarTime": "10:00–12:45", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "女標槍/跳遠/400m/800m/3000m、男鉛球/跳高/鐵餅/110m 跨欄/400m/1500m 決賽及 400m 跨欄準決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-069", "date": "2026-11-09 (一)", "dakarTime": "11:00、11:48、16:00、17:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -49kg、男子 -55kg 全天淘汰賽至金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-070", "date": "2026-11-09 (一)", "dakarTime": "11:30、15:00、15:50", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "女籃 3x3 (3x3 Basketball)", "sportCategory": "3X3籃球", "stage": "四強準決賽、銅牌戰、金牌戰", "opponent": "八強晉級隊伍", "details": "11:30 女子 4 強、15:00 銅牌戰、15:50 金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-071", "date": "2026-11-09 (一)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 55kg / 65kg 八強；17:00 女子 51kg / 57kg 八強", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-072", "date": "2026-11-09 (一)", "dakarTime": "13:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第4–6航次 (R4–6)", "opponent": "各國風浪板選手", "details": "男女風浪板第 4 至第 6 航次", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-073", "date": "2026-11-10 (二)", "dakarTime": "09:00、10:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "COR", "venueFull": "Corniche West", "sport": "公路自由車 (Cycling Road)", "sportCategory": "自由車", "stage": "決賽 (Individual Time Trial)", "opponent": "各國個人計時賽選手", "details": "09:00 女子個人計時賽、10:30 男子個人計時賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-074", "date": "2026-11-10 (二)", "dakarTime": "09:00、14:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子銳劍籤表對陣", "details": "女子個人銳劍（Épée）全天賽程", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-075", "date": "2026-11-10 (二)", "dakarTime": "09:30、14:00–16:42", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "SAW", "venueFull": "Stade Abdoulaye Wade", "sport": "射箭 (Archery)", "sportCategory": "射箭", "stage": "16強、8強、4強、銅牌戰、金牌戰", "opponent": "依混合團體籤表對陣", "details": "混合團體 16 強至金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-076", "date": "2026-11-10 (二)", "dakarTime": "10:00–12:45", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "田徑 (Athletics)", "sportCategory": "田徑", "stage": "準決賽、決賽 (Semifinals & Finals)", "opponent": "各國田徑參賽選手", "details": "男女 200m、400m 跨欄、5000m 競走、男撐竿跳/三級跳/標槍/800m、女鏈球/鉛球/跳高/1500m 決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-077", "date": "2026-11-10 (二)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 -55kg / -63kg、男子 -63kg 全天淘汰賽至金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-078", "date": "2026-11-10 (二)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "八強賽 (Quarterfinals)", "opponent": "預賽晉級選手", "details": "12:00 男子 50kg/60kg/70kg 八強；17:00 女子 48kg/54kg/60kg 八強", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-079", "date": "2026-11-10 (二)", "dakarTime": "13:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第7–9航次 (R7–9)", "opponent": "各國風浪板選手", "details": "男女風浪板第 7 至第 9 航次", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-080", "date": "2026-11-11 (三)", "dakarTime": "09:00、14:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子銳劍籤表對陣", "details": "男子個人銳劍（Épée）全天賽程", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-081", "date": "2026-11-11 (三)", "dakarTime": "11:00、12:12、16:00、17:30", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "16強、8強、4強、決賽", "opponent": "依量級籤表對陣", "details": "女子 +63kg、男子 -73kg / +73kg 全天淘汰賽至金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-082", "date": "2026-11-11 (三)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "四強準決賽 (Semifinals)", "opponent": "八強晉級選手", "details": "男女各量級 4 強準決賽", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-083", "date": "2026-11-11 (三)", "dakarTime": "13:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "預賽 第10–12航次 (R10–12)", "opponent": "各國風浪板選手", "details": "男女風浪板第 10 至第 12 航次", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-084", "date": "2026-11-12 (四)", "dakarTime": "10:30、14:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依女子軍刀籤表對陣", "details": "女子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-085", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "預選賽、小組循環賽 (Pre-selection & Round Robin)", "opponent": "各國霹靂舞選手對決", "details": "11:00 B-Girls 預選與循環賽；15:00 B-Boys 預選與循環賽（林泳岳）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-086", "date": "2026-11-12 (四)", "dakarTime": "11:00、15:00、16:20、16:45", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CID", "venueFull": "Complexe Iba Mar Diop", "sport": "跆拳道 (Taekwondo)", "sportCategory": "跆拳道", "stage": "八強、四強、銅牌戰、金牌決賽", "opponent": "依混合團體籤表對陣", "details": "混合團體賽（11:00 八強、15:00 四強、16:20 銅牌戰、16:45 金牌戰）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-087", "date": "2026-11-12 (四)", "dakarTime": "12:00、17:00", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "拳擊 (Boxing)", "sportCategory": "拳擊", "stage": "金牌決賽 (Finals)", "opponent": "四強勝出選手", "details": "男女各量級金牌戰", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-088", "date": "2026-11-12 (四)", "dakarTime": "13:00", "taipeiTime": "", "zone": "Saly", "zoneColor": "red", "venue": "SBW", "venueFull": "Saly Beach West", "sport": "帆船 (Sailing)", "sportCategory": "帆船", "stage": "決賽航次 第13–15航次 (Final Races)", "opponent": "各國風浪板選手", "details": "男女風浪板最終獎牌航次（R13–15）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-089", "date": "2026-11-13 (五)", "dakarTime": "09:00、11:15", "taipeiTime": "", "zone": "Diamniadio", "zoneColor": "yellow", "venue": "DEX", "venueFull": "Dakar Exhibition Centre", "sport": "擊劍 (Fencing)", "sportCategory": "擊劍", "stage": "小組預賽、16強、8強、4強、決賽", "opponent": "依男子軍刀籤表對陣", "details": "男子個人軍刀（Sabre）全天賽程", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "TPE-090", "date": "2026-11-13 (五)", "dakarTime": "10:00", "taipeiTime": "", "zone": "Dakar", "zoneColor": "green", "venue": "CTO", "venueFull": "Complexe Tour de l'Œuf", "sport": "霹靂舞 (Breaking)", "sportCategory": "霹靂舞", "stage": "八強、四強、銅牌戰、金牌戰 (Finals)", "opponent": "循環賽晉級前 8 強選手", "details": "B-Girls 與 B-Boys 八強淘汰賽至金牌戰（林泳岳若晉級）", "source": "Olympics.com 官方賽程 / Excel 同步", "status": "UPCOMING", "score": "", "resultLocked": false}], "baseball5": [{"id": "BS5-01", "gameNo": "Game 1", "date": "2026-10-30 (五)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 古巴 (CUB)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-02", "gameNo": "Game 2", "date": "2026-10-30 (五)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊首戰（對手：地主塞內加爾 SEN）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-03", "gameNo": "Game 3", "date": "2026-10-30 (五)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-04", "gameNo": "Game 4", "date": "2026-10-30 (五)", "dakarTime": "16:30", "taipeiTime": "2026-10-31 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-05", "gameNo": "Game 5", "date": "2026-10-31 (六)", "dakarTime": "08:30", "taipeiTime": "16:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "土耳其 (TUR) vs 中華台北 (TPE)", "tpeNote": "★ 中華隊預賽第2戰（對手：土耳其 TUR）", "source": "Olympics.com 棒球5賽程", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-06", "gameNo": "Game 6", "date": "2026-10-31 (六)", "dakarTime": "10:00", "taipeiTime": "18:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "法國 (FRA) vs 敘利亞 (SYR)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-07", "gameNo": "Game 7", "date": "2026-10-31 (六)", "dakarTime": "11:30", "taipeiTime": "19:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "肯亞 (KEN) vs 墨西哥 (MEX)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-08", "gameNo": "Game 8", "date": "2026-10-31 (六)", "dakarTime": "13:00", "taipeiTime": "21:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "古巴 (CUB) vs 塞內加爾 (SEN)", "tpeNote": "同組對手賽事（A組）", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-09", "gameNo": "Game 9", "date": "2026-11-01 (日)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "敘利亞 (SYR) vs 肯亞 (KEN)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-10", "gameNo": "Game 10", "date": "2026-11-01 (日)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 B 組 (Opening Round)", "matchup": "墨西哥 (MEX) vs 法國 (FRA)", "tpeNote": "B組預賽", "source": "Olympics.com 棒球5賽程", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-11", "gameNo": "Game 11", "date": "2026-11-01 (日)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "中華台北 (TPE) vs 古巴 (CUB)", "tpeNote": "★ 中華隊預賽最終戰（對手：古巴 CUB；依 WBSC 10/27 公告由 16:30 提前至 15:00）", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-12", "gameNo": "Game 12", "date": "2026-11-01 (日)", "dakarTime": "16:30", "taipeiTime": "2026-11-02 00:30", "zone": "Dakar", "venue": "CTO", "stage": "預賽 A 組 (Opening Round)", "matchup": "塞內加爾 (SEN) vs 土耳其 (TUR)", "tpeNote": "同組對手賽事（依 WBSC 公告由 15:00 延後至 16:30）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-13", "gameNo": "QF 1", "date": "2026-11-02 (一)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 1)", "matchup": "B組第3名 (B3) vs A組第2名 (A2)", "tpeNote": "若中華隊獲 A 組第 2 名將出戰 B 組第 3 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-14", "gameNo": "QF 2", "date": "2026-11-02 (一)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "複賽 / 六強半準決賽 (Quarterfinal 2)", "matchup": "A組第3名 (A3) vs B組第2名 (B2)", "tpeNote": "若中華隊獲 A 組第 3 名將出戰 B 組第 2 名", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-15", "gameNo": "SF 1", "date": "2026-11-02 (一)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 1)", "matchup": "QF1 勝隊 (Winner B3/A2) vs B組第1名 (B1)", "tpeNote": "爭奪金牌戰門票", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-16", "gameNo": "SF 2", "date": "2026-11-02 (一)", "dakarTime": "16:30", "taipeiTime": "2026-11-03 00:30", "zone": "Dakar", "venue": "CTO", "stage": "四強準決賽 (Semifinal 2)", "matchup": "QF2 勝隊 (Winner A3/B2) vs A組第1名 (A1)", "tpeNote": "若中華隊獲 A 組第 1 名將直接於此場次出賽", "source": "WBSC 賽程異動公告", "isTpe": true, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-17", "gameNo": "P 7-8", "date": "2026-11-03 (二)", "dakarTime": "10:30", "taipeiTime": "18:30", "zone": "Dakar", "venue": "CTO", "stage": "第 7 名排名賽 (7th Place Game)", "matchup": "B組第4名 (B4) vs A組第4名 (A4)", "tpeNote": "第 7、8 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-18", "gameNo": "P 5-6", "date": "2026-11-03 (二)", "dakarTime": "12:00", "taipeiTime": "20:00", "zone": "Dakar", "venue": "CTO", "stage": "第 5 名排名賽 (5th Place Game)", "matchup": "QF1 敗隊 vs QF2 敗隊", "tpeNote": "第 5、6 名排名賽", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-19", "gameNo": "Bronze", "date": "2026-11-03 (二)", "dakarTime": "15:00", "taipeiTime": "23:00", "zone": "Dakar", "venue": "CTO", "stage": "銅牌戰 (Bronze Medal Game)", "matchup": "SF1 敗隊 vs SF2 敗隊", "tpeNote": "銅牌決定戰", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}, {"id": "BS5-20", "gameNo": "Gold", "date": "2026-11-03 (二)", "dakarTime": "16:30", "taipeiTime": "2026-11-04 00:30", "zone": "Dakar", "venue": "CTO", "stage": "金牌戰 (Gold Medal Game)", "matchup": "SF1 勝隊 vs SF2 勝隊", "tpeNote": "金牌決定戰（17:55 頒獎典禮）", "source": "WBSC 賽程異動公告", "isTpe": false, "status": "UPCOMING", "score": "", "resultLocked": false}], "venueStats": [{"venue": "CTO", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Tour de l'Œuf", "sports": "五人制棒球 (Baseball5)、女籃 3x3、霹靂舞 (Breaking)、滑板 (Skateboarding)、游泳 (Swimming)", "sessions": 26}, {"venue": "CID", "zone": "Dakar", "zoneColor": "green", "venueFull": "Complexe Iba Mar Diop", "sports": "田徑 (Athletics)、跆拳道 (Taekwondo)", "sessions": 8}, {"venue": "COR", "zone": "Dakar", "zoneColor": "green", "venueFull": "Corniche West", "sports": "公路自由車 (Cycling Road)", "sessions": 2}, {"venue": "DEX", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Exhibition Centre", "sports": "桌球 (Table Tennis)、武術套路 (Wushu Taolu)、柔道 (Judo)、拳擊 (Boxing)、擊劍 (Fencing)", "sessions": 33}, {"venue": "DAR", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Dakar Arena", "sports": "羽球 (Badminton)", "sessions": 9}, {"venue": "SAW", "zone": "Diamniadio", "zoneColor": "yellow", "venueFull": "Stade Abdoulaye Wade", "sports": "射箭 (Archery)、開幕典禮 (Opening Ceremony)", "sessions": 5}, {"venue": "SBW", "zone": "Saly", "zoneColor": "red", "venueFull": "Saly Beach West", "sports": "鐵人三項 (Triathlon)、帆船 (Sailing)", "sessions": 7}]};
 
     // Zone and Sub-Venue Tag Configuration (Strictly matching user specifications)
     const ZONE_CONFIG = {
@@ -457,6 +543,11 @@
       venueStats: []
     };
 
+    // Helper: Build stable composite key for a schedule row so locked results survive row insertions/deletions
+    function getItemSignature(item) {
+      return `${item.date || ''}|${item.dakarTime || ''}|${item.venue || ''}|${item.sport || ''}|${item.stage || ''}`;
+    }
+
     // Storage Helpers (Safe for sandboxed iframe)
     function loadSavedResults() {
       try {
@@ -467,11 +558,36 @@
       }
     }
 
-    function saveResultToStorage(id, record) {
+    function saveResultToStorage(id, record, itemObj) {
       try {
         const current = loadSavedResults();
         current[id] = record;
+        if (itemObj) {
+          current[getItemSignature(itemObj)] = record;
+        }
         localStorage.setItem('dakar2026_tpe_results_v1', JSON.stringify(current));
+      } catch (e) {
+        // Fallback in-memory
+      }
+    }
+
+    function loadSyncedScheduleFromStorage() {
+      try {
+        const raw = localStorage.getItem('dakar2026_tpe_custom_schedule_v2');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveSyncedScheduleToStorage(scheduleList, sourceLabel) {
+      try {
+        localStorage.setItem('dakar2026_tpe_custom_schedule_v2', JSON.stringify(scheduleList));
+        if (sourceLabel) {
+          localStorage.setItem('dakar2026_tpe_sync_source_v2', sourceLabel);
+        }
       } catch (e) {
         // Fallback in-memory
       }
@@ -488,20 +604,282 @@
       window._toastTimer = setTimeout(() => {
         box.classList.add('hidden');
         box.classList.remove('flex');
-      }, 3200);
+      }, 3600);
     }
 
-    // Initialize Data merging saved locked results
+    // Map sport name to website filter category
+    function mapSportCategory(sportStr) {
+      const s = String(sportStr || '');
+      if (s.includes('五人制棒球') || s.includes('Baseball5')) return '五人制棒球';
+      if (s.includes('3x3') || s.includes('3X3') || s.includes('籃球')) return '3X3籃球';
+      if (s.includes('霹靂舞') || s.includes('Breaking')) return '霹靂舞';
+      if (s.includes('滑板') || s.includes('滑輪板') || s.includes('Skateboarding')) return '滑輪板';
+      if (s.includes('游泳') || s.includes('Swimming')) return '游泳';
+      if (s.includes('田徑') || s.includes('Athletics')) return '田徑';
+      if (s.includes('跆拳道') || s.includes('Taekwondo')) return '跆拳道';
+      if (s.includes('自由車') || s.includes('Cycling')) return '自由車';
+      if (s.includes('羽球') || s.includes('Badminton')) return '羽球';
+      if (s.includes('射箭') || s.includes('Archery')) return '射箭';
+      if (s.includes('開幕') || s.includes('Opening')) return '開幕典禮';
+      if (s.includes('桌球') || s.includes('Table Tennis')) return '桌球';
+      if (s.includes('擊劍') || s.includes('Fencing')) return '擊劍';
+      if (s.includes('武術') || s.includes('Wushu')) return '武術';
+      if (s.includes('拳擊') || s.includes('Boxing')) return '拳擊';
+      if (s.includes('柔道') || s.includes('Judo')) return '柔道';
+      if (s.includes('鐵人三項') || s.includes('Triathlon')) return '鐵人三項';
+      if (s.includes('帆船') || s.includes('Sailing')) return '帆船';
+      return s.split(' ')[0] || '其他';
+    }
+
+    function mapZoneColor(zoneStr, venueCode) {
+      if (zoneStr === 'Dakar' || ['COR', 'CTO', 'CID'].includes(venueCode)) return 'green';
+      if (zoneStr === 'Diamniadio' || ['DAR', 'SAW', 'DEX'].includes(venueCode)) return 'yellow';
+      if (zoneStr === 'Saly' || venueCode === 'SBW') return 'red';
+      return 'green';
+    }
+
+    // Format Excel serial time or time string cleanly into HH:MM
+    function formatExcelTimeValue(val) {
+      if (val === null || val === undefined || val === '') return '';
+      if (typeof val === 'number' && val >= 0 && val < 1) {
+        const totalMins = Math.round(val * 24 * 60);
+        const hh = String(Math.floor(totalMins / 60)).padStart(2, '0');
+        const mm = String(totalMins % 60).padStart(2, '0');
+        return `${hh}:${mm}`;
+      }
+      if (val instanceof Date && !isNaN(val.getTime())) {
+        const hh = String(val.getHours()).padStart(2, '0');
+        const mm = String(val.getMinutes()).padStart(2, '0');
+        return `${hh}:${mm}`;
+      }
+      let str = String(val).trim();
+      // Handle Google Visualization Date(1899,11,30,9,45,0)
+      const gvizMatch = str.match(/Date\(\d+,\s*\d+,\s*\d+,\s*(\d+),\s*(\d+)/);
+      if (gvizMatch) {
+        return `${String(gvizMatch[1]).padStart(2, '0')}:${String(gvizMatch[2]).padStart(2, '0')}`;
+      }
+      // Handle H:MM:SS or HH:MM:SS or H:MM
+      const timeMatch = str.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+      if (timeMatch) {
+        return `${String(timeMatch[1]).padStart(2, '0')}:${timeMatch[2]}`;
+      }
+      return str;
+    }
+
+    function formatExcelDateValue(val) {
+      if (val === null || val === undefined || val === '') return '';
+      if (typeof val === 'number' && val > 40000) {
+        // Excel serial date
+        const utcDays = Math.floor(val - 25569);
+        const d = new Date(utcDays * 86400 * 1000);
+        const yyyy = d.getUTCFullYear();
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+        return `${yyyy}-${mm}-${dd} (${weekdays[d.getUTCDay()]})`;
+      }
+      return String(val).trim();
+    }
+
+    // Parse 2D array of rows from Excel (.xlsx / CSV / TSV / GViz) into schedule objects
+    function parseRowsToSchedule(rows, sourceLabel) {
+      if (!Array.isArray(rows) || rows.length === 0) return [];
+
+      // Find header row containing '競賽日期' or first data row starting with '2026-'
+      let headerIdx = -1;
+      for (let i = 0; i < Math.min(rows.length, 20); i++) {
+        const r = rows[i];
+        if (Array.isArray(r) && r.some(c => String(c || '').includes('競賽日期'))) {
+          headerIdx = i;
+          break;
+        }
+      }
+
+      // Default column mapping for 10-column Excel layout:
+      // 0:競賽日期, 1:競賽時間(達卡), 2:競賽賽區, 3:競賽場館, 4:場館全名, 5:運動項目, 6:競賽名稱(階段), 7:競賽對手, 8:中華隊選手/說明, 9:對戰成績/完賽結果
+      let colMap = {
+        date: 0,
+        dakarTime: 1,
+        zone: 2,
+        venue: 3,
+        venueFull: 4,
+        sport: 5,
+        stage: 6,
+        opponent: 7,
+        details: 8,
+        score: 9,
+        source: -1
+      };
+
+      if (headerIdx !== -1) {
+        const headers = rows[headerIdx].map(h => String(h || '').trim());
+        headers.forEach((h, idx) => {
+          if (h.includes('競賽日期')) colMap.date = idx;
+          else if (h.includes('達卡') || (h.includes('競賽時間') && !h.includes('台灣'))) colMap.dakarTime = idx;
+          else if (h.includes('競賽賽區') || h === '賽區') colMap.zone = idx;
+          else if (h.includes('競賽場館') || h === '場館代碼' || h === '場館') colMap.venue = idx;
+          else if (h.includes('場館全名')) colMap.venueFull = idx;
+          else if (h.includes('運動項目')) colMap.sport = idx;
+          else if (h.includes('競賽名稱') || h.includes('階段')) colMap.stage = idx;
+          else if (h.includes('競賽對手') || h === '對手') colMap.opponent = idx;
+          else if (h.includes('中華隊選手') || h.includes('參賽項目') || h.includes('說明')) colMap.details = idx;
+          else if (h.includes('對戰成績') || h.includes('完賽結果') || h.includes('賽果')) colMap.score = idx;
+          else if (h.includes('資料來源') || h.includes('來源')) colMap.source = idx;
+        });
+      } else {
+        // Check if 12-column format (where col 2 is Taiwan time and col 3 is Zone)
+        const sampleRow = rows.find(r => Array.isArray(r) && String(r[0] || '').trim().startsWith('2026-'));
+        if (sampleRow && ['Dakar', 'Diamniadio', 'Saly'].includes(String(sampleRow[3] || '').trim())) {
+          colMap = {
+            date: 0, dakarTime: 1, zone: 3, venue: 4, venueFull: 5,
+            sport: 6, stage: 7, opponent: 8, details: 9, source: 10, score: 11
+          };
+        }
+      }
+
+      const startIdx = headerIdx !== -1 ? headerIdx + 1 : 0;
+      const saved = loadSavedResults();
+      const parsedList = [];
+
+      for (let i = startIdx; i < rows.length; i++) {
+        const r = rows[i];
+        if (!Array.isArray(r)) continue;
+        const dateStr = formatExcelDateValue(r[colMap.date]);
+        if (!dateStr || dateStr.startsWith('📌') || dateStr.includes('競賽日期') || dateStr.includes('總賽程')) continue;
+        // Require a valid date-like string (e.g. contains 2026 or 10/ or 11/)
+        if (!dateStr.includes('2026') && !dateStr.includes('10/') && !dateStr.includes('11/')) continue;
+
+        const dakarTime = formatExcelTimeValue(r[colMap.dakarTime]);
+        const zone = String(r[colMap.zone] || '').trim() || 'Dakar';
+        const venue = String(r[colMap.venue] || '').trim() || 'CTO';
+        const venueSub = VENUE_SUBTAGS[venue];
+        const venueFull = String(r[colMap.venueFull] || '').trim() || (venueSub ? venueSub.fullName : '');
+        const sport = String(r[colMap.sport] || '').trim();
+        if (!sport) continue;
+
+        const stage = String(r[colMap.stage] || '').trim() || '預賽';
+        const opponent = String(r[colMap.opponent] || '').trim() || '依籤表對陣';
+        const details = String(r[colMap.details] || '').trim();
+        const excelScore = colMap.score >= 0 && r[colMap.score] !== undefined && r[colMap.score] !== null
+          ? String(r[colMap.score]).trim()
+          : '';
+        const srcText = colMap.source >= 0 && r[colMap.source]
+          ? String(r[colMap.source]).trim()
+          : (sourceLabel || 'Excel 檔案同步');
+
+        const id = `TPE-${String(parsedList.length + 1).padStart(3, '0')}`;
+        const itemObj = {
+          id,
+          date: dateStr,
+          dakarTime: dakarTime || '待定',
+          taipeiTime: '',
+          zone,
+          zoneColor: mapZoneColor(zone, venue),
+          venue,
+          venueFull,
+          sport,
+          sportCategory: mapSportCategory(sport),
+          stage,
+          opponent,
+          details,
+          source: srcText,
+          status: excelScore ? 'FINISHED' : 'UPCOMING',
+          score: excelScore,
+          resultLocked: Boolean(excelScore)
+        };
+
+        // Merge with existing locked result in browser storage if Excel cell is empty
+        const sig = getItemSignature(itemObj);
+        const savedRec = saved[sig] || saved[id];
+        if (!excelScore && savedRec && savedRec.resultLocked) {
+          itemObj.status = savedRec.status || 'FINISHED';
+          itemObj.score = savedRec.score || itemObj.score;
+          itemObj.resultLocked = true;
+        } else if (excelScore) {
+          // If Excel has a score filled in column J, also persist it to localStorage
+          saveResultToStorage(id, {
+            status: 'FINISHED',
+            score: excelScore,
+            opponent: itemObj.opponent,
+            resultLocked: true
+          }, itemObj);
+        }
+
+        parsedList.push(itemObj);
+      }
+
+      return parsedList;
+    }
+
+    // Recalculate Venue Stats & KPI Counts whenever appState.schedule is updated
+    function recalculateStatsFromSchedule() {
+      const baseVenues = [
+        { venue: 'CTO', zone: 'Dakar', zoneColor: 'green', venueFull: "Complexe Tour de l'Œuf", sports: '五人制棒球 (Baseball5)、女籃 3x3、霹靂舞 (Breaking)、滑板 (Skateboarding)、游泳 (Swimming)' },
+        { venue: 'CID', zone: 'Dakar', zoneColor: 'green', venueFull: 'Complexe Iba Mar Diop', sports: '田徑 (Athletics)、跆拳道 (Taekwondo)' },
+        { venue: 'COR', zone: 'Dakar', zoneColor: 'green', venueFull: 'Corniche West', sports: '公路自由車 (Cycling Road)' },
+        { venue: 'DEX', zone: 'Diamniadio', zoneColor: 'yellow', venueFull: 'Dakar Exhibition Centre', sports: '桌球 (Table Tennis)、武術套路 (Wushu Taolu)、柔道 (Judo)、拳擊 (Boxing)、擊劍 (Fencing)' },
+        { venue: 'DAR', zone: 'Diamniadio', zoneColor: 'yellow', venueFull: 'Dakar Arena', sports: '羽球 (Badminton)' },
+        { venue: 'SAW', zone: 'Diamniadio', zoneColor: 'yellow', venueFull: 'Stade Abdoulaye Wade', sports: '射箭 (Archery)、開幕典禮 (Opening Ceremony)' },
+        { venue: 'SBW', zone: 'Saly', zoneColor: 'red', venueFull: 'Saly Beach West', sports: '鐵人三項 (Triathlon)、帆船 (Sailing)' }
+      ];
+
+      appState.venueStats = baseVenues.map(v => ({
+        ...v,
+        sessions: appState.schedule.filter(i => i.venue === v.venue).length
+      }));
+
+      const totalEl = document.getElementById('kpi-total-sessions');
+      if (totalEl) totalEl.textContent = appState.schedule.length;
+      const footerCountEl = document.getElementById('footer-session-count');
+      if (footerCountEl) footerCountEl.textContent = appState.schedule.length;
+    }
+
+    // Apply newly synced schedule to website state, storage, and UI
+    function applySyncedScheduleToWebsite(newSchedule, sourceTitle) {
+      if (!Array.isArray(newSchedule) || newSchedule.length === 0) {
+        showToast('⚠️ 找不到有效的賽程資料列，請確認 Excel 內含「競賽日期」與賽程內容。');
+        return false;
+      }
+
+      appState.schedule = newSchedule;
+      recalculateStatsFromSchedule();
+
+      // Ensure active date filter still exists, otherwise reset to ALL
+      if (appState.selectedDate !== 'ALL') {
+        const hasDate = appState.schedule.some(i => i.date === appState.selectedDate);
+        if (!hasDate) appState.selectedDate = 'ALL';
+      }
+
+      const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+      const badgeLabel = `最後同步：${nowStr} ｜ 來源：${sourceTitle}（共 ${newSchedule.length} 筆賽程）`;
+      saveSyncedScheduleToStorage(newSchedule, badgeLabel);
+
+      const syncBadge = document.getElementById('sync-source-badge');
+      if (syncBadge) syncBadge.textContent = badgeLabel;
+      const lastSyncEl = document.getElementById('last-sync-text');
+      if (lastSyncEl) lastSyncEl.textContent = `${badgeLabel}`;
+
+      renderAllFiltersAndList();
+      showToast(`✅ 同步成功！已從「${sourceTitle}」載入 ${newSchedule.length} 筆最新賽程至網站。`);
+      return true;
+    }
+
+    // Initialize Data merging saved schedule & locked results
     function initData() {
       const saved = loadSavedResults();
-      appState.schedule = INITIAL_DATA.schedule.map(item => {
-        if (saved[item.id]) {
+      const customSchedule = loadSyncedScheduleFromStorage();
+      const baseList = customSchedule || INITIAL_DATA.schedule;
+
+      appState.schedule = baseList.map(item => {
+        const sig = getItemSignature(item);
+        const rec = saved[sig] || saved[item.id];
+        if (rec) {
           return {
             ...item,
-            status: saved[item.id].status || item.status,
-            score: saved[item.id].score !== undefined ? saved[item.id].score : item.score,
-            opponent: saved[item.id].opponent || item.opponent,
-            resultLocked: Boolean(saved[item.id].resultLocked)
+            status: rec.status || item.status,
+            score: rec.score !== undefined && rec.score !== '' ? rec.score : item.score,
+            opponent: rec.opponent || item.opponent,
+            resultLocked: Boolean(rec.resultLocked)
           };
         }
         return { ...item };
@@ -519,7 +897,17 @@
         return { ...item };
       });
 
-      appState.venueStats = INITIAL_DATA.venueStats.map(v => ({ ...v }));
+      recalculateStatsFromSchedule();
+
+      try {
+        const savedLabel = localStorage.getItem('dakar2026_tpe_sync_source_v2');
+        if (savedLabel) {
+          const syncBadge = document.getElementById('sync-source-badge');
+          if (syncBadge) syncBadge.textContent = savedLabel;
+          const lastSyncEl = document.getElementById('last-sync-text');
+          if (lastSyncEl) lastSyncEl.textContent = savedLabel;
+        }
+      } catch (e) {}
     }
 
     // Badge Styling Helper
@@ -725,7 +1113,7 @@
         <button type="button" data-date="ALL" class="date-filter-btn px-3 py-1.5 rounded-lg border text-xs font-bold whitespace-nowrap transition ${
           isAll ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
         }">
-          全部日期 (15天)
+          全部日期 (${dates.length}天)
         </button>
       `;
 
@@ -911,7 +1299,6 @@
                 </div>
                 <div class="text-xs text-slate-600 leading-relaxed">
                   <span class="font-semibold text-slate-700">中華隊選手 / 參賽說明：</span>${item.details}
-                  <span class="ml-2 text-[11px] text-slate-400">（來源：${item.source}）</span>
                 </div>
               </div>
 
@@ -984,6 +1371,7 @@
         `;
       }).join('');
 
+      const totalSessions = appState.schedule.length;
       tbody.innerHTML = appState.venueStats.map(v => {
         const sub = VENUE_SUBTAGS[v.venue] || { label: v.venue };
         return `
@@ -1002,7 +1390,7 @@
           <td class="py-3 px-4">3 大賽區</td>
           <td class="py-3 px-4">7 座競賽場館</td>
           <td class="py-3 px-4" colspan="2">共 17 項參賽運動（37 名選手，代表團總計 82 人）</td>
-          <td class="py-3 px-4 text-right font-mono">91</td>
+          <td class="py-3 px-4 text-right font-mono">${totalSessions}</td>
         </tr>
       `;
 
@@ -1048,6 +1436,20 @@
       appState.editingItemId = null;
     }
 
+    function openSyncModal() {
+      const modal = document.getElementById('excel-sync-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSyncModal() {
+      const modal = document.getElementById('excel-sync-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
     // Tab Switching
     function switchTab(tabName) {
       appState.activeTab = tabName;
@@ -1078,31 +1480,144 @@
       renderVenueStats();
     }
 
-    // Hourly / Instant Sync from Google Sheet (respecting resultLocked)
+    // Method A: Read & Sync Local Excel (.xlsx / .xls / .csv) File Directly into Website
+    function handleExcelFileSelect(file) {
+      if (!file) return;
+      if (typeof XLSX === 'undefined') {
+        showToast('⚠️ Excel 解析套件尚未載入完成，請稍候再試或使用「貼上表格同步」。');
+        return;
+      }
+
+      showToast(`⏳ 正在讀取「${file.name}」並同步至網站...`);
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const targetSheet = workbook.SheetNames.find(n => n.includes('逐日賽程') || n.includes('中華台北')) || workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[targetSheet];
+          const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true, defval: '' });
+
+          const parsedSchedule = parseRowsToSchedule(rows, `Excel 檔案 (${file.name})`);
+          if (applySyncedScheduleToWebsite(parsedSchedule, `${file.name} [${targetSheet}]`)) {
+            closeSyncModal();
+          }
+        } catch (err) {
+          showToast('⚠️ 讀取 Excel 檔案失敗：請確認檔案格式為 .xlsx 或 .csv');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // Method B: Parse GViz JSON response or JSONP callback from Google Sheets
+    function parseGvizResponseToRows(gvizObj) {
+      if (!gvizObj || !gvizObj.table || !Array.isArray(gvizObj.table.rows)) return [];
+      const cols = (gvizObj.table.cols || []).map(c => c.label || '');
+      const rows = [];
+      if (cols.some(Boolean)) rows.push(cols);
+
+      gvizObj.table.rows.forEach(r => {
+        if (!r || !Array.isArray(r.c)) return;
+        const rowVals = r.c.map(cell => {
+          if (!cell) return '';
+          if (cell.f !== undefined && cell.f !== null && String(cell.f).trim() !== '') {
+            return String(cell.f).trim();
+          }
+          return cell.v !== undefined && cell.v !== null ? cell.v : '';
+        });
+        rows.push(rowVals);
+      });
+      return rows;
+    }
+
+    // Method C: Pull from Cloud Spreadsheet (Excel/Sheet -> Website) with multi-stage fallback
     async function syncFromCloudSheet() {
       const sheetId = INITIAL_DATA.spreadsheetId;
+      const gid = INITIAL_DATA.spreadsheetGid || '502502877';
       const lastSyncEl = document.getElementById('last-sync-text');
       const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
 
-      showToast('正在檢查雲端試算表更新（已鎖定之完賽成績將自動跳過）...');
+      showToast('📥 正在從雲端試算表拉取最新賽程至網站（絕不反向覆蓋 Excel）...');
 
-      try {
-        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-        const resp = await fetch(url);
-        if (resp.ok) {
-          const text = await resp.text();
-          if (text.includes('google.visualization.Query.setResponse')) {
-            if (lastSyncEl) lastSyncEl.textContent = `最後同步：${nowStr}（雲端連線正常，已保留鎖定賽果）`;
-            showToast(`同步完成（${nowStr}）！已跳過鎖定賽果並更新最新賽程。`);
-            return;
+      // Attempt 1: Try fetching .xlsx or .csv via fetch() + SheetJS if CORS permits
+      if (typeof XLSX !== 'undefined') {
+        const exportUrls = [
+          `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`,
+          `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`
+        ];
+        for (const url of exportUrls) {
+          try {
+            const resp = await fetch(url, { cache: 'no-store' });
+            if (resp.ok) {
+              const buf = await resp.arrayBuffer();
+              const wb = XLSX.read(new Uint8Array(buf), { type: 'array' });
+              const sName = wb.SheetNames.find(n => n.includes('逐日賽程') || n.includes('中華台北')) || wb.SheetNames[0];
+              const rows = XLSX.utils.sheet_to_json(wb.Sheets[sName], { header: 1, raw: true, defval: '' });
+              const parsed = parseRowsToSchedule(rows, 'Google 雲端試算表');
+              if (parsed.length > 0) {
+                applySyncedScheduleToWebsite(parsed, 'Google 雲端試算表即時拉取');
+                return;
+              }
+            }
+          } catch (e) {
+            // Continue to next fallback
           }
         }
-      } catch (err) {
-        // Fallback when offline or CORS restricted in sandbox
       }
 
-      if (lastSyncEl) lastSyncEl.textContent = `最後檢查：${nowStr}（使用內建基準賽程，已保留鎖定賽果）`;
-      showToast(`已完成基準賽程核對（${nowStr}），已完賽鎖定項目不重複更新。`);
+      // Attempt 2: Try GViz JSONP (<script> injection bypasses fetch CORS in sandboxed iframes)
+      const jsonpSuccess = await new Promise(resolve => {
+        const cbName = '__gvizSyncCb_' + Date.now();
+        let settled = false;
+        const timer = setTimeout(() => {
+          if (!settled) {
+            settled = true;
+            delete window[cbName];
+            resolve(false);
+          }
+        }, 4500);
+
+        window[cbName] = function(response) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          delete window[cbName];
+          try {
+            const rows = parseGvizResponseToRows(response);
+            const parsed = parseRowsToSchedule(rows, 'Google 雲端試算表');
+            if (parsed.length > 0) {
+              applySyncedScheduleToWebsite(parsed, 'Google 雲端試算表 (JSONP)');
+              resolve(true);
+              return;
+            }
+          } catch (err) {}
+          resolve(false);
+        };
+
+        const script = document.createElement('script');
+        script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?gid=${gid}&tqx=responseHandler:${cbName}&_=${Date.now()}`;
+        script.onerror = () => {
+          if (!settled) {
+            settled = true;
+            clearTimeout(timer);
+            delete window[cbName];
+            resolve(false);
+          }
+        };
+        document.body.appendChild(script);
+        setTimeout(() => {
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }, 5000);
+      });
+
+      if (jsonpSuccess) return;
+
+      // If Google Drive blocks anonymous read on the .xlsx file, notify and open the 1-click Excel Sync Modal
+      if (lastSyncEl) {
+        lastSyncEl.textContent = `最後檢查：${nowStr}（雲端 .xlsx 需授權讀取，可使用選取 Excel 檔或貼上同步）`;
+      }
+      showToast('💡 雲端 .xlsx 檔案受權限保護，已為您開啟「選擇 Excel 檔 / 貼上表格」即時同步視窗！');
+      openSyncModal();
     }
 
     // Bind Events on Load
@@ -1113,6 +1628,68 @@
       // Navigation Tabs
       document.getElementById('tab-btn-daily').addEventListener('click', () => switchTab('daily'));
       document.getElementById('tab-btn-venues').addEventListener('click', () => switchTab('venues'));
+
+      // Excel File Upload Buttons (Header + Hero Banner + Sync Modal)
+      const fileInput = document.getElementById('excel-file-input');
+      const triggerExcelPicker = () => {
+        if (fileInput) {
+          fileInput.value = '';
+          fileInput.click();
+        }
+      };
+      document.getElementById('upload-excel-btn').addEventListener('click', triggerExcelPicker);
+      document.getElementById('hero-upload-excel-btn').addEventListener('click', triggerExcelPicker);
+      document.getElementById('modal-pick-excel-btn').addEventListener('click', triggerExcelPicker);
+
+      fileInput.addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (file) handleExcelFileSelect(file);
+      });
+
+      // Drag and drop .xlsx anywhere on page
+      window.addEventListener('dragover', e => {
+        e.preventDefault();
+      });
+      window.addEventListener('drop', e => {
+        e.preventDefault();
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls') || file.name.endsWith('.csv'))) {
+          handleExcelFileSelect(file);
+        }
+      });
+
+      // Sync Modal & Paste Sync Handlers
+      document.getElementById('open-sync-center-btn').addEventListener('click', openSyncModal);
+      document.getElementById('hero-paste-sync-btn').addEventListener('click', openSyncModal);
+      document.getElementById('sync-modal-close-btn').addEventListener('click', closeSyncModal);
+      document.getElementById('sync-modal-cancel-btn').addEventListener('click', closeSyncModal);
+
+      document.getElementById('apply-paste-sync-btn').addEventListener('click', () => {
+        const rawText = (document.getElementById('paste-excel-textarea').value || '').trim();
+        if (!rawText) {
+          showToast('⚠️ 請先在文字框內貼上從 Excel 或雲端試算表複製的賽程列！');
+          return;
+        }
+        const rows = rawText.split(/\r?\n/).map(line => line.split('\t'));
+        const parsed = parseRowsToSchedule(rows, '剪貼簿貼上同步');
+        if (applySyncedScheduleToWebsite(parsed, 'Excel 剪貼簿貼上同步')) {
+          document.getElementById('paste-excel-textarea').value = '';
+          closeSyncModal();
+        }
+      });
+
+      document.getElementById('reset-schedule-baseline-btn').addEventListener('click', () => {
+        try {
+          localStorage.removeItem('dakar2026_tpe_custom_schedule_v2');
+          localStorage.removeItem('dakar2026_tpe_sync_source_v2');
+        } catch (e) {}
+        initData();
+        renderAllFiltersAndList();
+        const syncBadge = document.getElementById('sync-source-badge');
+        if (syncBadge) syncBadge.textContent = `目前資料基準：已載入最新籤表與賽程（共 ${appState.schedule.length} 筆時段）`;
+        closeSyncModal();
+        showToast('✅ 已還原為系統內建最新基準賽程（11/01 更新版）！');
+      });
 
       // Search & Selects
       document.getElementById('search-input').addEventListener('input', e => {
@@ -1144,7 +1721,7 @@
         showToast('已重設所有篩選條件');
       });
 
-      // Modal Buttons
+      // Score Modal Buttons
       document.getElementById('modal-close-btn').addEventListener('click', closeScoreModal);
       document.getElementById('modal-cancel-btn').addEventListener('click', closeScoreModal);
 
@@ -1170,7 +1747,9 @@
           score: item.score,
           opponent: oppVal,
           resultLocked: item.resultLocked
-        });
+        }, item);
+
+        saveSyncedScheduleToStorage(appState.schedule);
 
         closeScoreModal();
         renderAllFiltersAndList();
@@ -1190,16 +1769,20 @@
           status: 'UPCOMING',
           score: '',
           resultLocked: false
-        });
+        }, item);
+
+        saveSyncedScheduleToStorage(appState.schedule);
 
         closeScoreModal();
         renderAllFiltersAndList();
         showToast('已解除鎖定並恢復為未完賽狀態');
       });
 
-      // Sync Button & Hourly Timer
+      // Cloud Sync Buttons & Hourly Timer
       document.getElementById('sync-now-btn').addEventListener('click', syncFromCloudSheet);
-      setInterval(syncFromCloudSheet, 3600 * 1000);
+      document.getElementById('hero-cloud-pull-btn').addEventListener('click', syncFromCloudSheet);
+      if (window._syncInterval) clearInterval(window._syncInterval);
+      window._syncInterval = setInterval(syncFromCloudSheet, 3600 * 1000);
     });
   </script>
 </body>
