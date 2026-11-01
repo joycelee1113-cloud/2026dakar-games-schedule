@@ -131,33 +131,6 @@
   <!-- Main Content Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- Homepage Excel -> Website Quick Sync Bar -->
-    <section id="excel-sync-banner" class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 text-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-700 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-      <div class="space-y-1">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="px-2 py-0.5 text-[11px] font-extrabold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">單向安全同步：Excel 檔案 ➔ 網站</span>
-          <span id="sync-source-badge" class="text-xs text-slate-300 font-medium">目前資料基準：已載入最新籤表與賽程（共 90 筆時段）</span>
-        </div>
-        <h2 class="text-sm sm:text-base font-extrabold text-white">
-          修改 Excel 賽程或籤表後，點選右側按鈕即可將「Excel 檔案」資訊即時同步至「網站」（絕不反向覆蓋您的 Excel）
-        </h2>
-        <p class="text-xs text-slate-300">
-          支援直接選取或拖曳 <code class="bg-white/10 px-1.5 py-0.5 rounded">Dakar_2026_Chinese_Taipei_Schedule.xlsx</code> 檔案、從雲端試算表拉取、或直接複製 Excel 儲存格貼上更新。
-        </p>
-      </div>
-      <div class="flex flex-wrap items-center gap-2 flex-shrink-0">
-        <button id="hero-upload-excel-btn" type="button" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-blue-500 hover:bg-blue-400 text-white shadow transition flex items-center gap-1.5">
-          <span>📂 選擇 Excel (.xlsx) 立即同步至網站</span>
-        </button>
-        <button id="hero-cloud-pull-btn" type="button" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white shadow transition flex items-center gap-1.5">
-          <span>📥 從雲端試算表拉取更新</span>
-        </button>
-        <button id="hero-paste-sync-btn" type="button" class="px-3 py-2.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition">
-          <span>📋 複製貼上同步</span>
-        </button>
-      </div>
-    </section>
-
     <!-- KPI Summary Row -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm flex flex-col justify-between">
@@ -707,7 +680,7 @@
         stage: 6,
         opponent: 7,
         details: 8,
-        score: 9,
+        score: -1,
         source: -1
       };
 
@@ -726,6 +699,9 @@
           else if (h.includes('對戰成績') || h.includes('完賽結果') || h.includes('賽果')) colMap.score = idx;
           else if (h.includes('資料來源') || h.includes('來源')) colMap.source = idx;
         });
+        if (colMap.score === colMap.details || colMap.score === colMap.source) {
+          colMap.score = -1;
+        }
       } else {
         // Check if 12-column format (where col 2 is Taiwan time and col 3 is Zone)
         const sampleRow = rows.find(r => Array.isArray(r) && String(r[0] || '').trim().startsWith('2026-'));
@@ -760,9 +736,10 @@
         const stage = String(r[colMap.stage] || '').trim() || '預賽';
         const opponent = String(r[colMap.opponent] || '').trim() || '依籤表對陣';
         const details = String(r[colMap.details] || '').trim();
-        const excelScore = colMap.score >= 0 && r[colMap.score] !== undefined && r[colMap.score] !== null
+        const rawScore = colMap.score >= 0 && r[colMap.score] !== undefined && r[colMap.score] !== null
           ? String(r[colMap.score]).trim()
           : '';
+        const excelScore = (rawScore && rawScore !== details && !rawScore.includes('Olympics.com')) ? rawScore : '';
         const srcText = colMap.source >= 0 && r[colMap.source]
           ? String(r[colMap.source]).trim()
           : (sourceLabel || 'Excel 檔案同步');
@@ -788,12 +765,13 @@
           resultLocked: Boolean(excelScore)
         };
 
-        // Merge with existing locked result in browser storage if Excel cell is empty
+        // Merge with existing locked result in browser storage if Excel cell is empty (ignoring bogus details copies)
         const sig = getItemSignature(itemObj);
         const savedRec = saved[sig] || saved[id];
-        if (!excelScore && savedRec && savedRec.resultLocked) {
+        const validSavedScore = savedRec && savedRec.score && savedRec.score !== details && !String(savedRec.score).includes('Olympics.com');
+        if (!excelScore && savedRec && savedRec.resultLocked && validSavedScore) {
           itemObj.status = savedRec.status || 'FINISHED';
-          itemObj.score = savedRec.score || itemObj.score;
+          itemObj.score = savedRec.score;
           itemObj.resultLocked = true;
         } else if (excelScore) {
           // If Excel has a score filled in column J, also persist it to localStorage
@@ -854,8 +832,6 @@
       const badgeLabel = `最後同步：${nowStr} ｜ 來源：${sourceTitle}（共 ${newSchedule.length} 筆賽程）`;
       saveSyncedScheduleToStorage(newSchedule, badgeLabel);
 
-      const syncBadge = document.getElementById('sync-source-badge');
-      if (syncBadge) syncBadge.textContent = badgeLabel;
       const lastSyncEl = document.getElementById('last-sync-text');
       if (lastSyncEl) lastSyncEl.textContent = `${badgeLabel}`;
 
@@ -870,19 +846,40 @@
       const customSchedule = loadSyncedScheduleFromStorage();
       const baseList = customSchedule || INITIAL_DATA.schedule;
 
-      appState.schedule = baseList.map(item => {
-        const sig = getItemSignature(item);
-        const rec = saved[sig] || saved[item.id];
-        if (rec) {
+      // Clean up any historical storage entries where athlete details were mistakenly saved as score
+      try {
+        let cleaned = false;
+        Object.keys(saved).forEach(k => {
+          const sVal = saved[k] && saved[k].score ? String(saved[k].score) : '';
+          if (sVal.includes('混合團體') || sVal.includes('代表選手') || sVal.includes('小組循環賽') || sVal.includes('同場評分') || sVal.includes('分組水道') || sVal.includes('預賽晉級') || sVal.includes('代表團（37 名選手') || sVal.includes('各國')) {
+            delete saved[k];
+            cleaned = true;
+          }
+        });
+        if (cleaned) {
+          localStorage.setItem('dakar2026_tpe_results_v1', JSON.stringify(saved));
+          localStorage.removeItem('dakar2026_tpe_custom_schedule_v2');
+        }
+      } catch (e) {}
+
+      const cleanCustomSchedule = loadSyncedScheduleFromStorage();
+      const effectiveBaseList = cleanCustomSchedule || INITIAL_DATA.schedule;
+
+      appState.schedule = effectiveBaseList.map(item => {
+        const isBogusItemScore = item.score && (item.score === item.details || String(item.score).includes('混合團體') || String(item.score).includes('代表選手'));
+        const baseItem = isBogusItemScore ? { ...item, score: '', status: 'UPCOMING', resultLocked: false } : { ...item };
+        const sig = getItemSignature(baseItem);
+        const rec = saved[sig] || saved[baseItem.id];
+        if (rec && rec.score && rec.score !== baseItem.details) {
           return {
-            ...item,
-            status: rec.status || item.status,
-            score: rec.score !== undefined && rec.score !== '' ? rec.score : item.score,
-            opponent: rec.opponent || item.opponent,
+            ...baseItem,
+            status: rec.status || baseItem.status,
+            score: rec.score,
+            opponent: rec.opponent || baseItem.opponent,
             resultLocked: Boolean(rec.resultLocked)
           };
         }
-        return { ...item };
+        return baseItem;
       });
 
       appState.baseball5 = INITIAL_DATA.baseball5.map(item => {
@@ -902,8 +899,6 @@
       try {
         const savedLabel = localStorage.getItem('dakar2026_tpe_sync_source_v2');
         if (savedLabel) {
-          const syncBadge = document.getElementById('sync-source-badge');
-          if (syncBadge) syncBadge.textContent = savedLabel;
           const lastSyncEl = document.getElementById('last-sync-text');
           if (lastSyncEl) lastSyncEl.textContent = savedLabel;
         }
@@ -1244,10 +1239,10 @@
           let resultAreaHtml = '';
           if (item.status === 'FINISHED') {
             resultAreaHtml = `
-              <div class="flex flex-col sm:items-end gap-1.5">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-extrabold">
-                  <span>✅ 完賽成績：${item.score || '已完賽'}</span>
-                  ${item.resultLocked ? '<span title="已鎖定，每小時排程不重複覆寫" class="text-[10px] px-1.5 py-0.2 bg-emerald-700 text-white rounded">🔒已鎖定</span>' : ''}
+              <div class="flex flex-col sm:items-end gap-1.5 w-full">
+                <div class="w-full sm:w-auto sm:min-w-[260px] flex items-center justify-between gap-2.5 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-extrabold shadow-sm">
+                  <span class="break-words leading-snug">✅ 完賽成績：${item.score || '已完賽'}</span>
+                  ${item.resultLocked ? '<span title="已鎖定，每小時排程不重複覆寫" class="whitespace-nowrap flex-shrink-0 text-[11px] px-2 py-0.5 bg-emerald-700 text-white rounded-md font-bold">🔒 已鎖定</span>' : ''}
                 </div>
                 <button type="button" data-edit-id="${item.id}" data-edit-type="schedule" class="open-modal-btn text-[11px] font-semibold text-slate-500 hover:text-slate-800 underline">
                   修改或解鎖成績
@@ -1303,7 +1298,7 @@
               </div>
 
               <!-- Score & Lock Action -->
-              <div class="lg:w-52 flex-shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+              <div class="lg:w-80 xl:w-96 flex-shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 flex lg:justify-end">
                 ${resultAreaHtml}
               </div>
             </div>
@@ -1638,7 +1633,6 @@
         }
       };
       document.getElementById('upload-excel-btn').addEventListener('click', triggerExcelPicker);
-      document.getElementById('hero-upload-excel-btn').addEventListener('click', triggerExcelPicker);
       document.getElementById('modal-pick-excel-btn').addEventListener('click', triggerExcelPicker);
 
       fileInput.addEventListener('change', e => {
@@ -1660,7 +1654,6 @@
 
       // Sync Modal & Paste Sync Handlers
       document.getElementById('open-sync-center-btn').addEventListener('click', openSyncModal);
-      document.getElementById('hero-paste-sync-btn').addEventListener('click', openSyncModal);
       document.getElementById('sync-modal-close-btn').addEventListener('click', closeSyncModal);
       document.getElementById('sync-modal-cancel-btn').addEventListener('click', closeSyncModal);
 
@@ -1685,8 +1678,6 @@
         } catch (e) {}
         initData();
         renderAllFiltersAndList();
-        const syncBadge = document.getElementById('sync-source-badge');
-        if (syncBadge) syncBadge.textContent = `目前資料基準：已載入最新籤表與賽程（共 ${appState.schedule.length} 筆時段）`;
         closeSyncModal();
         showToast('✅ 已還原為系統內建最新基準賽程（11/01 更新版）！');
       });
@@ -1780,7 +1771,6 @@
 
       // Cloud Sync Buttons & Hourly Timer
       document.getElementById('sync-now-btn').addEventListener('click', syncFromCloudSheet);
-      document.getElementById('hero-cloud-pull-btn').addEventListener('click', syncFromCloudSheet);
       if (window._syncInterval) clearInterval(window._syncInterval);
       window._syncInterval = setInterval(syncFromCloudSheet, 3600 * 1000);
     });
