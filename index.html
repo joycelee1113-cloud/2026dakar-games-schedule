@@ -669,7 +669,7 @@
       }
 
       // Default column mapping for 10-column Excel layout:
-      // 0:競賽日期, 1:競賽時間(達卡), 2:競賽賽區, 3:競賽場館, 4:場館全名, 5:運動項目, 6:競賽名稱(階段), 7:競賽對手, 8:中華隊選手/說明, 9:對戰成績/完賽結果
+      // 0:競賽日期, 1:競賽時間(達卡), 2:競賽賽區, 3:競賽場館, 4:場館全名, 5:運動項目, 6:競賽名稱(階段), 7:競賽對手, 8:中華隊選手, 9:對戰成績/完賽結果
       let colMap = {
         date: 0,
         dakarTime: 1,
@@ -1293,7 +1293,7 @@
                   <span class="text-blue-800 font-bold">${item.opponent}</span>
                 </div>
                 <div class="text-xs text-slate-600 leading-relaxed">
-                  <span class="font-semibold text-slate-700">中華隊選手 / 參賽說明：</span>${item.details}
+                  <span class="font-semibold text-slate-700">中華隊選手：</span>${item.details}
                 </div>
               </div>
 
