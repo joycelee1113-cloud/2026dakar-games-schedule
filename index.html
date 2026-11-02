@@ -1238,11 +1238,20 @@
           // Result & Lock Badge
           let resultAreaHtml = '';
           if (item.status === 'FINISHED') {
+            const scoreText = String(item.score || '');
+            const isLoss = !scoreText.includes('不敗') && /(敗|未晉級|負|淘汰|止步|不敵|失利)/.test(scoreText);
+            const boxColorCls = isLoss
+              ? 'bg-rose-50 border-rose-300 text-rose-900'
+              : 'bg-emerald-50 border-emerald-300 text-emerald-900';
+            const lockBadgeCls = isLoss
+              ? 'bg-rose-700 text-white'
+              : 'bg-emerald-700 text-white';
+            const statusIcon = isLoss ? '🔴' : '✅';
             resultAreaHtml = `
               <div class="flex flex-col sm:items-end gap-1.5 w-full">
-                <div class="w-full sm:w-auto sm:min-w-[260px] flex items-center justify-between gap-2.5 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs sm:text-sm font-extrabold shadow-sm">
-                  <span class="break-words leading-snug">✅ 完賽成績：${item.score || '已完賽'}</span>
-                  ${item.resultLocked ? '<span title="已鎖定，每小時排程不重複覆寫" class="whitespace-nowrap flex-shrink-0 text-[11px] px-2 py-0.5 bg-emerald-700 text-white rounded-md font-bold">🔒 已鎖定</span>' : ''}
+                <div class="w-full sm:w-auto sm:min-w-[260px] flex items-center justify-between gap-2.5 px-3.5 py-2 rounded-xl border ${boxColorCls} text-xs sm:text-sm font-extrabold shadow-sm">
+                  <span class="break-words leading-snug">${statusIcon} 完賽成績：${item.score || '已完賽'}</span>
+                  ${item.resultLocked ? `<span title="已鎖定，每小時排程不重複覆寫" class="whitespace-nowrap flex-shrink-0 text-[11px] px-2 py-0.5 ${lockBadgeCls} rounded-md font-bold">🔒 已鎖定</span>` : ''}
                 </div>
                 <button type="button" data-edit-id="${item.id}" data-edit-type="schedule" class="open-modal-btn text-[11px] font-semibold text-slate-500 hover:text-slate-800 underline">
                   修改或解鎖成績
