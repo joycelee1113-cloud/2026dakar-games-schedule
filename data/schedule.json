@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-11T16:41:30Z",
+  "lastUpdated": "2026-11-11T23:09:10Z",
   "spreadsheetId": "1vcdZRZd7907AaHBFdDiCKUTS3LT_oWiI",
   "summary": {
     "totalSessions": 91,
@@ -1546,7 +1546,7 @@
     {
       "id": "TPE-081",
       "date": "2026-11-12 (四)",
-      "dakarTime": "11:00、15:00",
+      "dakarTime": "15:00",
       "taipeiTime": "Dakar",
       "zone": "CTO",
       "zoneColor": "green",
